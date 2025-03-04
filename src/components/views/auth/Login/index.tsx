@@ -107,12 +107,27 @@ const LoginView = () => {
                   name="password"
                 />
               </div>
-              <button
-                type="submit"
-                className="w-full bg-indigo-700 text-white font-semibold rounded p-2 cursor-pointer text-sm lg:text-md"
-              >
-                {isLoading ? "Memuat..." : "Masuk"}
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  className="w-full bg-indigo-700 text-white font-semibold rounded p-2 cursor-pointer text-sm lg:text-md"
+                >
+                  {isLoading ? "Memuat..." : "Masuk"}
+                </button>
+
+                <hr className="my-2 text-neutral-300" />
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    signIn("google", { callbackUrl, redirect: false })
+                  }
+                  className="w-full bg-indigo-700 text-white font-semibold rounded p-2 cursor-pointer text-sm lg:text-md flex items-center justify-center gap-2"
+                >
+                  <i className="bx bxl-google text-lg" />
+                  Login With Google
+                </button>
+              </div>
               <div>
                 {error && (
                   <p className="mt-3 text-center text-sm text-red-500">
