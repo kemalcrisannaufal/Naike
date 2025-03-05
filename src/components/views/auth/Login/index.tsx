@@ -42,7 +42,12 @@ const LoginView = () => {
   };
   return (
     <>
-      <AuthLayout type="login">
+      <AuthLayout
+        type="login"
+        title="Masuk"
+        error={error}
+        link="/auth/register"
+      >
         <form onSubmit={handleSubmit}>
           <Input
             name="email"
@@ -67,11 +72,6 @@ const LoginView = () => {
               <i className="bx bxl-google text-lg" />
               Login With Google
             </Button>
-          </div>
-          <div>
-            {error && (
-              <p className="mt-3 text-center text-sm text-red-500">{error}</p>
-            )}
           </div>
         </form>
       </AuthLayout>

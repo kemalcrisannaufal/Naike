@@ -3,6 +3,7 @@ import { FormEvent, useState } from "react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/Auth";
+import { authServices } from "@/services/auth";
 
 const RegisterView = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,27 +21,31 @@ const RegisterView = () => {
       phone: form.phone.value,
     };
 
-    const result = await fetch("/api/user/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (result.status == 200) {
-      setIsLoading(false);
-      form.reset();
-      push("/auth/login");
-    } else {
+    try {
+      const result = await authServices.registerAccount(data);
+      if (result.status == 200) {
+        setIsLoading(false);
+        form.reset();
+        push("/auth/login");
+      } else {
+        setIsLoading(false);
+        setError("Email sudah terdaftar");
+      }
+    } catch (error) {
       setIsLoading(false);
       setError("Email sudah terdaftar");
+      console.log(error);
     }
   };
 
   return (
     <>
-      <AuthLayout type="register">
+      <AuthLayout
+        type="register"
+        title="Daftar"
+        link="/auth/login"
+        error={error}
+      >
         {" "}
         <form onSubmit={handleSubmit}>
           <Input
@@ -69,12 +74,6 @@ const RegisterView = () => {
           />
 
           <Button type="submit">{isLoading ? "Memuat..." : "Daftar"}</Button>
-
-          <div>
-            {error && (
-              <p className="mt-3 text-center text-sm text-red-500">{error}</p>
-            )}
-          </div>
         </form>
       </AuthLayout>
     </>

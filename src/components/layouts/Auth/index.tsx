@@ -3,10 +3,13 @@ import Link from "next/link";
 
 type Proptypes = {
   type: "login" | "register";
+  title: string;
   children: React.ReactNode;
+  error: string;
+  link: string;
 };
 const AuthLayout = (props: Proptypes) => {
-  const { type, children } = props;
+  const { type, title, children, link, error } = props;
   return (
     <div className="w-full h-screen flex flex-col lg:flex-row p-5 pt-20 lg:p-5">
       <div className="lg:w-1/2 flex flex-col justify-center items-center">
@@ -29,22 +32,26 @@ const AuthLayout = (props: Proptypes) => {
         <div className="max-w-md w-full rounded-lg lg:border border-neutral-100 lg:shadow-lg p-5">
           <div className="text-center">
             <h1 className="text-md md:text-lg text-neutral-700 font-semibold">
-              {type === "login" ? "Masuk" : "Daftar"}
+              {title}
             </h1>
             <p className="text-xs md:text-sm lg:text-md text-neutral-700 font-medium">
               {type === "login"
                 ? "Belum punya akun Crisorca?"
                 : "Sudah punya akun Crisorca?"}
-              <Link
-                href={type === "login" ? "/auth/register" : "/auth/login"}
-                className="font-semibold text-indigo-700"
-              >
+              <Link href={link} className="font-semibold text-indigo-700">
                 {type === "login" ? " Daftar" : " Masuk"}
               </Link>
             </p>
           </div>
 
-          <div className="mt-5">{children}</div>
+          <div className="mt-5">
+            {children}
+            <div>
+              {error && (
+                <p className="mt-3 text-center text-sm text-red-500">{error}</p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
