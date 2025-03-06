@@ -62,11 +62,14 @@ const LoginView = () => {
             placeholder="password"
           />
           <div>
-            <Button type="submit">{isLoading ? "Memuat..." : "Masuk"}</Button>
+            <Button type="submit" classname="w-full">
+              {isLoading ? "Memuat..." : "Masuk"}
+            </Button>
             <hr className="my-2 text-neutral-300" />
             <Button
               type="button"
               onClick={() => signIn("google", { callbackUrl, redirect: false })}
+              classname="w-full"
             >
               {" "}
               <i className="bx bxl-google text-lg" />

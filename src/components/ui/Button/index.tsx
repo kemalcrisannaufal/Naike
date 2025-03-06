@@ -5,15 +5,20 @@ type Proptypes = {
   children: React.ReactNode;
   onClick?: () => void;
   classname?: string;
+  variant?: "primary" | "secondary";
 };
 
 const Button = (props: Proptypes) => {
-  const { type, children, onClick, classname } = props;
+  const { type, children, variant = "primary", onClick, classname } = props;
   return (
     <button
       type={type}
       onClick={onClick}
-      className={`w-full bg-indigo-700 text-white font-semibold rounded p-2 cursor-pointer text-sm lg:text-md flex gap-2 justify-center items-center ${classname}`}
+      className={`font-semibold rounded p-2 cursor-pointer text-sm lg:text-md flex gap-2 justify-center items-center ${
+        variant === "primary"
+          ? "bg-indigo-800 text-white"
+          : "bg-white text-indigo-800"
+      } ${classname}`}
     >
       {children}
     </button>

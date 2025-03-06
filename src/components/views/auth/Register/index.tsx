@@ -73,7 +73,9 @@ const RegisterView = () => {
             placeholder="password"
           />
 
-          <Button type="submit">{isLoading ? "Memuat..." : "Daftar"}</Button>
+          <Button type="submit" classname="w-full">
+            {isLoading ? "Memuat..." : "Daftar"}
+          </Button>
         </form>
       </AuthLayout>
     </>

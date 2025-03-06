@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
-import Navbar from "@/components/layouts/Navbar";
+import Navbar from "@/components/fragments/Navbar";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
@@ -9,8 +9,9 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-  const routes = ["/auth/login", "/auth/register"];
+  const disabledNavbar = ["auth", "admin"];
   const { pathname } = useRouter();
+
   return (
     <SessionProvider session={session}>
       <Head>
@@ -19,8 +20,8 @@ export default function App({
           rel="stylesheet"
         />
       </Head>
-      {!routes.includes(pathname) && <Navbar />}
-      <Component {...pageProps} />;
+      {!disabledNavbar.includes(pathname.split("/")[1]) && <Navbar />}
+      <Component {...pageProps} />
     </SessionProvider>
   );
 }
