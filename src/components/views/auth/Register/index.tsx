@@ -63,7 +63,7 @@ const RegisterView = () => {
           <Input
             label="Nomor Handphone"
             name="phone"
-            type="text"
+            type="number"
             placeholder="08123456789"
           />
           <Input

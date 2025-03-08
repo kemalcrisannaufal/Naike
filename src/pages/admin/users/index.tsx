@@ -1,11 +1,22 @@
-import AdminLayout from "@/components/layouts/Admin";
+import UsersAdminViews from "@/components/views/admin/Users";
+import { userServices } from "@/services/user";
+import { useEffect, useState } from "react";
 
-const AdminUsersPage = () => {
+const UsersAdminPage = () => {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    const getAllUsers = async () => {
+      const { data } = await userServices.getAllUsers();
+      setUsers(data.data);
+    };
+    getAllUsers();
+  }, []);
+
   return (
     <>
-      <AdminLayout>Admin Users</AdminLayout>
+      <UsersAdminViews users={users} />
     </>
   );
 };
 
-export default AdminUsersPage;
+export default UsersAdminPage;

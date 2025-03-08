@@ -11,14 +11,14 @@ const listItem = [
     icon: "bx bxs-dashboard",
   },
   {
-    name: "Profile",
-    url: "/admin/profile",
-    icon: "bx bxs-user",
-  },
-  {
     name: "Products",
     url: "/admin/products",
     icon: "bx bxs-box",
+  },
+  {
+    name: "Users",
+    url: "/admin/users",
+    icon: "bx bxs-group",
   },
 ];
 
@@ -27,7 +27,7 @@ const AdminLayout = (props: Proptypes) => {
   return (
     <div className="w-full h-screen flex flex-col lg:flex-row">
       <Sidebar listItem={listItem} />
-      <div className="w-full p-3 lg:p-5 lg:pt-8">{children}</div>
+      <div className="w-full p-3 lg:px-10 lg:pt-8">{children}</div>
     </div>
   );
 };
