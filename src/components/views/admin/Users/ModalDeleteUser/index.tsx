@@ -2,6 +2,7 @@
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import { userServices } from "@/services/user";
+import { useSession } from "next-auth/react";
 
 type Proptypes = {
   deletedUser: any;
@@ -11,9 +12,13 @@ type Proptypes = {
 
 const ModalDeleteUser = (props: Proptypes) => {
   const { deletedUser, setDeletedUser, setUserData } = props;
-  const handleDelete = async (id: string) => {
+  const session: any = useSession();
+  const handleDelete = async () => {
     try {
-      const result = await userServices.deleteUser(id);
+      const result = await userServices.deleteUser(
+        deletedUser.id,
+        session.data.accessToken
+      );
       if (result.status == 200) {
         setDeletedUser({});
         const { data } = await userServices.getAllUsers();
@@ -29,7 +34,7 @@ const ModalDeleteUser = (props: Proptypes) => {
         Apakah kamu yakin ingin menghapus data?
         {deletedUser.fullname}
       </h1>
-      <Button type="button" onClick={() => handleDelete(deletedUser.id)}>
+      <Button type="button" onClick={() => handleDelete()}>
         Delete
       </Button>
     </Modal>

@@ -5,6 +5,7 @@ import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
 import { FormEvent, useState } from "react";
 import { userServices } from "@/services/user";
+import { useSession } from "next-auth/react";
 
 type Proptypes = {
   updatedUser: any;
@@ -16,6 +17,8 @@ const ModalUpdateUser = (props: Proptypes) => {
   const { updatedUser, setUpdatedUser, setUserData } = props;
   const [isLoading, setIsLoading] = useState(false);
 
+  const session: any = useSession();
+
   const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
@@ -25,7 +28,11 @@ const ModalUpdateUser = (props: Proptypes) => {
     };
 
     try {
-      const result = await userServices.updateUser(updatedUser.id, data);
+      const result = await userServices.updateUser(
+        updatedUser.id,
+        data,
+        session.data.accessToken
+      );
       if (result.status === 200) {
         setIsLoading(false);
         setUpdatedUser({});
