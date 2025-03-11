@@ -21,7 +21,7 @@ const Input = (props: Proptypes) => {
         type={type}
         placeholder={placeholder}
         className={`w-full border border-neutral-300 rounded p-2 text-neutral-600 focus:outline-none focus:border-neutral-600 ${
-          disabled && "bg-neutral-300/50"
+          disabled && "bg-neutral-100"
         }`}
         id={name}
         name={name}

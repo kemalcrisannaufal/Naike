@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-function-type */
 import bcrypt from "bcrypt";
 import { addData, retreiveDataByField } from "@/lib/firebase/service";
@@ -8,6 +9,7 @@ export async function signUp(
     fullname: string;
     password: string;
     phone: string;
+    image?: string;
     role?: string;
     created_at?: Date;
     updated_at?: Date;
@@ -20,6 +22,7 @@ export async function signUp(
   } else {
     if (!userData.role) {
       userData.role = "member";
+      userData.image = "";
     }
 
     userData.password = await bcrypt.hash(userData.password, 10);
@@ -43,7 +46,14 @@ export async function signIn(email: string) {
 }
 
 export async function loginWithGoogle(
-  data: { email: string; role?: string; created_at?: Date; updated_at?: Date },
+  data: {
+    id?: string;
+    email: string;
+    role?: string;
+    image?: string;
+    created_at?: Date;
+    updated_at?: Date;
+  },
   callback: Function
 ) {
   const user = await retreiveDataByField("users", "email", data.email);
@@ -54,8 +64,9 @@ export async function loginWithGoogle(
     data.role = "member";
     data.created_at = new Date();
     data.updated_at = new Date();
-    await addData("users", data, (result: boolean) => {
-      if (result) {
+    await addData("users", data, (status: boolean, res: any) => {
+      data.id = res.path.replace("users/", "");
+      if (status) {
         callback(data);
       }
     });
