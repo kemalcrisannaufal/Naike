@@ -4,7 +4,7 @@ import { userServices } from "@/services/user";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
-const ProfileMemberPage = () => {
+const ProfileMemberPage = ({ setToaster }: { setToaster: any }) => {
   const [profile, setProfile] = useState({});
   const session: any = useSession();
 
@@ -26,6 +26,7 @@ const ProfileMemberPage = () => {
           profile={profile}
           setProfile={setProfile}
           session={session}
+          setToaster={setToaster}
         />
       )}
     </>

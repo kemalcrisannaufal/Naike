@@ -2,6 +2,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { retrieveDataById, updateData } from "@/lib/firebase/service";
+import { compare, hash } from "bcrypt";
 
 export default async function handler(
   req: NextApiRequest,
@@ -56,7 +57,22 @@ export default async function handler(
       process.env.NEXTAUTH_SECRET || "",
       async (err: any, decoded: any) => {
         if (decoded) {
-          console.log("decoded", decoded);
+          if (data.password) {
+            const passwordConfirm = await compare(
+              data.oldPassword,
+              data.encryptedPassword
+            );
+            if (!passwordConfirm) {
+              res
+                .status(400)
+                .json({ status: true, statusCode: 400, message: "failed" });
+            } else {
+              delete data.oldPassword;
+              delete data.encryptedPassword;
+              data.password = await hash(data.password, 10);
+            }
+          }
+
           await updateData("users", user[0], data, (result: boolean) => {
             if (result) {
               res

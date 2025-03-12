@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Button from "@/components/ui/Button";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -6,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 
 const Navbar = () => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const session = useSession();
+  const session: any = useSession();
   const router = useRouter();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +31,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="w-full h-14 bg-white shadow-lg flex justify-between items-center px-5 sticky top-0">
+    <nav className="w-full h-14 bg-white shadow-lg flex justify-between items-center px-5 sticky top-0 z-100">
       <button
         type="button"
         className="h-10 overflow-hidden cursor-pointer"
@@ -51,8 +52,7 @@ const Navbar = () => {
           classname="flex items-center gap-2 p-1 rounded hover:bg-gray-200 transition-all ease-in-out duration-100"
           onClick={toggleDropdown}
         >
-          <div className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden"></div>
-          <i className="bx bx-chevron-down text-xl" />
+          <i className="bx bx-menu text-xl md:text-3xl" />
         </Button>
         <div
           className={`fixed top-15 right-3 w-40 bg-white rounded shadow-lg ${

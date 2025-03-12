@@ -11,10 +11,11 @@ type Proptypes = {
   updatedUser: any;
   setUpdatedUser: any;
   setUserData: any;
+  setToaster: any;
 };
 
 const ModalUpdateUser = (props: Proptypes) => {
-  const { updatedUser, setUpdatedUser, setUserData } = props;
+  const { updatedUser, setUpdatedUser, setUserData, setToaster } = props;
   const [isLoading, setIsLoading] = useState(false);
 
   const session: any = useSession();
@@ -38,12 +39,24 @@ const ModalUpdateUser = (props: Proptypes) => {
         setUpdatedUser({});
         const { data } = await userServices.getAllUsers();
         setUserData(data.data);
+        setToaster({
+          variant: "success",
+          message: "Data updated successfully!",
+        });
       } else {
         setIsLoading(false);
+        setToaster({
+          variant: "error",
+          message: "Failed to update data. Please try again.",
+        });
       }
     } catch (error) {
       setIsLoading(false);
       console.log(error);
+      setToaster({
+        variant: "error",
+        message: "Failed to update data. Please try again.",
+      });
     }
   };
   return (
