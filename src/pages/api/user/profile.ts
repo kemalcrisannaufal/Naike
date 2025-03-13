@@ -49,7 +49,6 @@ export default async function handler(
     }
   } else if (req.method === "PUT") {
     const { data }: any = req.body;
-    const { user }: any = req.query;
     const token = req.headers.authorization?.split(" ")[1] || "";
 
     jwt.verify(
@@ -57,13 +56,14 @@ export default async function handler(
       process.env.NEXTAUTH_SECRET || "",
       async (err: any, decoded: any) => {
         if (decoded) {
+          console.log(decoded);
           if (data.password) {
             const passwordConfirm = await compare(
               data.oldPassword,
               data.encryptedPassword
             );
             if (!passwordConfirm) {
-              res
+              return res
                 .status(400)
                 .json({ status: true, statusCode: 400, message: "failed" });
             } else {
@@ -73,7 +73,7 @@ export default async function handler(
             }
           }
 
-          await updateData("users", user[0], data, (result: boolean) => {
+          await updateData("users", decoded.id, data, (result: boolean) => {
             if (result) {
               res
                 .status(200)

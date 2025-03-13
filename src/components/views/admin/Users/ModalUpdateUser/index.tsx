@@ -3,21 +3,21 @@ import Modal from "@/components/ui/Modal";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
-import { FormEvent, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { userServices } from "@/services/user";
 import { useSession } from "next-auth/react";
+import { User } from "@/types/user.type";
 
 type Proptypes = {
-  updatedUser: any;
-  setUpdatedUser: any;
-  setUserData: any;
-  setToaster: any;
+  updatedUser: User | any;
+  setUpdatedUser: Dispatch<SetStateAction<object>>;
+  setUsersData: Dispatch<SetStateAction<User[]>>;
+  setToaster: Dispatch<SetStateAction<object>>;
 };
 
 const ModalUpdateUser = (props: Proptypes) => {
-  const { updatedUser, setUpdatedUser, setUserData, setToaster } = props;
+  const { updatedUser, setUpdatedUser, setUsersData, setToaster } = props;
   const [isLoading, setIsLoading] = useState(false);
-
   const session: any = useSession();
 
   const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
@@ -38,7 +38,7 @@ const ModalUpdateUser = (props: Proptypes) => {
         setIsLoading(false);
         setUpdatedUser({});
         const { data } = await userServices.getAllUsers();
-        setUserData(data.data);
+        setUsersData(data.data);
         setToaster({
           variant: "success",
           message: "Data updated successfully!",
@@ -93,7 +93,7 @@ const ModalUpdateUser = (props: Proptypes) => {
           ]}
           defaultValue={updatedUser.role}
         />
-        <Button type="submit">{isLoading ? "Memuat..." : "Update"}</Button>
+        <Button type="submit">{isLoading ? "Updating..." : "Update"}</Button>
       </form>
     </Modal>
   );

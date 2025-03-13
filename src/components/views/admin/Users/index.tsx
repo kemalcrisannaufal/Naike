@@ -1,23 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import AdminLayout from "@/components/layouts/Admin";
 import Button from "@/components/ui/Button";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalDeleteUser from "./ModalDeleteUser";
+import { User } from "@/types/user.type";
 
 type Proptypes = {
-  users: any;
-  setToaster: any;
+  users: User[];
+  setToaster: Dispatch<SetStateAction<object>>;
 };
 
 const UsersAdminViews = (props: Proptypes) => {
   const { users, setToaster } = props;
-  const [updatedUser, setUpdatedUser] = useState({});
-  const [deletedUser, setDeletedUser] = useState({});
-  const [userData, setUserData] = useState([]);
+  const [updatedUser, setUpdatedUser] = useState<User | object>({});
+  const [deletedUser, setDeletedUser] = useState<User | object>({});
+  const [usersData, setUsersData] = useState<User[]>([]);
+
   useEffect(() => {
-    setUserData(users);
+    setUsersData(users);
   }, [users]);
 
   return (
@@ -27,7 +27,7 @@ const UsersAdminViews = (props: Proptypes) => {
           Users Management
         </h1>
         <div className="mt-5 overflow-x-auto border border-gray-300 rounded-lg p-1">
-          <table className="w-full min-w-max border-collapse">
+          <table className="w-full min-w-max border-collapse bg-white">
             <thead>
               <tr className="border-b border-gray-300 text-gray-900 font-semibold text-sm text-neutral-700">
                 <th className="px-4 py-2 text-left">No</th>
@@ -39,10 +39,10 @@ const UsersAdminViews = (props: Proptypes) => {
               </tr>
             </thead>
             <tbody>
-              {userData.map((user: any, index: number) => (
+              {usersData.map((user: User, index: number) => (
                 <tr
                   key={index}
-                  className="border-b last:border-b-0 border-gray-200 hover:bg-gray-100 transition text-neutral-600"
+                  className="border-b last:border-b-0 border-gray-200 hover:bg-gray-100 transition text-neutral-700"
                 >
                   <td className="px-4 py-2 text-center">{index + 1}</td>
                   <td className="px-4 py-2">{user.fullname}</td>
@@ -53,14 +53,14 @@ const UsersAdminViews = (props: Proptypes) => {
                     <Button
                       type="button"
                       onClick={() => setUpdatedUser(user)}
-                      classname="bg-yellow-500"
+                      classname="bg-yellow-500 hover:bg-yellow-600"
                     >
                       <i className="bx bxs-edit text-lg"></i>
                     </Button>
 
                     <Button
                       type="button"
-                      classname="bg-red-500"
+                      classname="bg-red-500 hover:bg-red-800"
                       onClick={() => setDeletedUser(user)}
                     >
                       <i className="bx bxs-trash text-lg"></i>
@@ -77,7 +77,7 @@ const UsersAdminViews = (props: Proptypes) => {
         <ModalUpdateUser
           updatedUser={updatedUser}
           setUpdatedUser={setUpdatedUser}
-          setUserData={setUserData}
+          setUsersData={setUsersData}
           setToaster={setToaster}
         />
       )}
@@ -86,7 +86,7 @@ const UsersAdminViews = (props: Proptypes) => {
         <ModalDeleteUser
           deletedUser={deletedUser}
           setDeletedUser={setDeletedUser}
-          setUserData={setUserData}
+          setUsersData={setUsersData}
           setToaster={setToaster}
         />
       )}

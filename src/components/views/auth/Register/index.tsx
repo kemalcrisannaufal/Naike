@@ -1,13 +1,17 @@
 import { useRouter } from "next/router";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, Dispatch, SetStateAction } from "react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/Auth";
 import { authServices } from "@/services/auth";
 
-const RegisterView = () => {
+type Proptypes = {
+  setToaster: Dispatch<SetStateAction<object>>;
+};
+
+const RegisterView = (props: Proptypes) => {
+  const { setToaster } = props;
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
   const { push } = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -29,27 +33,28 @@ const RegisterView = () => {
         push("/auth/login");
       } else {
         setIsLoading(false);
-        setError("Email sudah terdaftar");
+        setToaster({
+          variant: "error",
+          message: "Email already exist. Please try again",
+        });
       }
     } catch (error) {
       setIsLoading(false);
-      setError("Email sudah terdaftar");
+      setToaster({
+        variant: "error",
+        message: "Email already exist. Please try again",
+      });
       console.log(error);
     }
   };
 
   return (
     <>
-      <AuthLayout
-        type="register"
-        title="Daftar"
-        link="/auth/login"
-        error={error}
-      >
+      <AuthLayout type="register" title="Sign Up" link="/auth/login">
         {" "}
         <form onSubmit={handleSubmit}>
           <Input
-            label="Nama Lengkap"
+            label="Fullname"
             name="fullname"
             type="text"
             placeholder="John Doe"
@@ -61,7 +66,7 @@ const RegisterView = () => {
             placeholder="johndoe@example.com"
           />
           <Input
-            label="Nomor Handphone"
+            label="Phone"
             name="phone"
             type="number"
             placeholder="08123456789"
@@ -74,7 +79,7 @@ const RegisterView = () => {
           />
 
           <Button type="submit" classname="w-full">
-            {isLoading ? "Memuat..." : "Daftar"}
+            {isLoading ? "Loading..." : "Register"}
           </Button>
         </form>
       </AuthLayout>

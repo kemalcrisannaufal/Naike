@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 type Proptypes = {
   classname?: string;
   variant: "success" | "error" | "warning";
   message?: string;
-  setToaster: any;
+  setToaster: Dispatch<SetStateAction<object>>;
 };
 
-const toasterVariant: any = {
+const toasterVariant = {
   success: {
     title: "Success",
     icon: "bx-check-circle",
