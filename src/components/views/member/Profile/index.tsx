@@ -58,9 +58,12 @@ const ProfileMemberView = (props: Proptypes) => {
     const file = form.image.files[0];
     setIsLoading("avatar");
     if (file) {
+      const newName = "profile." + file.name.split(".")[1];
       uploadFile(
         profile.id,
         file,
+        newName,
+        "users",
         async (status: boolean, newImageUrl: string) => {
           if (status) {
             const data = {
@@ -145,11 +148,11 @@ const ProfileMemberView = (props: Proptypes) => {
 
   return (
     <div className="p-5 md:px-32 md:py-10">
-      <div className="w-full bg-white rounded-lg p-3 md:p-5 flex flex-col md:flex-row justify-start items-center gap-5 border border-neutral-200 mb-5">
-        <div className="w-full flex flex-col justify-center items-start p-5">
-          <div className="w-full flex flex-col md:flex-row md:gap-10 items-center">
+      <div className="flex md:flex-row flex-col justify-start items-center gap-5 bg-white mb-5 p-3 md:p-5 border border-neutral-200 rounded-lg w-full">
+        <div className="flex flex-col justify-center items-start p-5 w-full">
+          <div className="flex md:flex-row flex-col items-center md:gap-10 w-full">
             <div className="flex flex-col items-center">
-              <div className="h-20 w-20 md:w-32 md:h-32 rounded-full overflow-hidden mb-2 hover:scale-105 transition-all ease-in-out duration-100">
+              <div className="mb-2 rounded-full w-20 md:w-32 h-20 md:h-32 overflow-hidden hover:scale-105 transition-all duration-100 ease-in-out">
                 {profile.image ? (
                   <Image
                     src={profile.image}
@@ -159,8 +162,8 @@ const ProfileMemberView = (props: Proptypes) => {
                     height={100}
                   />
                 ) : (
-                  <div className="w-full h-full bg-gray-200 flex justify-center items-center">
-                    <p className="text-5xl font-medium text-indigo-600">
+                  <div className="flex justify-center items-center bg-gray-200 w-full h-full">
+                    <p className="font-medium text-indigo-600 text-5xl">
                       {profile.fullname &&
                         profile.fullname.charAt(0).toUpperCase()}
                     </p>
@@ -174,7 +177,7 @@ const ProfileMemberView = (props: Proptypes) => {
                 <div>
                   <label
                     htmlFor="upload-image"
-                    className="bg-neutral-200 hover:bg-neutral-400 border border-neutral-600 border-dashed py-2 px-4 rounded text-xs text-neutral-700 cursor-pointer"
+                    className="bg-neutral-200 hover:bg-neutral-400 px-4 py-2 border border-neutral-600 border-dashed rounded text-neutral-700 text-xs cursor-pointer"
                   >
                     {changeImage.name ? changeImage.name : "Select Image"}
                   </label>
@@ -200,13 +203,13 @@ const ProfileMemberView = (props: Proptypes) => {
             </div>
 
             <div className="flex flex-col justify-between items-center md:items-start mt-2">
-              <h1 className="text-xl  md:text-3xl lg:text-4xl text-neutral-700 font-semibold mb-2">
+              <h1 className="mb-2 font-semibold text-neutral-700 text-xl md:text-3xl lg:text-4xl">
                 {profile.fullname && profile.fullname.toUpperCase()}
               </h1>
-              <p className="text-md md:text-lg text-gray-600 mb-2">
+              <p className="mb-2 text-gray-600 text-md md:text-lg">
                 {profile.email}
               </p>
-              <span className="text-smfont-medium bg-indigo-700 px-4 py-1 rounded-xl text-white">
+              <span className="bg-indigo-700 px-4 py-1 rounded-xl text-smfont-medium text-white">
                 {profile.role &&
                   profile.role.charAt(0).toUpperCase() + profile.role.slice(1)}
               </span>
@@ -215,9 +218,9 @@ const ProfileMemberView = (props: Proptypes) => {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-2 h-max">
-        <div className="md:w-2/3 bg-white rounded-lg border border-neutral-200 p-5 md:p-10">
-          <h1 className="text-xl text-neutral-800 font-semibold mb-3">
+      <div className="flex md:flex-row flex-col gap-2 h-max">
+        <div className="bg-white p-5 md:p-10 border border-neutral-200 rounded-lg md:w-2/3">
+          <h1 className="mb-3 font-semibold text-neutral-800 text-xl">
             Profile Information
           </h1>
           <div>
@@ -236,7 +239,7 @@ const ProfileMemberView = (props: Proptypes) => {
                 placeholder="Enter your phone number"
               />
 
-              <div className="w-full flex justify-end">
+              <div className="flex justify-end w-full">
                 <Button type="submit" classname="md:px-5">
                   <span>
                     {isLoading === "profile" ? "Loading..." : "Update Profile"}
@@ -246,8 +249,8 @@ const ProfileMemberView = (props: Proptypes) => {
             </form>
           </div>
         </div>
-        <div className="md:w-1/3 bg-white rounded-lg border border-neutral-200 p-5 md:p-10">
-          <h1 className="text-xl text-neutral-800 font-semibold mb-3">
+        <div className="bg-white p-5 md:p-10 border border-neutral-200 rounded-lg md:w-1/3">
+          <h1 className="mb-3 font-semibold text-neutral-800 text-xl">
             Reset Password
           </h1>
           <form onSubmit={handleChangePassword}>
@@ -265,7 +268,7 @@ const ProfileMemberView = (props: Proptypes) => {
               placeholder="Enter your new password"
               disabled={isLoading === "password" || profile.type === "google"}
             />
-            <div className="w-full flex justify-end">
+            <div className="flex justify-end w-full">
               <Button
                 type="submit"
                 disabled={isLoading === "password" || profile.type === "google"}

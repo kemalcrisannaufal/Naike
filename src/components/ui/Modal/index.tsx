@@ -21,9 +21,9 @@ const Modal = (props: Proptypes) => {
     };
   }, [onClose]);
   return (
-    <div className="fixed top-0 w-screen h-screen bg-black/50 flex justify-center items-center">
+    <div className="top-0 fixed flex justify-center items-center bg-black/50 w-screen h-screen">
       <div
-        className="w-sm md:w-md lg:w-2xl max-h-[80vh] bg-white p-5"
+        className="bg-white p-5 rounded w-sm md:w-md lg:w-2xl max-h-[80vh] overflow-y-scroll scrollbar-hide"
         ref={ref}
       >
         {children}

@@ -1,10 +1,10 @@
 import AdminLayout from "@/components/layouts/Admin";
-
+import Title from "@/components/ui/Text/Title";
 const DashboardAdminView = () => {
   return (
     <>
       <AdminLayout>
-        <div>Dashboard</div>
+        <Title>Dashboard</Title>
       </AdminLayout>
     </>
   );

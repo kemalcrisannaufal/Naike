@@ -1,19 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type Proptypes = {
   label?: string;
   name: string;
   placeholder?: string;
   type: string;
-  defaultValue?: string;
+  defaultValue?: string | number;
   disabled?: boolean;
+  onChange?: any;
 };
 
 const Input = (props: Proptypes) => {
-  const { label, name, placeholder, type, defaultValue, disabled } = props;
+  const { label, name, placeholder, type, defaultValue, onChange, disabled } =
+    props;
   return (
-    <div className="flex flex-col gap-2 mb-3">
+    <div className="flex flex-col gap-2 mb-3 w-full">
       <label
         htmlFor={name}
-        className="text-xs lg:text-sm text-neutral-600 font-semibold"
+        className="font-semibold text-neutral-600 text-xs lg:text-sm"
       >
         {label}
       </label>
@@ -26,6 +29,7 @@ const Input = (props: Proptypes) => {
         id={name}
         name={name}
         defaultValue={defaultValue}
+        onChange={onChange}
         disabled={disabled}
       />
     </div>

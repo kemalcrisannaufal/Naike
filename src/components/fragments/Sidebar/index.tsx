@@ -1,9 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Button from "@/components/ui/Button";
 import { signOut } from "next-auth/react";
 import { useState } from "react";
+import Image from "next/image";
 
 type SidebarItem = {
   name: string;
@@ -25,47 +25,49 @@ const Sidebar = (props: Proptype) => {
   };
 
   return (
-    <div className="lg:w-1/5 bg-indigo-800 h-max lg:h-screen p-3 lg:p-5 lg:pt-8 flex lg:flex-col justify-between">
-      <div className="w-full">
-        <div className="w-full h-14 lg:h-20 text-center text-white font-bold lg:mb-3 overflow-hidden flex justify-between items-center lg:flex-col lg:justify-start">
-          <Link href={"/admin"}>
-            <img
-              src="/assets/images/crisorca-logo-white-font-removebg.png"
+    <div className="flex lg:flex-col justify-between bg-neutral-100 p-3 lg:px-5 lg:pt-8 border-neutral-200 border-r lg:w-1/5 h-max lg:h-screen">
+      {/* Sidebar */}
+      <div>
+        {/* Logo */}
+        <div className="flex lg:flex-col justify-between lg:justify-start items-center mb-2 lg:mb-5 w-full h-auto">
+          <Link href={"/admin"} className="w-1/2 lg:w-full">
+            <Image
+              src="/assets/images/crisorca-logo-removebg.png"
               alt="Crisorca"
+              width={500}
+              height={500}
               className="h-10 object-contain"
             />
           </Link>
-          <p className="hidden lg:block lg:text-md xl:text-lg tracking-wider">
-            Admin Panel
-          </p>
-
-          <Button
+          <button
             type="button"
-            classname="w-10 h-10 lg:hidden flex justify-center items-center"
+            className="lg:hidden flex justify-center items-center w-10 h-10"
             onClick={handleClick}
           >
-            <i className="bx bx-menu text-3xl text-white font-semibold"></i>
-          </Button>
+            <i className="font-semibold text-neutral-700 text-3xl bx bx-menu" />
+          </button>
         </div>
 
-        <div className={`${isMenuOpen ? "block mt-2" : "hidden"} lg:block`}>
+        {/* Sidebar Items */}
+        <div className={`${isMenuOpen ? "block" : "hidden"} lg:block`}>
           {listItem.map((item, index) => {
             return (
               <Link
                 key={index}
                 href={item.url}
                 onClick={() => setMenuOpen(false)}
-                className={`w-full p-2 rounded mb-1 flex gap-2 justify-start items-center hover:bg-white hover:text-indigo-800 transition-colors duration-300 ease-in-out ${
+                className={`w-full p-2 lg:p-3 mb-2 flex justify-start items-center gap-2 rounded ${
                   pathname === item.url
-                    ? "bg-white text-indigo-800"
-                    : "text-white"
+                    ? "bg-primary text-white"
+                    : "text-neutral-700 hover:bg-neutral-200 transition-all ease-in-out duration-100"
                 }`}
               >
                 <i className={`${item.icon} text-xl`} />
-                <p className="font-semibold text-sm lg:text-md">{item.name}</p>
+                <p className="font-semibold lg:text-md text-sm">{item.name}</p>
               </Link>
             );
           })}
+          {/* Logout Button for Mobile */}
           <div className="lg:hidden w-full">
             <Button
               type="button"
@@ -78,6 +80,7 @@ const Sidebar = (props: Proptype) => {
           </div>
         </div>
       </div>
+
       <div className="hidden lg:block w-full">
         <Button
           type="button"

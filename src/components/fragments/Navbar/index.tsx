@@ -31,7 +31,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="w-full h-14 bg-white shadow-lg flex justify-between items-center px-5 sticky top-0 z-100">
+    <nav className="top-0 z-100 sticky flex justify-between items-center shadow-lg px-5 w-full h-14">
       <button
         type="button"
         className="h-10 overflow-hidden cursor-pointer"
@@ -45,17 +45,21 @@ const Navbar = () => {
           height={100}
         />
       </button>
+
+      {/* Dropdown button */}
       <div className="flex items-center gap-2">
         <Button
           type="button"
           variant="secondary"
-          classname="flex items-center gap-2 p-1 rounded hover:bg-gray-200 transition-all ease-in-out duration-100"
+          classname="flex items-center gap-2 p-1 rounded hover:bg-neutral-200 transition-all ease-in-out duration-100"
           onClick={toggleDropdown}
         >
-          <i className="bx bx-menu text-xl md:text-3xl" />
+          <i className="text-xl md:text-3xl bx bx-menu" />
         </Button>
+
+        {/* Dropdown menu */}
         <div
-          className={`fixed top-15 right-3 w-40 bg-white rounded shadow-lg ${
+          className={`fixed top-15 right-3 w-40  rounded shadow-lg ${
             isDropdownVisible ? "block" : "hidden"
           }`}
           ref={dropdownRef}
@@ -66,7 +70,7 @@ const Navbar = () => {
             onClick={() => router.push("/member/profile")}
             classname="w-full"
           >
-            <i className="bx bx-user text-xl" />
+            <i className="text-xl bx bx-user" />
             <span>Profile</span>
           </Button>
           <Button

@@ -4,14 +4,14 @@ import Image from "next/image";
 
 type Proptypes = {
   product: Product;
-  key: string;
+  key: string | undefined;
 };
 
 const CardProduct = (props: Proptypes) => {
   const { product, key } = props;
   return (
     <div
-      className="max-w-sm w-full h-80 md:h-96 border border-neutral-100 shadow-lg"
+      className="shadow-lg border border-neutral-100 w-full max-w-sm h-80 md:h-96"
       key={key}
     >
       <div className="w-full h-3/5 md:h-3/4 overflow-hidden">
@@ -24,11 +24,11 @@ const CardProduct = (props: Proptypes) => {
         />
       </div>
       <div className="px-3 py-2">
-        <p className="text-lg font-semibold text-neutral-700">{product.name}</p>
-        <p className="text-md font-medium text-neutral-600">
+        <p className="font-semibold text-neutral-700 text-lg">{product.name}</p>
+        <p className="font-medium text-md text-neutral-600">
           {product.category}
         </p>
-        <p className="text-lg font-semibold text-neutral-600">
+        <p className="font-semibold text-neutral-600 text-lg">
           {convertIDR(product.price)}
         </p>
       </div>

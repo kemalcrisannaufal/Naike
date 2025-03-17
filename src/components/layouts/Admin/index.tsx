@@ -25,9 +25,9 @@ const listItem = [
 const AdminLayout = (props: Proptypes) => {
   const { children } = props;
   return (
-    <div className="w-full h-screen flex flex-col lg:flex-row">
+    <div className="flex lg:flex-row flex-col w-full h-screen">
       <Sidebar listItem={listItem} />
-      <div className="w-full p-3 lg:px-10 lg:pt-8">{children}</div>
+      <div className="p-5 lg:px-24 lg:pt-10 w-full">{children}</div>
     </div>
   );
 };

@@ -33,7 +33,7 @@ export default function App({
         />
       </Head>
       {!disabledNavbar.includes(pathname.split("/")[1]) && <Navbar />}
-      <div className="p-5 md:p-20">
+      <div>
         <Component {...pageProps} setToaster={setToaster} />
       </div>
       {Object.keys(toaster).length > 0 && (

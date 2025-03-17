@@ -22,11 +22,11 @@ const Button = (props: Proptypes) => {
     <button
       type={type}
       onClick={onClick}
-      className={`font-semibold rounded p-2 px-3 cursor-pointer text-sm lg:text-md flex gap-2 justify-center items-center 
+      className={`p-2 px-3 text-sm lg:text-md font-semibold rounded cursor-pointer flex gap-2 justify-center items-center 
   ${
     variant === "primary"
-      ? "bg-indigo-700 text-white hover:bg-indigo-900 transition-all ease-in-out duration-100 p-2"
-      : "bg-white text-indigo-800 hover:bg-gray-200 transition-all ease-in-out duration-100 p-2"
+      ? "bg-primary text-white hover:bg-blue-800 transition-all ease-in-out duration-100"
+      : "bg-white text-primary hover:bg-neutral-200 transition-all ease-in-out duration-100 p-2"
   } 
   ${classname} 
   ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}

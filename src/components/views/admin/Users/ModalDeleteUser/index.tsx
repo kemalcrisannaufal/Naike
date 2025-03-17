@@ -5,6 +5,7 @@ import { userServices } from "@/services/user";
 import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction } from "react";
 import { User } from "@/types/user.type";
+import Title from "@/components/ui/Text/Title";
 
 type Proptypes = {
   deletedUser: User | any;
@@ -41,13 +42,28 @@ const ModalDeleteUser = (props: Proptypes) => {
   };
   return (
     <Modal onClose={() => setDeletedUser({})}>
-      <h1 className="text-xl text-neutral-800 font-bold mb-3">
-        Apakah kamu yakin ingin menghapus data?
-        {deletedUser.fullname}
-      </h1>
-      <Button type="button" onClick={() => handleDelete()}>
-        Delete
-      </Button>
+      <Title variant="small">Delete User</Title>
+      <p className="my-2 text-neutral-700">
+        Are you sure want to delete this user?
+      </p>
+
+      <div className="bg-neutral-200 mb-2 p-4 rounded">
+        <p className="mb-1 font-medium text-neutral-700">
+          Name : {deletedUser.fullname}
+        </p>
+        <p className="mb-1 font-medium text-neutral-700">
+          Email : {deletedUser.email}
+        </p>
+        <p className="font-medium text-neutral-700">
+          Role : {deletedUser.role}
+        </p>
+      </div>
+
+      <div className="flex justify-end">
+        <Button type="button" onClick={() => handleDelete()} classname="px-5">
+          Delete
+        </Button>
+      </div>
     </Modal>
   );
 };

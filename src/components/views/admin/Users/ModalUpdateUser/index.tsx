@@ -7,6 +7,7 @@ import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { userServices } from "@/services/user";
 import { useSession } from "next-auth/react";
 import { User } from "@/types/user.type";
+import Title from "@/components/ui/Text/Title";
 
 type Proptypes = {
   updatedUser: User | any;
@@ -61,8 +62,8 @@ const ModalUpdateUser = (props: Proptypes) => {
   };
   return (
     <Modal onClose={() => setUpdatedUser({})}>
-      <h1 className="text-xl text-neutral-800 font-bold mb-3">Update User</h1>
-      <form onSubmit={handleUpdate}>
+      <Title variant="small">Update User</Title>
+      <form onSubmit={handleUpdate} className="mt-3">
         <Input
           label="Nama Lengkap"
           name="fullname"
@@ -93,7 +94,11 @@ const ModalUpdateUser = (props: Proptypes) => {
           ]}
           defaultValue={updatedUser.role}
         />
-        <Button type="submit">{isLoading ? "Updating..." : "Update"}</Button>
+        <div className="flex justify-end w-full">
+          <Button type="submit" classname="px-5">
+            {isLoading ? "Updating..." : "Update"}
+          </Button>
+        </div>
       </form>
     </Modal>
   );

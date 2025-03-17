@@ -1,5 +1,5 @@
 export type Product = {
-  id: string;
+  id?: string;
   name: string;
   price: number;
   category: string;
@@ -7,5 +7,6 @@ export type Product = {
   description?: string;
   created_at?: Date;
   updated_at?: Date;
-  stock: [{ size: number; qty: number }];
+  stock: { size: string; qty: number }[];
+  status: boolean;
 };

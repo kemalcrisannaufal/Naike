@@ -47,28 +47,28 @@ const Toaster = (props: Proptypes) => {
 
   return (
     <div
-      className={`fixed z-50 left-1/2 -translate-x-1/2 bottom-4 flex bg-white px-4 py-2 shadow-xl rounded overflow-hidden ${classname}`}
+      className={`fixed z-50 left-1/2 -translate-x-1/2 bottom-4 flex bg-white px-4 py-2 shadow-xl rounded overflow-hidden border border-neutral-200 ${classname}`}
     >
-      <div className="flex gap-3 items-center p-2">
+      <div className="flex items-center gap-3 p-2">
         <i
           className={`bx ${variantStyle.icon} text-2xl ${variantStyle.color}`}
         />
         <div>
           <p className="font-bold text-neutral-700">{variantStyle.title}</p>
-          <p className="font-medium text-neutral-600 text-sm">
+          <p className="font-medium text-neutral-700 text-sm">
             {message || "No message provided"}
           </p>
         </div>
 
         <button
-          className="absolute top-4 right-2 text-neutral-500 cursor-pointer hover:text-neutral-700"
+          className="top-4 right-2 absolute text-neutral-500 hover:text-neutral-700 cursor-pointer"
           onClick={() => setToaster({})}
         >
-          <i className="bx bx-x text-lg"></i>
+          <i className="text-lg bx bx-x"></i>
         </button>
       </div>
 
-      <div className="w-full absolute bottom-0 left-0 h-1">
+      <div className="bottom-0 left-0 absolute w-full h-1">
         <div
           className={`h-full ${variantStyle.barColor}`}
           style={{ width: `${lengthBar}%` }}
