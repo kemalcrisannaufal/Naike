@@ -195,7 +195,7 @@ const ProfileMemberView = (props: Proptypes) => {
                 <Button
                   type="submit"
                   variant="secondary"
-                  classname="border border-indigo-600 text-xs md:text-md"
+                  classname="border border-primary text-xs md:text-md"
                 >
                   {isLoading === "avatar" ? "Uploading..." : "Change Avatar"}
                 </Button>
@@ -209,7 +209,7 @@ const ProfileMemberView = (props: Proptypes) => {
               <p className="mb-2 text-gray-600 text-md md:text-lg">
                 {profile.email}
               </p>
-              <span className="bg-indigo-700 px-4 py-1 rounded-xl text-smfont-medium text-white">
+              <span className="bg-primary px-4 py-1 rounded-xl text-white text-smfont-medium">
                 {profile.role &&
                   profile.role.charAt(0).toUpperCase() + profile.role.slice(1)}
               </span>

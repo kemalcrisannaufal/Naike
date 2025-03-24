@@ -28,7 +28,21 @@ const ModalDeleteProduct = (props: Proptypes) => {
       );
 
       if (result.status === 200) {
-        const filename = deletedProduct.image.split("%2F")[3].split("?")[0];
+        const deleteImagesPromises = deletedProduct.images.map(
+          (image: string) => {
+            const filename = image.split("%2F")[3].split("?")[0];
+            return new Promise<void>((resolve) => {
+              deleteFile(
+                `/images/products/${deletedProduct.id}/${filename}`,
+                () => resolve()
+              );
+            });
+          }
+        );
+
+        await Promise.all(deleteImagesPromises);
+
+        const filename = deletedProduct.mainImage.split("%2F")[3].split("?")[0];
         deleteFile(
           `/images/products/${deletedProduct.id}/${filename}`,
           async (status: boolean) => {

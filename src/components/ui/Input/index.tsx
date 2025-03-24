@@ -7,11 +7,20 @@ type Proptypes = {
   defaultValue?: string | number;
   disabled?: boolean;
   onChange?: any;
+  value?: any;
 };
 
 const Input = (props: Proptypes) => {
-  const { label, name, placeholder, type, defaultValue, onChange, disabled } =
-    props;
+  const {
+    label,
+    name,
+    placeholder,
+    type,
+    defaultValue,
+    onChange,
+    disabled,
+    value,
+  } = props;
   return (
     <div className="flex flex-col gap-2 mb-3 w-full">
       <label
@@ -22,6 +31,7 @@ const Input = (props: Proptypes) => {
       </label>
       <input
         type={type}
+        value={value}
         placeholder={placeholder}
         className={`w-full border border-neutral-300 rounded p-2 text-neutral-600 focus:outline-none focus:border-neutral-600 ${
           disabled && "bg-neutral-100"

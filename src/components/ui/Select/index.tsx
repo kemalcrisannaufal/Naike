@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 type Option = {
   label: string;
   value: string;
@@ -9,15 +10,16 @@ type Proptypes = {
   options: Option[];
   defaultValue?: string;
   disabled?: boolean;
+  onChange?: (e: any) => void;
 };
 
 const Select = (props: Proptypes) => {
-  const { label, name, options, defaultValue, disabled } = props;
+  const { label, name, options, defaultValue, disabled, onChange } = props;
   return (
     <div className="flex flex-col gap-2 mb-3">
       <label
         htmlFor={name}
-        className="text-xs lg:text-sm text-neutral-600 font-semibold"
+        className="font-semibold text-neutral-600 text-xs lg:text-sm"
       >
         {label}
       </label>
@@ -29,6 +31,7 @@ const Select = (props: Proptypes) => {
         className={`w-full border border-neutral-300 rounded p-2 text-neutral-600 focus:outline-none focus:border-neutral-600 ${
           disabled && "bg-neutral-300/50"
         }`}
+        onChange={onChange}
       >
         {options.map((option) => {
           return (

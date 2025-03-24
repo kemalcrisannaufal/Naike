@@ -1,7 +1,7 @@
 import React from "react";
 
 type Proptypes = {
-  type: "submit" | "reset" | "button" | undefined;
+  type?: "submit" | "reset" | "button";
   children: React.ReactNode;
   onClick?: () => void;
   classname?: string;
@@ -11,13 +11,14 @@ type Proptypes = {
 
 const Button = (props: Proptypes) => {
   const {
-    type,
+    type = "button",
     children,
     variant = "primary",
     onClick,
     classname,
     disabled,
   } = props;
+
   return (
     <button
       type={type}
@@ -25,8 +26,8 @@ const Button = (props: Proptypes) => {
       className={`p-2 px-3 text-sm lg:text-md font-semibold rounded cursor-pointer flex gap-2 justify-center items-center 
   ${
     variant === "primary"
-      ? "bg-primary text-white hover:bg-blue-800 transition-all ease-in-out duration-100"
-      : "bg-white text-primary hover:bg-neutral-200 transition-all ease-in-out duration-100 p-2"
+      ? "bg-primary text-white hover:bg-neutral-500 transition-all ease-in-out duration-100"
+      : "bg-white border border-neutral-200 text-primary hover:bg-neutral-200 transition-all ease-in-out duration-100 p-2"
   } 
   ${classname} 
   ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}

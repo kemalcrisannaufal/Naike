@@ -31,18 +31,18 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="top-0 z-100 sticky flex justify-between items-center shadow-lg px-5 w-full h-14">
+    <nav className="top-0 z-50 sticky flex justify-between items-center bg-white shadow-lg px-5 w-full h-14 md:h-20">
       <button
         type="button"
-        className="h-10 overflow-hidden cursor-pointer"
+        className="h-6 overflow-hidden cursor-pointer h"
         onClick={() => router.push("/")}
       >
         <Image
-          src="/assets/images/crisorca-logo-removebg.png"
+          src="/assets/images/naike-high-resolution-logo.png"
           alt="Crisorca Logo"
-          className="w-auto h-full object-contain"
-          width={100}
-          height={100}
+          className="w-full h-full object-cover"
+          width={500}
+          height={500}
         />
       </button>
 

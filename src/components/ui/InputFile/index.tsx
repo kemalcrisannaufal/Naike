@@ -1,17 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 type Proptypes = {
   label: string;
   name: string;
-  onChange?: (e: any) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const InputFile = (props: Proptypes) => {
   const { name, label, onChange } = props;
+
   return (
-    <div className="w-full">
+    <div className="block w-full">
       <label
-        htmlFor="upload-image"
-        className="flex justify-center items-center gap-5 bg-neutral-200 hover:bg-neutral-400 px-4 py-2 rounded w-full h-20 text-neutral-700 text-xs md:text-sm cursor-pointer text"
+        htmlFor={name}
+        className="flex justify-center items-center gap-5 bg-neutral-200 hover:bg-neutral-400 m-0 px-4 py-2 rounded w-full h-16 text-neutral-700 text-xs md:text-sm cursor-pointer"
       >
         <i className="text-2xl bx bx-upload" />
         {label}
@@ -19,11 +19,13 @@ const InputFile = (props: Proptypes) => {
       <input
         type="file"
         name={name}
-        id="upload-image"
+        id={name}
         onChange={onChange}
         hidden
+        multiple
       />
     </div>
   );
 };
+
 export default InputFile;

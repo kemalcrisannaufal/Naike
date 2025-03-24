@@ -10,7 +10,7 @@ type Proptypes = {
 const AuthLayout = (props: Proptypes) => {
   const { type, title, children, link } = props;
   return (
-    <div className="flex lg:flex-row flex-colp-5 lg:p-5 pt-20 w-full h-screen">
+    <div className="flex lg:flex-row flex-col lg:p-5 pt-20 w-full h-screen">
       <div className="flex flex-col justify-center items-center lg:w-1/2">
         <img
           src="/assets/images/auth/yacht.svg"

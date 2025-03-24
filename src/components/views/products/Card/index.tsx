@@ -4,19 +4,15 @@ import Image from "next/image";
 
 type Proptypes = {
   product: Product;
-  key: string | undefined;
 };
 
 const CardProduct = (props: Proptypes) => {
-  const { product, key } = props;
+  const { product } = props;
   return (
-    <div
-      className="shadow-lg border border-neutral-100 w-full max-w-sm h-80 md:h-96"
-      key={key}
-    >
+    <div className="shadow-lg border border-neutral-100 w-full max-w-sm h-80 md:h-96">
       <div className="w-full h-3/5 md:h-3/4 overflow-hidden">
         <Image
-          src={product.image}
+          src={product.mainImage}
           alt={product.name}
           width={500}
           height={500}

@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button";
 import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Title from "@/components/ui/Text/Title";
 import ModalAddProduct from "./ModalAddProduct";
 import { useSession } from "next-auth/react";
@@ -99,8 +99,8 @@ const ProductAdminViews = (props: Proptypes) => {
             <tbody>
               {products.map((product: any, index: any) => {
                 return (
-                  <>
-                    <tr key={product.id} className="text-neutral-700">
+                  <React.Fragment key={product.id}>
+                    <tr className="text-neutral-700">
                       <td
                         className="px-4 py-2 text-center"
                         rowSpan={product.stock.length}
@@ -111,12 +111,16 @@ const ProductAdminViews = (props: Proptypes) => {
                         className="px-4 py-2 text-center"
                         rowSpan={product.stock.length}
                       >
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          width={100}
-                          height={100}
-                        />
+                        <div className="w-24 h-24 overflow-hidden">
+                          <Image
+                            src={product.mainImage}
+                            alt={product.name}
+                            width={100}
+                            height={100}
+                            className="w-full h-full object-cover"
+                            priority
+                          />
+                        </div>
                       </td>
                       <td
                         className="px-4 py-2 text-center"
@@ -175,7 +179,7 @@ const ProductAdminViews = (props: Proptypes) => {
                         );
                       }
                     })}
-                  </>
+                  </React.Fragment>
                 );
               })}
             </tbody>

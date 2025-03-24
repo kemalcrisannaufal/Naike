@@ -1,5 +1,6 @@
 import { Product } from "@/types/product.type";
 import CardProduct from "./Card";
+import Link from "next/link";
 
 type Proptypes = {
   products: Product[];
@@ -21,7 +22,9 @@ const ProductView = ({ products }: Proptypes) => (
 
     <div className="gap-2 md:gap-4 lg:gap-7 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {products.map((product) => (
-        <CardProduct key={product.id} product={product} />
+        <Link href={`/products/${product.id}`} key={product.id}>
+          <CardProduct product={product} key={product.id} />
+        </Link>
       ))}
     </div>
   </div>
