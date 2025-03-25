@@ -21,11 +21,18 @@ const Modal = (props: Proptypes) => {
     };
   }, [onClose]);
   return (
-    <div className="top-0 fixed flex justify-center items-center bg-black/50 w-screen h-screen">
+    <div className="top-0 z-50 fixed flex justify-center items-center bg-black/50 p-5 w-screen h-screen">
       <div
-        className="bg-white p-5 rounded w-sm md:w-md lg:w-2xl max-h-[80vh] overflow-y-scroll scrollbar-hide"
+        className="relative bg-white p-5 rounded-xl w-sm md:w-md lg:w-2xl max-h-[80vh] overflow-y-scroll scrollbar-hide"
         ref={ref}
       >
+        <button
+          className="block top-5 right-5 absolute"
+          onClick={onClose}
+          type="button"
+        >
+          <i className="block bg-neutral-200 m-0 p-1 rounded-full text-2xl cursor-pointer bx bx-x" />
+        </button>
         {children}
       </div>
     </div>

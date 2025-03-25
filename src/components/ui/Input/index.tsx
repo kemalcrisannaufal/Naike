@@ -8,6 +8,7 @@ type Proptypes = {
   disabled?: boolean;
   onChange?: any;
   value?: any;
+  multiple?: boolean;
 };
 
 const Input = (props: Proptypes) => {
@@ -20,6 +21,7 @@ const Input = (props: Proptypes) => {
     onChange,
     disabled,
     value,
+    multiple = false,
   } = props;
   return (
     <div className="flex flex-col gap-2 mb-3 w-full">
@@ -41,6 +43,7 @@ const Input = (props: Proptypes) => {
         defaultValue={defaultValue}
         onChange={onChange}
         disabled={disabled}
+        multiple={multiple}
       />
     </div>
   );

@@ -29,14 +29,15 @@ const Sidebar = (props: Proptype) => {
       {/* Sidebar */}
       <div>
         {/* Logo */}
-        <div className="flex lg:flex-col justify-between lg:justify-start items-center mb-2 lg:mb-5 w-full h-auto">
+        <div className="flex lg:flex-col justify-between lg:justify-start items-center mb-2 lg:mb-6 w-full h-auto">
           <Link href={"/admin"} className="w-1/2 lg:w-full">
             <Image
-              src="/assets/images/crisorca-logo-removebg.png"
-              alt="Crisorca"
+              src="/assets/images/naike-high-resolution-logo.png"
+              alt="Naike"
               width={500}
               height={500}
               className="h-10 object-contain"
+              priority
             />
           </Link>
           <button

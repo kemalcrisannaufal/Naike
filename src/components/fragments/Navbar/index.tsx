@@ -31,7 +31,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="top-0 z-50 sticky flex justify-between items-center bg-white shadow-lg px-5 w-full h-14 md:h-20">
+    <nav className="top-0 z-50 sticky flex justify-between items-center bg-white shadow-lg px-5 w-full h-12 md:h-16">
       <button
         type="button"
         className="h-6 overflow-hidden cursor-pointer h"
