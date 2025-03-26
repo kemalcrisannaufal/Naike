@@ -9,7 +9,7 @@ type Proptypes = {
 const CardProduct = (props: Proptypes) => {
   const { product } = props;
   return (
-    <div className="shadow-lg border border-neutral-100 w-full max-w-sm h-80 md:h-96">
+    <div className="shadow-lg pb-5 border border-neutral-100 w-full max-w-sm h-80 md:h-100">
       <div className="w-full h-3/5 md:h-3/4 overflow-hidden">
         <Image
           src={product.mainImage}
@@ -17,16 +17,15 @@ const CardProduct = (props: Proptypes) => {
           width={500}
           height={500}
           className="w-full h-full object-cover"
+          priority
         />
       </div>
       <div className="px-3 py-2">
-        <p className="font-semibold text-neutral-700 text-lg">{product.name}</p>
-        <p className="font-medium text-md text-neutral-600">
+        <p className="font-semibold text-lg">{product.name}</p>
+        <p className="mb-2 font-medium text-md text-neutral-600">
           {product.category}
         </p>
-        <p className="font-semibold text-neutral-600 text-lg">
-          {convertIDR(product.price)}
-        </p>
+        <p className="font-semibold text-lg">{convertIDR(product.price)}</p>
       </div>
     </div>
   );

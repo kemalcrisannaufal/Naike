@@ -1,6 +1,7 @@
 import { Product } from "@/types/product.type";
 import CardProduct from "./Card";
 import Link from "next/link";
+import CardSkeleton from "./Card/Skeleton";
 
 type Proptypes = {
   products: Product[];
@@ -8,24 +9,18 @@ type Proptypes = {
 
 const ProductView = ({ products }: Proptypes) => (
   <div className="p-5 md:p-20">
-    <div className="mb-5">
-      <h1 className="font-semibold text-neutral-800 text-xl md:text-2xl lg:text-3xl">
-        Products
-      </h1>
-      <div className="flex gap-6 mt-2">
-        <p className="font-medium text-neutral-700 md:text-md text-sm">Men</p>
-        <p className="font-medium text-neutral-700 md:text-md text-sm">Women</p>
-        <p className="font-medium text-neutral-700 md:text-md text-sm">Kids</p>
-      </div>
-      <div className="bg-neutral-300 mt-2 h-[1px]" />
-    </div>
-
     <div className="gap-2 md:gap-4 lg:gap-7 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {products.map((product) => (
-        <Link href={`/products/${product.id}`} key={product.id}>
-          <CardProduct product={product} key={product.id} />
-        </Link>
-      ))}
+      {products.length === 0
+        ? Array(8)
+            .fill(0)
+            .map((_, index) => {
+              return <CardSkeleton key={index} />;
+            })
+        : products.map((product) => (
+            <Link href={`/products/${product.id}`} key={product.id}>
+              <CardProduct product={product} key={product.id} />
+            </Link>
+          ))}
     </div>
   </div>
 );

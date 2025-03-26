@@ -47,7 +47,7 @@ const ProductDetailSkeleton = () => {
                   <div
                     key={index}
                     className="flex justify-center items-center bg-neutral-200 rounded w-full h-10 lg:h-12 animate-blink"
-                  ></div>
+                  />
                 ))}
             </div>
 

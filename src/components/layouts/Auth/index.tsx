@@ -13,16 +13,16 @@ const AuthLayout = (props: Proptypes) => {
     <div className="flex lg:flex-row flex-col lg:p-5 pt-20 w-full h-screen">
       <div className="flex flex-col justify-center items-center lg:w-1/2">
         <img
-          src="/assets/images/auth/yacht.svg"
-          alt="Yacht"
-          className="w-40 lg:w-80 h-40 lg:h-80"
+          src="/assets/images/naike-high-resolution-logo.png"
+          alt="Naikke"
+          className="w-40 lg:w-1/2 h-auto"
         />
         <div className="hidden lg:block text-center">
           <p className="font-semibold text-neutral-700 text-lg">
-            Belanja Hanya di Crisorca
+            Belanja Hanya di Naike
           </p>
           <p className="mt-2 font-medium text-md text-neutral-600">
-            Gabung dan rasakan kemudahan bertransaksi di Crisorca
+            Gabung dan rasakan kemudahan bertransaksi di Naike
           </p>
         </div>
       </div>

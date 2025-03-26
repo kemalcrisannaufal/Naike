@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 const ProductPage = () => {
   const [products, setProducts] = useState<Product[]>([]);
+
   useEffect(() => {
     const getAllProducts = async () => {
       const { data } = await productServices.getAllProducts();
@@ -19,7 +20,12 @@ const ProductPage = () => {
       <Head>
         <title>Products</title>
       </Head>
-      <ProductView products={products} />
+
+      {products.length === 0 ? (
+        <ProductView products={[]} />
+      ) : (
+        <ProductView products={products} />
+      )}
     </>
   );
 };

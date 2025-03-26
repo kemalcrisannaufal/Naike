@@ -1,14 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRouter } from "next/router";
 import ProductDetailView from "@/components/views/productDetail";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Product } from "@/types/product.type";
 import productServices from "@/services/products";
 import ProductDetailSkeleton from "@/components/views/productDetail/ProductDetailSekeleton";
+import { userServices } from "@/services/user";
+import { useSession } from "next-auth/react";
 
-const ProductDetailPage = () => {
+type Proptypes = {
+  setToaster: Dispatch<SetStateAction<object>>;
+};
+
+const ProductDetailPage = (props: Proptypes) => {
+  const { setToaster } = props;
   const { id } = useRouter().query;
   const [product, setProduct] = useState<Product>({} as Product);
   const [isLoading, setIsLoading] = useState(false);
+  const [cart, setCart] = useState([]);
+  const session: any = useSession();
 
   useEffect(() => {
     const getProduct = async (id: string) => {
@@ -20,12 +30,27 @@ const ProductDetailPage = () => {
     getProduct(id as string);
   }, [id]);
 
+  useEffect(() => {
+    const getCart = async () => {
+      if (session.data?.accessToken) {
+        const { data } = await userServices.getCart(session.data?.accessToken);
+        setCart(data.data);
+      }
+    };
+    getCart();
+  }, [session]);
+
   return (
     <>
-      {isLoading ? (
+      {isLoading || !product ? (
         <ProductDetailSkeleton />
       ) : (
-        <ProductDetailView product={product} />
+        <ProductDetailView
+          product={product}
+          setToaster={setToaster}
+          productId={id as string}
+          cart={cart}
+        />
       )}
     </>
   );

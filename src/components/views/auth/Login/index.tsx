@@ -15,7 +15,7 @@ const LoginView = (props: Proptypes) => {
   const { setToaster } = props;
   const [isLoading, setIsLoading] = useState(false);
   const { push, query } = useRouter();
-  const callbackUrl: any = query.callbackUrl || "/";
+  const callbackUrl: any = query.callbackUrl || "/dashboard";
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -80,7 +80,7 @@ const LoginView = (props: Proptypes) => {
               onClick={() => signIn("google", { callbackUrl, redirect: false })}
               classname="w-full"
             >
-              <i className="bx bxl-google text-lg" />
+              <i className="text-lg bx bxl-google" />
               Login With Google
             </Button>
           </div>

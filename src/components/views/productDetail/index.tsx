@@ -1,23 +1,85 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
 import ProductDetailDescription from "./ProductDetailDescription";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { userServices } from "@/services/user";
 
 type Proptypes = {
   product: Product;
+  setToaster: Dispatch<SetStateAction<object>>;
+  cart: any;
+  productId: string;
 };
 
 const ProductDetailView = (props: Proptypes) => {
-  const { product } = props;
+  const { product, setToaster, cart, productId } = props;
   const [imageShow, setImageShow] = useState(product.mainImage);
   const [productDetail, setProductDetail] = useState(false);
   const [deliveryDetailShow, setDeliveryDetailShow] = useState(false);
+  const [selectedSize, setSelectedSize] = useState("");
+  const { status, data: session }: any = useSession();
+  const router = useRouter();
+
+  const handleAddToCart = async () => {
+    if (selectedSize != "") {
+      let newCart = [];
+      if (
+        cart.filter(
+          (item: any) =>
+            item.productId === productId && item.size === selectedSize
+        ).length > 0
+      ) {
+        newCart = cart.map((item: any) => {
+          if (item.productId === productId && item.size === selectedSize) {
+            item.qty += 1;
+          }
+          return item;
+        });
+      } else {
+        newCart = [...cart, { productId, size: selectedSize, qty: 1 }];
+      }
+
+      try {
+        const data = {
+          cart: newCart,
+        };
+        const result = await userServices.addToCart(session?.accessToken, data);
+        if (result.status === 200) {
+          setSelectedSize("");
+          setToaster({
+            variant: "success",
+            message: "Added to cart successfully!",
+          });
+        } else {
+          setToaster({
+            variant: "error",
+            message: "Failed to add to cart. Please try again",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        setToaster({
+          variant: "error",
+          message: "Failed to add to cart. Please try again",
+        });
+      }
+    } else {
+      setToaster({
+        variant: "error",
+        message: "Please select a size",
+      });
+    }
+  };
 
   return (
     <>
-      <div className="flex lg:flex-row flex-col lg:px-48 lg:pt-5 lg:pb-10">
+      <div className="flex lg:flex-row flex-col md:px-20 lg:px-48 lg:pt-5 lg:pb-10">
+        {/* Product Description for Mobile */}
         <div className="lg:hidden block p-5">
           <h1 className="font-semibold text-xl md:text-2xl lg:text-3xl">
             {product.name}
@@ -26,21 +88,21 @@ const ProductDetailView = (props: Proptypes) => {
             {product.category}
           </p>
           <p className="mt-2 font-medium text-md md:text-lg lg:text-xl">
-            {convertIDR(product.price)}{" "}
+            {convertIDR(product.price)}
           </p>
         </div>
 
         {/* Product Images */}
-        <div className="lg:top-20 lg:sticky flex lg:flex-row flex-col justify-end gap-4 w-full lg:w-2/3 lg:h-[90vh]">
+        <div className="lg:top-20 lg:sticky flex md:flex-row flex-col-reverse justify-end gap-4 w-full lg:w-2/3 lg:h-[90vh]">
           {/* Rest Images */}
-          <div className="hidden lg:flex flex-col items-end w-1/4 overflow-y-auto">
+          <div className="flex md:flex-col items-end gap-2 lg:gap-0 w-full md:w-1/6 overflow-x-scroll overflow-y-auto scrollbar-hide">
             {product.images &&
               [product.mainImage, ...product.images].map((image, index) => {
                 return (
                   <div
                     key={index}
                     onMouseEnter={() => setImageShow(image)}
-                    className="relative mb-2 rounded-lg w-20 h-20 overflow-hidden"
+                    className="relative lg:mb-2 rounded-lg w-20 min-w-20 h-20 min-h-20 overflow-hidden"
                   >
                     <Image
                       src={image}
@@ -60,43 +122,17 @@ const ProductDetailView = (props: Proptypes) => {
               })}
           </div>
           {/* Main Image */}
-          <div className="relative w-full lg:w-3/4 overflow-hidden">
-            <Image
-              src={imageShow}
-              alt={product.name}
-              width={500}
-              height={500}
-              className="w-full h-full object-cover"
-              priority
-            />
-            <div className="lg:hidden bottom-5 absolute flex justify-center gap-1 w-full">
-              {product.images &&
-                Array(product.images.length + 1)
-                  .fill(0)
-                  .map((_, index) => {
-                    return (
-                      <button
-                        key={index}
-                        className={`rounded-full w-3 h-3 ${
-                          imageShow ===
-                          (index === 0
-                            ? product.mainImage
-                            : product.images[index])
-                            ? "bg-black"
-                            : "bg-neutral-200"
-                        }
-                        `}
-                        onClick={() =>
-                          setImageShow(
-                            index === 0
-                              ? product.mainImage
-                              : product.images[index]
-                          )
-                        }
-                      />
-                    );
-                  })}
-            </div>
+          <div className="relative w-full md:w-5/6 overflow-hidden">
+            {imageShow ? (
+              <Image
+                src={imageShow}
+                alt={product.name}
+                width={500}
+                height={500}
+                className="w-full h-full object-cover"
+                priority
+              />
+            ) : null}
           </div>
         </div>
 
@@ -129,6 +165,8 @@ const ProductDetailView = (props: Proptypes) => {
                       name="size"
                       value={stock.size}
                       className="peer hidden"
+                      onClick={() => setSelectedSize(stock.size)}
+                      checked={selectedSize === stock.size}
                     />
                     <span className="flex justify-center items-center peer-checked:border-2 peer-checked:border-primary rounded w-full h-full text-md lg:text-lg">
                       {stock.size}
@@ -140,11 +178,17 @@ const ProductDetailView = (props: Proptypes) => {
             {/* Button Cart and Favourite */}
             <div>
               <Button
-                type="button"
+                type={status === "authenticated" ? "submit" : "button"}
                 classname="w-full py-2 lg:py-5 mt-6 rounded-l-full rounded-r-full"
+                onClick={() => {
+                  return status === "authenticated"
+                    ? handleAddToCart()
+                    : router.push(`/auth/login?callbackUrl=${router.asPath}`);
+                }}
               >
-                <p className="text-lg">Add to Bag</p>
+                <p className="text-lg">Add to Cart</p>
               </Button>
+
               <Button
                 type="button"
                 variant="secondary"
