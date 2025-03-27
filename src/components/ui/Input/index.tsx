@@ -9,6 +9,7 @@ type Proptypes = {
   onChange?: any;
   value?: any;
   multiple?: boolean;
+  skeleton?: boolean;
 };
 
 const Input = (props: Proptypes) => {
@@ -22,6 +23,7 @@ const Input = (props: Proptypes) => {
     disabled,
     value,
     multiple = false,
+    skeleton = false,
   } = props;
   return (
     <div className="flex flex-col gap-2 mb-3 w-full">
@@ -31,20 +33,26 @@ const Input = (props: Proptypes) => {
       >
         {label}
       </label>
-      <input
-        type={type}
-        value={value}
-        placeholder={placeholder}
-        className={`w-full border border-neutral-300 rounded p-2 text-neutral-600 focus:outline-none focus:border-neutral-600 ${
-          disabled && "bg-neutral-100"
-        }`}
-        id={name}
-        name={name}
-        defaultValue={defaultValue}
-        onChange={onChange}
-        disabled={disabled}
-        multiple={multiple}
-      />
+      {skeleton ? (
+        <div
+          className={`bg-neutral-200 w-full border border-neutral-300 rounded h-8 md:h-10 animate-blink`}
+        />
+      ) : (
+        <input
+          type={type}
+          value={value}
+          placeholder={placeholder}
+          className={`w-full border border-neutral-300 rounded p-2 text-neutral-600 focus:outline-none focus:border-neutral-600 ${
+            disabled && "bg-neutral-100"
+          }`}
+          id={name}
+          name={name}
+          defaultValue={defaultValue}
+          onChange={onChange}
+          disabled={disabled}
+          multiple={multiple}
+        />
+      )}
     </div>
   );
 };

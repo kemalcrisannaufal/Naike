@@ -1,5 +1,5 @@
 import Button from "@/components/ui/Button";
-// import Title from "@/components/ui/Text/Title";
+import Title from "@/components/ui/Text/Title";
 import { Cart } from "@/types/cart.type";
 import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
@@ -9,6 +9,7 @@ type Proptypes = {
   cart: Cart[];
   products: Product[];
 };
+
 const CartView = (props: Proptypes) => {
   const { cart, products } = props;
 
@@ -22,8 +23,8 @@ const CartView = (props: Proptypes) => {
 
   return (
     <div className="p-5 md:px-20 lg:px-48 lg:pt-5 lg:pb-10">
-      <h1 className="font-bold text-3xl">Cart</h1>
-      {cart.length > 0 ? (
+      <Title>Cart</Title>
+      {cart && cart.length > 0 ? (
         <div className="flex lg:flex-row flex-col-reverse lg:gap-5 mt-3 lg:mt-5">
           <div className="w-full lg:w-2/3">
             {cart.map((item, index) => {
@@ -143,7 +144,11 @@ const CartView = (props: Proptypes) => {
           </div>
         </div>
       ) : (
-        <div>No data</div>
+        <div>
+          <div className="bg-neutral-200 mt-3 lg:mt-5 p-3 w-full">
+            <p>Your cart is empty. Start adding your favorite products! 😊🛒</p>
+          </div>
+        </div>
       )}
     </div>
   );

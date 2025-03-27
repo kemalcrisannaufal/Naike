@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ProfileMemberView from "@/components/views/member/Profile";
+import ProfileMemberViewSkeleton from "@/components/views/member/Profile/Skeleton";
 import { userServices } from "@/services/user";
 import { User } from "@/types/user.type";
 import { useSession } from "next-auth/react";
@@ -12,6 +13,7 @@ type Proptypes = {
 const ProfileMemberPage = (props: Proptypes) => {
   const { setToaster } = props;
   const [profile, setProfile] = useState<User | any>({});
+  const [isLoading, setIsLoading] = useState(false);
   const session: any = useSession();
 
   useEffect(() => {
@@ -23,11 +25,15 @@ const ProfileMemberPage = (props: Proptypes) => {
         setProfile(data.data);
       }
     };
+    setIsLoading(true);
     getProfile();
+    setIsLoading(false);
   }, [profile, session]);
   return (
     <>
-      {profile && (
+      {isLoading ? (
+        <ProfileMemberViewSkeleton />
+      ) : (
         <ProfileMemberView
           profile={profile}
           setProfile={setProfile}

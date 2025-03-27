@@ -16,7 +16,6 @@ type Proptypes = {
 
 const ProfileMemberView = (props: Proptypes) => {
   const { profile, setProfile, session, setToaster } = props;
-  console.log(profile);
   const [changeImage, setChangeImage] = useState<File | any>({});
   const [isLoading, setIsLoading] = useState("");
 
@@ -209,7 +208,7 @@ const ProfileMemberView = (props: Proptypes) => {
               <p className="mb-2 text-gray-600 text-md md:text-lg">
                 {profile.email}
               </p>
-              <span className="bg-primary px-4 py-1 rounded-xl text-white text-smfont-medium">
+              <span className="bg-primary px-4 py-1 rounded-xl font-medium text-white text-sm">
                 {profile.role &&
                   profile.role.charAt(0).toUpperCase() + profile.role.slice(1)}
               </span>

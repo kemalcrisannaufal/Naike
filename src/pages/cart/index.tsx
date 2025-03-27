@@ -22,23 +22,25 @@ const CartPage = () => {
         const { data } = await userServices.getCart(session.data?.accessToken);
         setCart(data.data);
 
-        const uniqueProductIds = new Set();
-        const products = await Promise.all(
-          data.data
-            .filter((item: any) => {
-              if (uniqueProductIds.has(item.productId)) return false;
-              uniqueProductIds.add(item.productId);
-              return true;
-            })
-            .map(async (item: any) => {
-              const { data } = await productServices.getProduct(item.productId);
-              data.data.id = item.productId;
-              return data.data;
-            })
-        );
-
-        setProducts(products);
-
+        if (data.data && data.data.length > 0) {
+          const uniqueProductIds = new Set();
+          const products = await Promise.all(
+            data.data
+              .filter((item: Cart) => {
+                if (uniqueProductIds.has(item.productId)) return false;
+                uniqueProductIds.add(item.productId);
+                return true;
+              })
+              .map(async (item: Cart) => {
+                const { data } = await productServices.getProduct(
+                  item.productId
+                );
+                data.data.id = item.productId;
+                return data.data;
+              })
+          );
+          setProducts(products);
+        }
         setIsLoading(false);
       }
     };

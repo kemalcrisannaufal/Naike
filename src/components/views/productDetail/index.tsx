@@ -8,11 +8,12 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { userServices } from "@/services/user";
+import { Cart } from "@/types/cart.type";
 
 type Proptypes = {
   product: Product;
   setToaster: Dispatch<SetStateAction<object>>;
-  cart: any;
+  cart: Cart[];
   productId: string;
 };
 
@@ -30,11 +31,11 @@ const ProductDetailView = (props: Proptypes) => {
       let newCart = [];
       if (
         cart.filter(
-          (item: any) =>
+          (item: Cart) =>
             item.productId === productId && item.size === selectedSize
         ).length > 0
       ) {
-        newCart = cart.map((item: any) => {
+        newCart = cart.map((item: Cart) => {
           if (item.productId === productId && item.size === selectedSize) {
             item.qty += 1;
           }
