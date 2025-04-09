@@ -6,6 +6,7 @@ import Navbar from "@/components/fragments/Navbar";
 import { useRouter } from "next/router";
 import Toaster from "@/components/ui/Toaster";
 import { useEffect, useState } from "react";
+import Footer from "@/components/fragments/Footer";
 
 export default function App({
   Component,
@@ -36,6 +37,7 @@ export default function App({
           setToaster={setToaster}
         />
       )}
+      <Footer></Footer>
     </SessionProvider>
   );
 }

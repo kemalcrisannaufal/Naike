@@ -1,17 +1,21 @@
 // import Image from "next/image";
 
-import Image from "next/image";
+import { Product } from "@/types/product.type";
+import LatestProductCard from "./LatestProductCard";
+import LatestProductCardSkeleton from "./LatestProductCard/skeleton";
 
-type Proptypes = {
-  category: {
-    name: string;
-    image: string;
-    url: string;
-  }[];
-};
+// import Image from "next/image";
 
-const DashboardView = (props: Proptypes) => {
-  const { category } = props;
+// type Proptypes = {
+//   category?: {
+//     name: string;
+//     image: string;
+//     url: string;
+//   }[];
+// };
+
+const DashboardView = ({ latestProducts }: { latestProducts: Product[] }) => {
+  // const { category } = props;
   return (
     <div className="lg:px-20 lg:py-10">
       {/* Banners */}
@@ -26,7 +30,7 @@ const DashboardView = (props: Proptypes) => {
       </div>
 
       {/* Category */}
-      <div className="flex gap-3 mt-6 p-2 border border-neutral-200 rounded-md">
+      {/* <div className="flex gap-3 mt-6 p-2 border border-neutral-200 rounded-md">
         {category.map((item, index) => {
           return (
             <div
@@ -48,10 +52,23 @@ const DashboardView = (props: Proptypes) => {
             </div>
           );
         })}
-      </div>
+      </div> */}
 
-      <div></div>
       {/* Products */}
+      <div className="mt-5 px-5">
+        <h1 className="font-semibold text-xl">Our Latest Products</h1>
+        <div className="flex gap-2 md:gap-3 lg:gap-5 overflow-x-auto">
+          {latestProducts.length > 0
+            ? latestProducts.map((item, index) => {
+                return <LatestProductCard key={index} product={item} />;
+              })
+            : Array(3)
+                .fill(0)
+                .map((_, index) => {
+                  return <LatestProductCardSkeleton key={index} />;
+                })}
+        </div>
+      </div>
     </div>
   );
 };

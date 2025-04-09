@@ -1,29 +1,18 @@
 import DashboardView from "@/components/views/dashboard";
+import productServices from "@/services/products";
+import { Product } from "@/types/product.type";
+import { useEffect, useState } from "react";
 
 const DashboardPage = () => {
-  const category = [
-    {
-      name: "Shoes",
-      image: "/assets/images/dashboard/shoes.png",
-      url: "/",
-    },
-    {
-      name: "Watches",
-      image: "/assets/images/dashboard/watch.jpg",
-      url: "/",
-    },
-    {
-      name: "Clothing",
-      image: "/assets/images/dashboard/cloth.webp",
-      url: "/",
-    },
-    {
-      name: "Accessories",
-      image: "/assets/images/8360368.jpg",
-      url: "/",
-    },
-  ];
-  return <DashboardView category={category} />;
+  const [latestProducts, setLatestProducts] = useState<Product[]>([]);
+  useEffect(() => {
+    const getLatestProducts = async () => {
+      const { data } = await productServices.getProductsByLimit(3);
+      setLatestProducts(data.data);
+    };
+    getLatestProducts();
+  }, []);
+  return <DashboardView latestProducts={latestProducts} />;
 };
 
 export default DashboardPage;

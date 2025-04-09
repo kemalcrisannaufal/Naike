@@ -8,6 +8,8 @@ import {
   getDoc,
   getDocs,
   getFirestore,
+  limit,
+  orderBy,
   query,
   updateDoc,
   where,
@@ -33,6 +35,21 @@ export async function retrieveData(collectionName: string) {
     ...doc.data(),
   }));
 
+  return data;
+}
+
+export async function retrieveDataByLimit(collectionName: string, n: number) {
+  const q = query(
+    collection(firestore, collectionName),
+    orderBy("created_at", "desc"),
+    limit(n)
+  );
+
+  const snapshot = await getDocs(q);
+  const data = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
   return data;
 }
 

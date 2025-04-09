@@ -4,6 +4,7 @@ import {
   deleteData,
   retrieveData,
   retrieveDataById,
+  retrieveDataByLimit,
   updateData,
 } from "@/lib/firebase/service";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -14,10 +15,23 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const { id } = req.query;
+    const { id, limit } = req.query;
 
     if (id) {
       const data = await retrieveDataById("products", id[0] as string);
+      res.status(200).json({
+        status: true,
+        statusCode: 200,
+        message: "success",
+        data: data,
+      });
+    } else if (limit) {
+      const data = await retrieveDataByLimit(
+        "products",
+        parseInt(limit as string)
+      );
+      console.log(data);
+
       res.status(200).json({
         status: true,
         statusCode: 200,

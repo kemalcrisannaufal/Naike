@@ -25,10 +25,10 @@ const Sidebar = (props: Proptype) => {
   };
 
   return (
-    <div className="flex lg:flex-col justify-between bg-neutral-100 p-3 lg:px-5 lg:pt-8 border-neutral-200 border-r lg:w-1/5 h-max lg:h-screen">
-      {/* Sidebar */}
-      <div>
-        {/* Logo */}
+    <div className="flex lg:flex-col justify-between bg-neutral-100 p-3 lg:px-5 lg:pt-8 border-neutral-200 border-r w-full lg:w-72 h-full">
+      {/* Sidebar Content */}
+      <div className="w-full">
+        {/* Logo & Menu */}
         <div className="flex lg:flex-col justify-between lg:justify-start items-center mb-2 lg:mb-6 w-full h-auto">
           <Link href={"/admin"} className="w-1/2 lg:w-full">
             <Image
@@ -36,7 +36,7 @@ const Sidebar = (props: Proptype) => {
               alt="Naike"
               width={500}
               height={500}
-              className="h-10 object-contain"
+              className="h-10 object-contain object-left lg:object-center"
               priority
             />
           </Link>
@@ -49,26 +49,25 @@ const Sidebar = (props: Proptype) => {
           </button>
         </div>
 
-        {/* Sidebar Items */}
+        {/* Menu Items */}
         <div className={`${isMenuOpen ? "block" : "hidden"} lg:block`}>
-          {listItem.map((item, index) => {
-            return (
-              <Link
-                key={index}
-                href={item.url}
-                onClick={() => setMenuOpen(false)}
-                className={`w-full p-2 lg:p-3 mb-2 flex justify-start items-center gap-2 rounded ${
-                  pathname === item.url
-                    ? "bg-primary text-white"
-                    : "text-neutral-700 hover:bg-neutral-200 transition-all ease-in-out duration-100"
-                }`}
-              >
-                <i className={`${item.icon} text-xl`} />
-                <p className="font-semibold lg:text-md text-sm">{item.name}</p>
-              </Link>
-            );
-          })}
-          {/* Logout Button for Mobile */}
+          {listItem.map((item, index) => (
+            <Link
+              key={index}
+              href={item.url}
+              onClick={() => setMenuOpen(false)}
+              className={`w-full p-2 lg:p-3 mb-2 flex justify-start items-center gap-2 rounded ${
+                pathname === item.url
+                  ? "bg-primary text-white"
+                  : "text-neutral-700 hover:bg-neutral-200 transition-all ease-in-out duration-100"
+              }`}
+            >
+              <i className={`${item.icon} text-xl`} />
+              <p className="font-semibold lg:text-md text-sm">{item.name}</p>
+            </Link>
+          ))}
+
+          {/* Mobile Logout */}
           <div className="lg:hidden w-full">
             <Button
               type="button"
@@ -82,6 +81,7 @@ const Sidebar = (props: Proptype) => {
         </div>
       </div>
 
+      {/* Desktop Logout */}
       <div className="hidden lg:block w-full">
         <Button
           type="button"

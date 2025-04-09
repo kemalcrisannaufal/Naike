@@ -17,6 +17,7 @@ const ProfileMemberPage = (props: Proptypes) => {
   const session: any = useSession();
 
   useEffect(() => {
+    setIsLoading(true);
     const getProfile = async () => {
       if (session.data?.accessToken && Object.keys(profile).length === 0) {
         const { data } = await userServices.getProfile(
@@ -25,9 +26,10 @@ const ProfileMemberPage = (props: Proptypes) => {
         setProfile(data.data);
       }
     };
-    setIsLoading(true);
     getProfile();
-    setIsLoading(false);
+    if (Object.keys(profile).length > 0) {
+      setIsLoading(false);
+    }
   }, [profile, session]);
   return (
     <>

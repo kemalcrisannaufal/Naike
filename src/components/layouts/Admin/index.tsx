@@ -24,10 +24,11 @@ const listItem = [
 
 const AdminLayout = (props: Proptypes) => {
   const { children } = props;
+
   return (
-    <div className="flex lg:flex-row flex-col w-full h-screen">
+    <div className="flex flex-col lg:grid grid-cols-[288px_1fr] w-full">
       <Sidebar listItem={listItem} />
-      <div className="p-5 lg:px-24 lg:pt-10 w-full">{children}</div>
+      <div className="p-5 lg:p-10 w-full">{children}</div>
     </div>
   );
 };

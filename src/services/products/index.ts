@@ -3,6 +3,12 @@ import instance from "@/lib/axios/instance";
 
 const productServices = {
   getAllProducts: () => instance.get("/api/product"),
+  getProductsByLimit: (limit: number) =>
+    instance.get("/api/product", {
+      params: {
+        limit,
+      },
+    }),
   getProduct: (id: string) => instance.get(`/api/product/${id}`),
   addProduct: (token: string, data: any) =>
     instance.post(
