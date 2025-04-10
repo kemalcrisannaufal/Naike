@@ -21,7 +21,7 @@ const CardProduct = (props: Proptypes) => {
         />
       </div>
       <div className="px-3 py-2">
-        <p className="font-semibold text-lg">{product.name}</p>
+        <p className="font-semibold text-lg line-clamp-2">{product.name}</p>
         <p className="mb-2 font-medium text-md text-neutral-600">
           {product.category}
         </p>

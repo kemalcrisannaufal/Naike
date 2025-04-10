@@ -26,18 +26,22 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      {!disabledNavbar.includes(pathname.split("/")[1]) && <Navbar />}
-      <div>
-        <Component {...pageProps} setToaster={setToaster} />
+      <div className="flex flex-col min-h-screen">
+        <div className="flex-grow">
+          {!disabledNavbar.includes(pathname.split("/")[1]) && <Navbar />}
+          <div>
+            <Component {...pageProps} setToaster={setToaster} />
+          </div>
+        </div>
+        {Object.keys(toaster).length > 0 && (
+          <Toaster
+            variant={toaster.variant}
+            message={toaster.message}
+            setToaster={setToaster}
+          />
+        )}
+        {!disabledNavbar.includes(pathname.split("/")[1]) && <Footer />}
       </div>
-      {Object.keys(toaster).length > 0 && (
-        <Toaster
-          variant={toaster.variant}
-          message={toaster.message}
-          setToaster={setToaster}
-        />
-      )}
-      <Footer></Footer>
     </SessionProvider>
   );
 }

@@ -3,15 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Proptypes = {
-  key: number;
   product: Product;
 };
 const LatestProductCard = (props: Proptypes) => {
-  const { product, key } = props;
+  const { product } = props;
   return (
     <Link
       href={`/products/${product.id}`}
-      key={key}
       className="group relative bg-neutral-200 md:w-full min-w-[320px] md:min-w-sm h-108 overflow-hidden"
     >
       <Image

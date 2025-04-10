@@ -25,14 +25,14 @@ const Sidebar = (props: Proptype) => {
   };
 
   return (
-    <div className="flex lg:flex-col justify-between bg-neutral-100 p-3 lg:px-5 lg:pt-8 border-neutral-200 border-r w-full lg:w-72 h-full">
+    <div className="flex lg:flex-col justify-between bg-neutral-100 p-3 lg:px-5 lg:pt-8 border-neutral-200 border-r w-full lg:w-72 h-full min-h-screen">
       {/* Sidebar Content */}
       <div className="w-full">
         {/* Logo & Menu */}
         <div className="flex lg:flex-col justify-between lg:justify-start items-center mb-2 lg:mb-6 w-full h-auto">
           <Link href={"/admin"} className="w-1/2 lg:w-full">
             <Image
-              src="/assets/images/naike-high-resolution-logo.png"
+              src="/assets/images/naike/logo.png"
               alt="Naike"
               width={500}
               height={500}

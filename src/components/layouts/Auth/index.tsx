@@ -13,8 +13,8 @@ const AuthLayout = (props: Proptypes) => {
     <div className="flex lg:flex-row flex-col lg:p-5 pt-20 w-full h-screen">
       <div className="flex flex-col justify-center items-center lg:w-1/2">
         <img
-          src="/assets/images/naike-high-resolution-logo.png"
-          alt="Naikke"
+          src="/assets/images/naike/logo.png"
+          alt="Naike"
           className="w-40 lg:w-1/2 h-auto"
         />
         <div className="hidden lg:block text-center">
