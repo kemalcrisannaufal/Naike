@@ -35,6 +35,7 @@ const CartPage = () => {
                 const { data } = await productServices.getProduct(
                   item.productId
                 );
+                if (!data.data) return null;
                 data.data.id = item.productId;
                 return data.data;
               })
@@ -54,7 +55,12 @@ const CartPage = () => {
       {isLoading ? (
         <CartViewSkeleton />
       ) : (
-        <CartView cart={cart} products={products} />
+        <CartView
+          cart={cart}
+          products={products}
+          session={session}
+          setCart={setCart}
+        />
       )}
     </>
   );

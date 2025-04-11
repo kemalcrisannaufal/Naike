@@ -56,7 +56,6 @@ export default async function handler(
       process.env.NEXTAUTH_SECRET || "",
       async (err: any, decoded: any) => {
         if (decoded) {
-          console.log(decoded);
           if (data.password) {
             const passwordConfirm = await compare(
               data.oldPassword,

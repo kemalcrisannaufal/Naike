@@ -30,7 +30,6 @@ export default async function handler(
         "products",
         parseInt(limit as string)
       );
-      console.log(data);
 
       res.status(200).json({
         status: true,

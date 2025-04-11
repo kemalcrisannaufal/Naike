@@ -94,7 +94,7 @@ const ModalUpdateUser = (props: Proptypes) => {
           ]}
           defaultValue={updatedUser.role}
         />
-        <div className="flex justify-end w-full">
+        <div className="flex justify-end mt-5 w-full">
           <Button type="submit" classname="px-5">
             {isLoading ? "Updating..." : "Update"}
           </Button>

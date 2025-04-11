@@ -29,20 +29,24 @@ const ProductDetailView = (props: Proptypes) => {
   const handleAddToCart = async () => {
     if (selectedSize != "") {
       let newCart = [];
-      if (
-        cart.filter(
-          (item: Cart) =>
-            item.productId === productId && item.size === selectedSize
-        ).length > 0
-      ) {
-        newCart = cart.map((item: Cart) => {
-          if (item.productId === productId && item.size === selectedSize) {
-            item.qty += 1;
-          }
-          return item;
-        });
+      if (cart) {
+        if (
+          cart.filter(
+            (item: Cart) =>
+              item.productId === productId && item.size === selectedSize
+          ).length > 0
+        ) {
+          newCart = cart.map((item: Cart) => {
+            if (item.productId === productId && item.size === selectedSize) {
+              item.qty += 1;
+            }
+            return item;
+          });
+        } else {
+          newCart = [...cart, { productId, size: selectedSize, qty: 1 }];
+        }
       } else {
-        newCart = [...cart, { productId, size: selectedSize, qty: 1 }];
+        newCart = [{ productId, size: selectedSize, qty: 1 }];
       }
 
       try {
@@ -158,7 +162,9 @@ const ProductDetailView = (props: Proptypes) => {
                   <label
                     key={index}
                     htmlFor={`size-${index}`}
-                    className="flex justify-center items-center hover:bg-gray-100 border border-neutral-200 rounded w-full h-10 lg:h-12 cursor-pointer"
+                    className={`flex justify-center items-center  border border-neutral-200 rounded w-full h-10 lg:h-12 cursor-pointer ${
+                      stock.qty > 0 && "hover:bg-neutral-100 cursor-default"
+                    }`}
                   >
                     <input
                       type="radio"
@@ -166,10 +172,17 @@ const ProductDetailView = (props: Proptypes) => {
                       name="size"
                       value={stock.size}
                       className="peer hidden"
-                      onClick={() => setSelectedSize(stock.size)}
+                      disabled={stock.qty === 0}
+                      onChange={() => setSelectedSize(stock.size)}
                       checked={selectedSize === stock.size}
                     />
-                    <span className="flex justify-center items-center peer-checked:border-2 peer-checked:border-primary rounded w-full h-full text-md lg:text-lg">
+                    <span
+                      className={`flex justify-center items-center rounded w-full h-full text-md lg:text-lg ${
+                        stock.qty > 0
+                          ? "peer-checked:border-2 peer-checked:border-primary "
+                          : "text-neutral-400"
+                      }`}
+                    >
                       {stock.size}
                     </span>
                   </label>
@@ -263,6 +276,7 @@ const ProductDetailView = (props: Proptypes) => {
           </div>
         </div>
       </div>
+
       {productDetail && (
         <ProductDetailDescription
           setProductDetail={setProductDetail}

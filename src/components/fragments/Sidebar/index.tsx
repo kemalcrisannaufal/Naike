@@ -25,7 +25,7 @@ const Sidebar = (props: Proptype) => {
   };
 
   return (
-    <div className="flex lg:flex-col justify-between bg-neutral-100 p-3 lg:px-5 lg:pt-8 border-neutral-200 border-r w-full lg:w-72 h-full min-h-screen">
+    <div className="flex lg:flex-col justify-between bg-neutral-100 px-5 lg:px-5 py-2 lg:pt-8 border-neutral-200 border-r w-full lg:w-72 h-full lg:min-h-screen">
       {/* Sidebar Content */}
       <div className="w-full">
         {/* Logo & Menu */}
@@ -36,7 +36,7 @@ const Sidebar = (props: Proptype) => {
               alt="Naike"
               width={500}
               height={500}
-              className="h-10 object-contain object-left lg:object-center"
+              className="h-6 lg:h-10 object-contain object-left lg:object-center"
               priority
             />
           </Link>

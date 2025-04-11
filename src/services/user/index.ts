@@ -44,4 +44,10 @@ export const userServices = {
       { data },
       { headers: { Authorization: `Bearer ${token}` } }
     ),
+  updateCart: (token: string, data: any) =>
+    instance.patch(
+      `/api/user/cart`,
+      { data },
+      { headers: { Authorization: `Bearer ${token}` } }
+    ),
 };

@@ -5,18 +5,29 @@ type Option = {
 };
 
 type Proptypes = {
-  label: string;
+  label?: string;
   name: string;
-  options: Option[];
-  defaultValue?: string;
+  options: Option[] | any[];
+  defaultValue?: string | number;
   disabled?: boolean;
   onChange?: (e: any) => void;
+  classname?: string;
+  variant?: "tight" | "normal";
 };
 
 const Select = (props: Proptypes) => {
-  const { label, name, options, defaultValue, disabled, onChange } = props;
+  const {
+    label,
+    name,
+    options,
+    defaultValue,
+    disabled,
+    onChange,
+    classname,
+    variant = "normal",
+  } = props;
   return (
-    <div className="flex flex-col gap-2 mb-3">
+    <div className="flex flex-col">
       <label
         htmlFor={name}
         className="font-semibold text-neutral-600 text-xs lg:text-sm"
@@ -28,14 +39,18 @@ const Select = (props: Proptypes) => {
         id={name}
         defaultValue={defaultValue}
         disabled={disabled}
-        className={`w-full border border-neutral-300 rounded p-2 text-neutral-600 focus:outline-none focus:border-neutral-600 ${
+        className={`w-full border border-neutral-300 rounded ${
+          variant === "normal"
+            ? "lg:p-2 text-xs md:text-sm lg:text-md"
+            : "lg:px-1 text-xs border-none"
+        } text-neutral-600 focus:outline-none focus:border-neutral-600 ${
           disabled && "bg-neutral-300/50"
-        }`}
+        } ${classname}`}
         onChange={onChange}
       >
         {options.map((option) => {
           return (
-            <option value={option.value} key={option.label}>
+            <option value={option.value} key={option.label} className="text-xs">
               {option.label}
             </option>
           );

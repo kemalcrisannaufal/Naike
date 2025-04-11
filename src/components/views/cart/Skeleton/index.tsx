@@ -9,18 +9,18 @@ const CartViewSkeleton = () => {
               <div className="bg-neutral-200 w-28 lg:w-36 h-28 lg:h-36 animate-blink" />
               <div className="w-full">
                 <div className="flex justify-between w-full">
-                  <div className="bg-neutral-200 w-1/2 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
-                  <div className="bg-neutral-200 w-1/3 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                  <div className="bg-neutral-200 mb-2 w-1/2 h-5 lg:h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                  <div className="bg-neutral-200 w-1/3 h-5 lg:h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
                 </div>
-                <div className="bg-neutral-200 mb-2 w-1/2 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
-                <div className="bg-neutral-200 mb-2 w-1/2 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                <div className="bg-neutral-200 mb-2 w-1/2 h-2 lg:h-4 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                <div className="bg-neutral-200 mb-2 w-1/2 h-2 lg:h-4 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
                 <div className="flex gap-2 mt-1">
-                  <div className="bg-neutral-200 mb-2 w-20 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
-                  <div className="bg-neutral-200 mb-2 w-20 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                  <div className="bg-neutral-200 mb-2 w-20 h-4 lg:h-5 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                  <div className="bg-neutral-200 mb-2 w-20 h-4 lg:h-5 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
                 </div>
                 <div className="flex gap-2 mt-1">
-                  <div className="bg-neutral-200 mb-2 w-6 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
-                  <div className="bg-neutral-200 mb-2 w-6 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                  <div className="bg-neutral-200 mb-2 w-6 h-4 lg:h-5 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                  <div className="bg-neutral-200 mb-2 w-6 h-4 lg:h-5 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
                 </div>
               </div>
             </div>
@@ -45,7 +45,7 @@ const CartViewSkeleton = () => {
                   </p>
                 </td>
                 <td className="py-1">
-                  <p className="bg-neutral-200 mb-2 w-32 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                  <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
                 </td>
               </tr>
               <tr>
@@ -55,7 +55,7 @@ const CartViewSkeleton = () => {
                   </p>
                 </td>
                 <td>
-                  <p className="bg-neutral-200 mb-2 w-32 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                  <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
                 </td>
               </tr>
               <tr>
@@ -65,7 +65,7 @@ const CartViewSkeleton = () => {
                   </p>
                 </td>
                 <td>
-                  <p className="bg-neutral-200 mb-2 w-32 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                  <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
                 </td>
               </tr>
               <tr>
@@ -73,7 +73,7 @@ const CartViewSkeleton = () => {
                   <p className="mt-1 font-medium md:text-md text-sm">Total</p>
                 </td>
                 <td className="py-1 border-neutral-200 border-t border-b">
-                  <p className="bg-neutral-200 mb-2 w-32 h-6 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+                  <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
                 </td>
               </tr>
             </tbody>
