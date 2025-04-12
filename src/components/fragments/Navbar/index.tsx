@@ -41,6 +41,14 @@ const Navbar = () => {
     },
   ];
 
+  const handleNavigationAuth = (url: string) => {
+    if (session.status === "authenticated") {
+      router.push(url);
+    } else {
+      router.push(`/auth/login?callbackUrl=${url}`);
+    }
+  };
+
   return (
     <>
       <div className="top-0 z-50 sticky">
@@ -122,14 +130,13 @@ const Navbar = () => {
           {/* Actions */}
           <div className="flex flex-row-reverse items-center gap-2 w-1/6">
             <div className="flex justify-end items-center gap-1 md:gap-2">
-              <NavButton iconClass="bx-heart" onClick={() => {}} />
+              <NavButton
+                iconClass="bx-heart"
+                onClick={() => handleNavigationAuth("/favorite")}
+              />
               <NavButton
                 iconClass="bx-shopping-bag"
-                onClick={() => {
-                  return session.status === "authenticated"
-                    ? router.push("/cart")
-                    : router.push(`/auth/login?callbackUrl=/cart`);
-                }}
+                onClick={() => handleNavigationAuth("/cart")}
               />
               <button
                 className={`flex items-center gap-2 hover:bg-neutral-200 px-2 py-1 rounded-full transition-all duration-100 ease-in-out cursor-pointer ${

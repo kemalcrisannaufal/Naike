@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Select from "@/components/ui/Select";
-import { userServices } from "@/services/user";
 import { Cart } from "@/types/cart.type";
 import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
@@ -13,67 +12,29 @@ type Proptypes = {
   cart: Cart[];
   cartItem: Cart;
   setCart: Dispatch<SetStateAction<Cart[]>>;
-  handleDelete: (productId: string) => void;
   product: Product | any;
   session: any;
+  handleDelete: (id: string, size: string) => void;
+  handleOnChangeSize: (selectedSize: string, productId: string) => void;
+  handleOnClickQty: (
+    size: string,
+    qty: number,
+    type: string,
+    productId: string,
+    setCartItemQty: Dispatch<SetStateAction<number>>
+  ) => void;
 };
 
 const CartCard = (props: Proptypes) => {
-  const { cart, product, session, setCart, handleDelete, cartItem } = props;
+  const {
+    product,
+    cartItem,
+    handleDelete,
+    handleOnChangeSize,
+    handleOnClickQty,
+  } = props;
+
   const [cartItemQty, setCartItemQty] = useState(cartItem.qty);
-
-  const handleOnChangeSize = async (selectedSize: string) => {
-    const idxCart = cart.findIndex((item) => item.productId === product?.id);
-    const newCart = cart.map((item, idx) => {
-      if (idx === idxCart) {
-        return { ...item, size: selectedSize };
-      }
-      return item;
-    });
-
-    const response = await userServices.updateCart(session.data?.accessToken, {
-      cart: newCart,
-      updated_at: new Date(),
-    });
-
-    if (response.status === 200) {
-      setCart(newCart);
-    }
-  };
-
-  const handleOnClickQty = async (size: string, qty: number, type: string) => {
-    const maxQty =
-      product.stock.find(
-        (item: { size: string; qty: number }) => item.size === size
-      )!.qty || 1;
-    let nextQty = qty;
-    if (type === "add") {
-      if (qty < maxQty) {
-        nextQty = qty + 1;
-      }
-    } else if (type === "subtract") {
-      if (qty > 1) {
-        nextQty = qty - 1;
-      }
-    }
-
-    const newCart = cart.map((item) => {
-      if (item.productId === product.id) {
-        return { ...item, qty: nextQty };
-      }
-      return item;
-    });
-
-    const response = await userServices.updateCart(session.data?.accessToken, {
-      cart: newCart,
-      updated_at: new Date(),
-    });
-
-    if (response.status === 200) {
-      setCart(newCart);
-      setCartItemQty(nextQty);
-    }
-  };
 
   return (
     <div className="flex gap-2 mb-2 w-full h-32 lg:h-36">
@@ -122,7 +83,9 @@ const CartCard = (props: Proptypes) => {
             <Select
               name={`size-${cartItem.productId}`}
               variant="tight"
-              onChange={(e: any) => handleOnChangeSize(e.target.value)}
+              onChange={(e: any) =>
+                handleOnChangeSize(e.target.value, cartItem.productId)
+              }
               options={
                 product?.stock
                   .filter((item: { size: string; qty: number }) => item.qty > 0)
@@ -147,7 +110,13 @@ const CartCard = (props: Proptypes) => {
                 icon="bx-minus"
                 disabled={cartItemQty <= 1}
                 onClick={() =>
-                  handleOnClickQty(cartItem.size, cartItemQty, "subtract")
+                  handleOnClickQty(
+                    cartItem.size,
+                    cartItemQty,
+                    "subtract",
+                    cartItem.productId,
+                    setCartItemQty
+                  )
                 }
               />
               <p className="font-medium text-neutral-600 text-xs md:text-xs line-clamp-1">
@@ -163,7 +132,13 @@ const CartCard = (props: Proptypes) => {
                   )!.qty
                 }
                 onClick={() =>
-                  handleOnClickQty(cartItem.size, cartItemQty, "add")
+                  handleOnClickQty(
+                    cartItem.size,
+                    cartItemQty,
+                    "add",
+                    product.id,
+                    setCartItemQty
+                  )
                 }
               />
             </div>
@@ -175,7 +150,7 @@ const CartCard = (props: Proptypes) => {
           <ActionButton icon="bx-heart" />
           <ActionButton
             icon="bx-trash"
-            onClick={() => handleDelete(cartItem.productId)}
+            onClick={() => handleDelete(cartItem.productId, cartItem.size)}
           />
         </div>
       </div>

@@ -21,11 +21,15 @@ const CardProduct = (props: Proptypes) => {
         />
       </div>
       <div className="px-3 py-2">
-        <p className="font-semibold text-lg line-clamp-2">{product.name}</p>
-        <p className="mb-2 font-medium text-md text-neutral-600">
+        <p className="font-semibold text-lg line-clamp-1 lg:line-clamp-2">
+          {product.name}
+        </p>
+        <p className="mb-2 font-medium text-md text-neutral-600 line-clamp-1">
           {product.category}
         </p>
-        <p className="font-semibold text-lg">{convertIDR(product.price)}</p>
+        <p className="font-semibold text-lg line-clamp-1">
+          {convertIDR(product.price)}
+        </p>
       </div>
     </div>
   );

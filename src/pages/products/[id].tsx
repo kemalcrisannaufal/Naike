@@ -18,6 +18,7 @@ const ProductDetailPage = (props: Proptypes) => {
   const [product, setProduct] = useState<Product>({} as Product);
   const [isLoading, setIsLoading] = useState(false);
   const [cart, setCart] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const session: any = useSession();
 
   useEffect(() => {
@@ -40,6 +41,17 @@ const ProductDetailPage = (props: Proptypes) => {
     getCart();
   }, [session]);
 
+  useEffect(() => {
+    const getFavorite = async () => {
+      if (!session.data?.accessToken) return;
+      const { data } = await userServices.getFavorite(
+        session.data?.accessToken
+      );
+      setFavorites(data.data);
+    };
+    getFavorite();
+  }, [session.data?.accessToken]);
+
   return (
     <>
       {isLoading || !product ? (
@@ -50,6 +62,7 @@ const ProductDetailPage = (props: Proptypes) => {
           setToaster={setToaster}
           productId={id as string}
           cart={cart}
+          favorites={favorites}
         />
       )}
     </>

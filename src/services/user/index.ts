@@ -34,10 +34,30 @@ export const userServices = {
       }
     ),
 
+  getFavorite: (token: string) =>
+    instance.get("/api/user/favorite", {
+      headers: { Authorization: `Bearer ${token}` },
+    }),
+
+  addToFavorite: (token: string, data: any) =>
+    instance.put(
+      "/api/user/favorite",
+      { data },
+      { headers: { Authorization: `Bearer ${token}` } }
+    ),
+
+  deleteFavorite: (token: string, data: any) =>
+    instance.put(
+      "/api/user/favorite",
+      { data },
+      { headers: { Authorization: `Bearer ${token}` } }
+    ),
+
   getCart: (token: string) =>
     instance.get("/api/user/cart", {
       headers: { Authorization: `Bearer ${token}` },
     }),
+
   addToCart: (token: string, data: any) =>
     instance.put(
       "/api/user/cart",
@@ -45,7 +65,7 @@ export const userServices = {
       { headers: { Authorization: `Bearer ${token}` } }
     ),
   updateCart: (token: string, data: any) =>
-    instance.patch(
+    instance.put(
       `/api/user/cart`,
       { data },
       { headers: { Authorization: `Bearer ${token}` } }

@@ -15,15 +15,21 @@ type Proptypes = {
   setToaster: Dispatch<SetStateAction<object>>;
   cart: Cart[];
   productId: string;
+
+  favorites: any[];
 };
 
 const ProductDetailView = (props: Proptypes) => {
-  const { product, setToaster, cart, productId } = props;
+  const { product, setToaster, cart, productId, favorites } = props;
   const [imageShow, setImageShow] = useState(product.mainImage);
   const [productDetail, setProductDetail] = useState(false);
   const [deliveryDetailShow, setDeliveryDetailShow] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const { status, data: session }: any = useSession();
+  const [isFavorite, setIsFavorite] = useState(
+    favorites && favorites.some((item) => item.productId === productId)
+  );
+
   const router = useRouter();
 
   const handleAddToCart = async () => {
@@ -77,6 +83,34 @@ const ProductDetailView = (props: Proptypes) => {
       setToaster({
         variant: "error",
         message: "Please select a size",
+      });
+    }
+  };
+
+  const handleAddToFavourite = async () => {
+    let data = {};
+    if (favorites && favorites.length > 0) {
+      data = {
+        favorites: [...favorites, { productId, size: selectedSize || "" }],
+      };
+    } else {
+      data = {
+        favorites: [{ productId, size: selectedSize || "" }],
+      };
+    }
+
+    const result = await userServices.addToFavorite(session?.accessToken, data);
+
+    if (result.status === 200) {
+      setToaster({
+        variant: "success",
+        message: "Added to favourite successfully!",
+      });
+      setIsFavorite(true);
+    } else {
+      setToaster({
+        variant: "error",
+        message: "Failed to add to favourite. Please try again",
       });
     }
   };
@@ -207,9 +241,24 @@ const ProductDetailView = (props: Proptypes) => {
                 type="button"
                 variant="secondary"
                 classname="w-full py-2 lg:py-5 mt-2 rounded-l-full rounded-r-full"
+                disabled={isFavorite}
+                onClick={() => {
+                  return status === "authenticated"
+                    ? handleAddToFavourite()
+                    : router.push(`/auth/login?callbackUrl=${router.asPath}`);
+                }}
               >
-                <p className="text-lg">Favourite</p>
-                <i className="text-2xl bx bx-heart" />
+                {isFavorite ? (
+                  <div className="flex items-center gap-2">
+                    <i className="text-green text-green-600 text-2xl bx bxs-check-circle" />
+                    <p className="text-lg">Favourited</p>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <p className="text-lg">Favourite</p>
+                    <i className="text-2xl bx bx-heart" />
+                  </div>
+                )}
               </Button>
             </div>
 

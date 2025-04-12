@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Title from "@/components/ui/Text/Title";
-import { userServices } from "@/services/user";
 import { Cart } from "@/types/cart.type";
 import { Product } from "@/types/product.type";
 import { Dispatch, SetStateAction } from "react";
@@ -12,34 +11,29 @@ type Proptypes = {
   setCart: Dispatch<SetStateAction<Cart[]>>;
   products: Product[];
   session: any;
+  handleDelete: (id: string, size: string) => void;
+  handleOnChangeSize: (selectedSize: string, productId: string) => void;
+  handleOnClickQty: (
+    size: string,
+    qty: number,
+    type: string,
+    productId: string,
+    setCartItemQty: Dispatch<SetStateAction<number>>
+  ) => void;
+  subtotal: number;
 };
 
 const CartView = (props: Proptypes) => {
-  const { cart, setCart, products, session } = props;
-
-  const getSubtotal = () => {
-    const subtotal = cart.reduce((acc, item) => {
-      const product = products.find(({ id }) => id === item.productId);
-      return acc + (product?.price ?? 0) * item.qty;
-    }, 0);
-    return subtotal;
-  };
-
-  const handleDelete = async (id: string) => {
-    const newCart = cart.filter((item) => item.productId != id);
-    const data = {
-      cart: newCart,
-      updated_at: new Date(),
-    };
-    const response = await userServices.updateCart(
-      session.data?.accessToken,
-      data
-    );
-
-    if (response.status === 200) {
-      setCart(newCart);
-    }
-  };
+  const {
+    cart,
+    setCart,
+    products,
+    session,
+    handleDelete,
+    handleOnChangeSize,
+    handleOnClickQty,
+    subtotal,
+  } = props;
 
   return (
     <div className="p-5 md:px-20 lg:px-48 lg:pt-5 lg:pb-10">
@@ -58,13 +52,15 @@ const CartView = (props: Proptypes) => {
                   product={product}
                   session={session}
                   setCart={setCart}
-                  handleDelete={handleDelete}
                   cartItem={cartItem}
+                  handleDelete={handleDelete}
+                  handleOnChangeSize={handleOnChangeSize}
+                  handleOnClickQty={handleOnClickQty}
                 />
               );
             })}
           </div>
-          <CartSummary subTotal={getSubtotal()} />
+          <CartSummary subTotal={subtotal} />
         </div>
       ) : (
         <div>

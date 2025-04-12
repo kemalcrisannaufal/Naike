@@ -13,20 +13,16 @@ export default async function handler(
       token,
       process.env.NEXTAUTH_SECRET || "",
       async (err: any, decoded: any) => {
-        if (err) {
-          return res
-            .status(401)
-            .json({ status: false, statusCode: 401, message: "unauthorized" });
-        }
-
         if (decoded) {
           const user = await retrieveDataById("users", decoded.id);
+          console.log(user!.favorite);
+
           if (user) {
             res.status(200).json({
               status: true,
               statusCode: 200,
               message: "success",
-              data: user.cart,
+              data: user.favorites,
             });
           } else {
             res
@@ -56,9 +52,11 @@ export default async function handler(
                 message: "success",
               });
             } else {
-              res
-                .status(400)
-                .json({ status: false, statusCode: 400, message: "failed" });
+              res.status(400).json({
+                status: false,
+                statusCode: 400,
+                message: "failed",
+              });
             }
           });
         } else {
@@ -69,8 +67,10 @@ export default async function handler(
       }
     );
   } else {
-    res
-      .status(405)
-      .json({ status: true, statusCode: 405, message: "method not allowed" });
+    res.status(405).json({
+      status: false,
+      statusCode: 405,
+      message: "method not allowed",
+    });
   }
 }
