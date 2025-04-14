@@ -1,73 +1,32 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import instance from "@/lib/axios/instance";
+import { Cart } from "@/types/cart.type";
+import { Favorite } from "@/types/favorite.type";
+
+const endpoint = "/api/user";
 
 export const userServices = {
-  getAllUsers: () => instance.get("/api/user"),
-  updateUser: (id: string, data: any, token: string) =>
-    instance.put(
-      `/api/user/${id}`,
-      { data },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
-  deleteUser: (id: string, token: string) =>
-    instance.delete(`/api/user/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-  getProfile: (token: string) =>
-    instance.get("/api/user/profile", {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
-  updateProfile: (data: any, token: string) =>
-    instance.put(
-      `/api/user/profile`,
-      { data },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ),
+  getAllUsers: () => instance.get(endpoint),
+  updateUser: (id: string, data: { role: string; updated_at: Date }) =>
+    instance.put(`${endpoint}/${id}`, { data }),
+  deleteUser: (id: string) => instance.delete(`/api/user/${id}`),
 
-  getFavorite: (token: string) =>
-    instance.get("/api/user/favorite", {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
+  getProfile: () => instance.get(`${endpoint}/profile`),
+  updateProfile: (
+    data:
+      | { fullname: string; phone: string; updated_at: Date }
+      | { image: string; updated_at: Date }
+      | { password: string; oldPassword: string; encryptedPassword: string }
+  ) => instance.put(`${endpoint}/profile`, { data }),
 
-  addToFavorite: (token: string, data: any) =>
-    instance.put(
-      "/api/user/favorite",
-      { data },
-      { headers: { Authorization: `Bearer ${token}` } }
-    ),
+  getFavorite: () => instance.get(`${endpoint}/favorite`),
+  addToFavorite: (data: { favorites: Favorite[] }) =>
+    instance.put(`${endpoint}/favorite`, { data }),
+  deleteFavorite: (data: { favorites: Favorite[] }) =>
+    instance.put(`${endpoint}/favorite`, { data }),
 
-  deleteFavorite: (token: string, data: any) =>
-    instance.put(
-      "/api/user/favorite",
-      { data },
-      { headers: { Authorization: `Bearer ${token}` } }
-    ),
-
-  getCart: (token: string) =>
-    instance.get("/api/user/cart", {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
-
-  addToCart: (token: string, data: any) =>
-    instance.put(
-      "/api/user/cart",
-      { data },
-      { headers: { Authorization: `Bearer ${token}` } }
-    ),
-  updateCart: (token: string, data: any) =>
-    instance.put(
-      `/api/user/cart`,
-      { data },
-      { headers: { Authorization: `Bearer ${token}` } }
-    ),
+  getCart: () => instance.get(`${endpoint}/cart`),
+  addToCart: (data: { cart: Cart[] }) =>
+    instance.put(`${endpoint}/cart`, { data }),
+  updateCart: (data: { cart: Cart[]; updated_at: Date }) =>
+    instance.put(`${endpoint}/cart`, { data }),
 };

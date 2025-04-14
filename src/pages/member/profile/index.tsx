@@ -20,9 +20,7 @@ const ProfileMemberPage = (props: Proptypes) => {
     setIsLoading(true);
     const getProfile = async () => {
       if (session.data?.accessToken && Object.keys(profile).length === 0) {
-        const { data } = await userServices.getProfile(
-          session.data?.accessToken
-        );
+        const { data } = await userServices.getProfile();
         setProfile(data.data);
       }
     };
@@ -39,7 +37,6 @@ const ProfileMemberPage = (props: Proptypes) => {
         <ProfileMemberView
           profile={profile}
           setProfile={setProfile}
-          session={session}
           setToaster={setToaster}
         />
       )}

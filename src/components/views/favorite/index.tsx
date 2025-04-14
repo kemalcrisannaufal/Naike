@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Favorite } from "@/types/favorite.type";
 import { Product } from "@/types/product.type";
 import FavoriteCard from "./FavoriteCard";
@@ -13,13 +12,12 @@ type Proptypes = {
   setCart: Dispatch<SetStateAction<Cart[]>>;
   products: Product[];
   cart: Cart[];
-  session: any;
 };
 const FavoriteView = (props: Proptypes) => {
-  const { favorites, products, session, setFavorites, cart, setCart } = props;
+  const { favorites, products, setFavorites, cart, setCart } = props;
 
   const handleDeleteFavorite = async (productId: string) => {
-    const newFavorites = favorites.filter(
+    const newFavorites: Favorite[] = favorites.filter(
       (item) => item.productId !== productId
     );
 
@@ -27,10 +25,7 @@ const FavoriteView = (props: Proptypes) => {
       favorites: newFavorites,
     };
 
-    const result = await userServices.deleteFavorite(
-      session?.data?.accessToken,
-      data
-    );
+    const result = await userServices.deleteFavorite(data);
 
     if (result.status === 200) {
       setFavorites(newFavorites);
@@ -39,14 +34,11 @@ const FavoriteView = (props: Proptypes) => {
 
   const handleAddToCart = async (productId: string, size: string) => {
     const newCart = [...cart, { productId, size, qty: 1 }];
-    const data = {
+    const data: { cart: Cart[] } = {
       cart: newCart,
     };
 
-    const result = await userServices.addToCart(
-      session?.data?.accessToken,
-      data
-    );
+    const result = await userServices.addToCart(data);
 
     if (result.status === 200) {
       setCart(newCart);

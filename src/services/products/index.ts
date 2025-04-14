@@ -1,32 +1,23 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import instance from "@/lib/axios/instance";
+import { Product } from "@/types/product.type";
+
+const endpoint = "/api/product";
 
 const productServices = {
-  getAllProducts: () => instance.get("/api/product"),
+  getAllProducts: () => instance.get(endpoint),
   getProductsByLimit: (limit: number) =>
-    instance.get("/api/product", {
+    instance.get(endpoint, {
       params: {
         limit,
       },
     }),
-  getProduct: (id: string) => instance.get(`/api/product/${id}`),
-  addProduct: (token: string, data: any) =>
-    instance.post(
-      "/api/product",
-      { data },
-      { headers: { Authorization: `Bearer ${token}` } }
-    ),
-  deleteProduct: (token: string, id: string) =>
-    instance.delete(`/api/product/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    }),
-
-  updateProduct: (token: string, id: string, data: any) =>
-    instance.put(
-      `/api/product/${id}`,
-      { data },
-      { headers: { Authorization: `Bearer ${token}` } }
-    ),
+  getProduct: (id: string) => instance.get(`${endpoint}/${id}`),
+  addProduct: (data: Product) => instance.post(endpoint, { data }),
+  deleteProduct: (id: string) => instance.delete(`${endpoint}/${id}`),
+  updateProduct: (
+    id: string,
+    data: Product | { mainImage: string; images: string[] }
+  ) => instance.put(`${endpoint}/${id}`, { data }),
 };
 
 export default productServices;

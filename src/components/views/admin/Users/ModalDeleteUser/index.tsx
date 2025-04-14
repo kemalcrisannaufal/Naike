@@ -2,7 +2,6 @@
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
 import { userServices } from "@/services/user";
-import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction } from "react";
 import { User } from "@/types/user.type";
 import Title from "@/components/ui/Text/Title";
@@ -16,13 +15,9 @@ type Proptypes = {
 
 const ModalDeleteUser = (props: Proptypes) => {
   const { deletedUser, setDeletedUser, setUsersData, setToaster } = props;
-  const session: any = useSession();
   const handleDelete = async () => {
     try {
-      const result = await userServices.deleteUser(
-        deletedUser.id,
-        session.data.accessToken
-      );
+      const result = await userServices.deleteUser(deletedUser.id);
       if (result.status == 200) {
         setDeletedUser({});
         const { data } = await userServices.getAllUsers();

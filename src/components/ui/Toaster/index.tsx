@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-type Proptypes = {
-  classname?: string;
-  variant: "success" | "error" | "warning";
-  message?: string;
-  setToaster: Dispatch<SetStateAction<object>>;
-};
+import { ToasterContext } from "@/contexts/ToasterContext";
+import { ToasterType } from "@/types/toaster.type";
+import { useContext, useEffect, useRef, useState } from "react";
 
 const toasterVariant = {
   success: {
@@ -28,9 +24,9 @@ const toasterVariant = {
   },
 };
 
-const Toaster = (props: Proptypes) => {
-  const { variant = "success", classname, message, setToaster } = props;
-  const variantStyle = toasterVariant[variant] || toasterVariant.success;
+const Toaster = () => {
+  const { toaster, setToaster }: ToasterType = useContext(ToasterContext);
+  const variantStyle = toasterVariant[toaster.variant || "success"];
   const [lengthBar, setLengthBar] = useState(100);
   const timeRef = useRef<any>(null);
 
@@ -45,18 +41,24 @@ const Toaster = (props: Proptypes) => {
     return () => clearInterval(timeRef.current);
   }, []);
 
+  useEffect(() => {
+    if (lengthBar <= 0) {
+      setToaster({});
+    }
+  }, [lengthBar, setToaster]);
+
   return (
     <div
-      className={`fixed z-50 left-1/2 -translate-x-1/2 bottom-4 flex bg-white px-4 py-2 shadow-xl rounded overflow-hidden border border-neutral-200 ${classname}`}
+      className={`fixed z-50 left-1/2 -translate-x-1/2 bottom-4 flex bg-white px-4 py-2 shadow-xl rounded overflow-hidden border border-neutral-200 `}
     >
       <div className="flex items-center gap-3 p-2">
         <i
-          className={`bx ${variantStyle.icon} text-2xl ${variantStyle.color}`}
+          className={`text-2xl bx ${variantStyle.icon} ${variantStyle.color}`}
         />
         <div>
           <p className="font-bold text-neutral-700">{variantStyle.title}</p>
           <p className="font-medium text-neutral-700 text-sm">
-            {message || "No message provided"}
+            {toaster.message || "No message provided"}
           </p>
         </div>
 

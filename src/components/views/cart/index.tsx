@@ -26,9 +26,7 @@ type Proptypes = {
 const CartView = (props: Proptypes) => {
   const {
     cart,
-    setCart,
     products,
-    session,
     handleDelete,
     handleOnChangeSize,
     handleOnClickQty,
@@ -48,10 +46,7 @@ const CartView = (props: Proptypes) => {
               return (
                 <CartCard
                   key={index}
-                  cart={cart}
                   product={product}
-                  session={session}
-                  setCart={setCart}
                   cartItem={cartItem}
                   handleDelete={handleDelete}
                   handleOnChangeSize={handleOnChangeSize}

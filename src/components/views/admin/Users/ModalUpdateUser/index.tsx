@@ -3,23 +3,28 @@ import Modal from "@/components/ui/Modal";
 import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Button from "@/components/ui/Button";
-import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import { userServices } from "@/services/user";
-import { useSession } from "next-auth/react";
 import { User } from "@/types/user.type";
 import Title from "@/components/ui/Text/Title";
+import { ToasterContext } from "@/contexts/ToasterContext";
 
 type Proptypes = {
   updatedUser: User | any;
   setUpdatedUser: Dispatch<SetStateAction<object>>;
   setUsersData: Dispatch<SetStateAction<User[]>>;
-  setToaster: Dispatch<SetStateAction<object>>;
 };
 
 const ModalUpdateUser = (props: Proptypes) => {
-  const { updatedUser, setUpdatedUser, setUsersData, setToaster } = props;
+  const { updatedUser, setUpdatedUser, setUsersData } = props;
+  const { setToaster } = useContext(ToasterContext);
   const [isLoading, setIsLoading] = useState(false);
-  const session: any = useSession();
 
   const handleUpdate = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,14 +32,11 @@ const ModalUpdateUser = (props: Proptypes) => {
     const form: any = event.target as HTMLFormElement;
     const data = {
       role: form.role.value,
+      updated_at: new Date(),
     };
 
     try {
-      const result = await userServices.updateUser(
-        updatedUser.id,
-        data,
-        session.data.accessToken
-      );
+      const result = await userServices.updateUser(updatedUser.id, data);
       if (result.status === 200) {
         setIsLoading(false);
         setUpdatedUser({});

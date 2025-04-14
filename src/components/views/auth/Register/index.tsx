@@ -1,16 +1,13 @@
 import { useRouter } from "next/router";
-import { FormEvent, useState, Dispatch, SetStateAction } from "react";
+import { FormEvent, useContext, useState } from "react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/Auth";
 import { authServices } from "@/services/auth";
+import { ToasterContext } from "@/contexts/ToasterContext";
 
-type Proptypes = {
-  setToaster: Dispatch<SetStateAction<object>>;
-};
-
-const RegisterView = (props: Proptypes) => {
-  const { setToaster } = props;
+const RegisterView = () => {
+  const { setToaster } = useContext(ToasterContext);
   const [isLoading, setIsLoading] = useState(false);
   const { push } = useRouter();
 
@@ -25,33 +22,40 @@ const RegisterView = (props: Proptypes) => {
       phone: form.phone.value,
     };
 
-    try {
-      const result = await authServices.registerAccount(data);
-      if (result.status == 200) {
-        setIsLoading(false);
-        form.reset();
-        push("/auth/login");
-      } else {
+    if (data.email && data.fullname && data.password && data.phone) {
+      try {
+        const result = await authServices.registerAccount(data);
+        if (result.status == 200) {
+          setIsLoading(false);
+          form.reset();
+          push("/auth/login");
+        } else {
+          setIsLoading(false);
+          setToaster({
+            variant: "error",
+            message: "Email already exist. Please try again",
+          });
+        }
+      } catch (error) {
         setIsLoading(false);
         setToaster({
           variant: "error",
           message: "Email already exist. Please try again",
         });
+        console.log(error);
       }
-    } catch (error) {
+    } else {
       setIsLoading(false);
       setToaster({
         variant: "error",
-        message: "Email already exist. Please try again",
+        message: "Please fill all the fields",
       });
-      console.log(error);
     }
   };
 
   return (
     <>
       <AuthLayout type="register" title="Sign Up" link="/auth/login">
-        {" "}
         <form onSubmit={handleSubmit}>
           <Input
             label="Fullname"

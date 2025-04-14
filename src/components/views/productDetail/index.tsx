@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { userServices } from "@/services/user";
 import { Cart } from "@/types/cart.type";
+import { Favorite } from "@/types/favorite.type";
 
 type Proptypes = {
   product: Product;
@@ -25,7 +26,7 @@ const ProductDetailView = (props: Proptypes) => {
   const [productDetail, setProductDetail] = useState(false);
   const [deliveryDetailShow, setDeliveryDetailShow] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
-  const { status, data: session }: any = useSession();
+  const { status } = useSession();
   const [isFavorite, setIsFavorite] = useState(
     favorites && favorites.some((item) => item.productId === productId)
   );
@@ -56,10 +57,10 @@ const ProductDetailView = (props: Proptypes) => {
       }
 
       try {
-        const data = {
+        const data: { cart: Cart[] } = {
           cart: newCart,
         };
-        const result = await userServices.addToCart(session?.accessToken, data);
+        const result = await userServices.addToCart(data);
         if (result.status === 200) {
           setSelectedSize("");
           setToaster({
@@ -88,7 +89,7 @@ const ProductDetailView = (props: Proptypes) => {
   };
 
   const handleAddToFavourite = async () => {
-    let data = {};
+    let data: { favorites: Favorite[] } | any = {};
     if (favorites && favorites.length > 0) {
       data = {
         favorites: [...favorites, { productId, size: selectedSize || "" }],
@@ -99,7 +100,7 @@ const ProductDetailView = (props: Proptypes) => {
       };
     }
 
-    const result = await userServices.addToFavorite(session?.accessToken, data);
+    const result = await userServices.addToFavorite(data);
 
     if (result.status === 200) {
       setToaster({

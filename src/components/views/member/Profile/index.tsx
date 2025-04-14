@@ -10,12 +10,11 @@ import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 type Proptypes = {
   profile: User | any;
   setProfile: Dispatch<SetStateAction<object>>;
-  session: any;
   setToaster: Dispatch<SetStateAction<object>>;
 };
 
 const ProfileMemberView = (props: Proptypes) => {
-  const { profile, setProfile, session, setToaster } = props;
+  const { profile, setProfile, setToaster } = props;
   const [changeImage, setChangeImage] = useState<File | any>({});
   const [isLoading, setIsLoading] = useState("");
 
@@ -26,12 +25,10 @@ const ProfileMemberView = (props: Proptypes) => {
     const data = {
       fullname: form.fullname.value,
       phone: form.phone.value,
+      updated_at: new Date(),
     };
 
-    const result = await userServices.updateProfile(
-      data,
-      session.data.accessToken
-    );
+    const result = await userServices.updateProfile(data);
 
     if (result.status === 200) {
       setIsLoading("");
@@ -67,11 +64,9 @@ const ProfileMemberView = (props: Proptypes) => {
           if (status) {
             const data = {
               image: newImageUrl,
+              updated_at: new Date(),
             };
-            const result = await userServices.updateProfile(
-              data,
-              session.data.accessToken
-            );
+            const result = await userServices.updateProfile(data);
 
             if (result.status === 200) {
               setIsLoading("");
@@ -111,13 +106,11 @@ const ProfileMemberView = (props: Proptypes) => {
       password: form["new-password"].value,
       oldPassword: form["old-password"].value,
       encryptedPassword: profile.password,
+      updated_at: new Date(),
     };
 
     try {
-      const result = await userServices.updateProfile(
-        data,
-        session.data.accessToken
-      );
+      const result = await userServices.updateProfile(data);
 
       if (result.status === 200) {
         setIsLoading("");

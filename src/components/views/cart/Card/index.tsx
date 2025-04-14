@@ -9,11 +9,8 @@ import { Dispatch, SetStateAction, useState } from "react";
 import ActionButton from "./ActionButton";
 
 type Proptypes = {
-  cart: Cart[];
   cartItem: Cart;
-  setCart: Dispatch<SetStateAction<Cart[]>>;
   product: Product | any;
-  session: any;
   handleDelete: (id: string, size: string) => void;
   handleOnChangeSize: (selectedSize: string, productId: string) => void;
   handleOnClickQty: (

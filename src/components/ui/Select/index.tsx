@@ -30,7 +30,7 @@ const Select = (props: Proptypes) => {
     <div className="flex flex-col">
       <label
         htmlFor={name}
-        className="font-semibold text-neutral-600 text-xs lg:text-sm"
+        className="mt-1 font-semibold text-neutral-600 text-xs lg:text-sm"
       >
         {label}
       </label>
@@ -41,8 +41,8 @@ const Select = (props: Proptypes) => {
         disabled={disabled}
         className={`w-full border border-neutral-300 rounded ${
           variant === "normal"
-            ? "lg:p-2 text-xs md:text-sm lg:text-md"
-            : "lg:px-1 text-xs border-none"
+            ? "py-2 px-1 text-sm md:text-md mt-2"
+            : "lg:px-1 text-xs border-none mt-1"
         } text-neutral-600 focus:outline-none focus:border-neutral-600 ${
           disabled && "bg-neutral-300/50"
         } ${classname}`}

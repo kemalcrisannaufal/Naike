@@ -2,18 +2,14 @@
 import "@/styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
-import Navbar from "@/components/fragments/Navbar";
-import { useRouter } from "next/router";
-import Toaster from "@/components/ui/Toaster";
 import { useEffect, useState } from "react";
-import Footer from "@/components/fragments/Footer";
+import { ToasterProvider } from "@/contexts/ToasterContext";
+import AppShell from "@/components/fragments/AppShell";
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
-  const disabledNavbar = ["auth", "admin"];
-  const { pathname } = useRouter();
   const [toaster, setToaster] = useState<any>({});
 
   useEffect(() => {
@@ -26,22 +22,11 @@ export default function App({
 
   return (
     <SessionProvider session={session}>
-      <div className="flex flex-col min-h-screen">
-        <div className="flex-grow">
-          {!disabledNavbar.includes(pathname.split("/")[1]) && <Navbar />}
-          <div>
-            <Component {...pageProps} setToaster={setToaster} />
-          </div>
-        </div>
-        {Object.keys(toaster).length > 0 && (
-          <Toaster
-            variant={toaster.variant}
-            message={toaster.message}
-            setToaster={setToaster}
-          />
-        )}
-        {!disabledNavbar.includes(pathname.split("/")[1]) && <Footer />}
-      </div>
+      <ToasterProvider>
+        <AppShell>
+          <Component {...pageProps} />
+        </AppShell>
+      </ToasterProvider>
     </SessionProvider>
   );
 }

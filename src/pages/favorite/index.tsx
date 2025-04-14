@@ -17,9 +17,7 @@ const FavoritePage = () => {
   useEffect(() => {
     const getFavourite = async () => {
       if (session?.data?.accessToken) {
-        const { data } = await userServices.getFavorite(
-          session?.data?.accessToken
-        );
+        const { data } = await userServices.getFavorite();
 
         if (data.data && data.data.length > 0) {
           const uniqueProductIds = new Set();
@@ -51,7 +49,7 @@ const FavoritePage = () => {
   useEffect(() => {
     const getCart = async () => {
       if (session?.data?.accessToken) {
-        const { data } = await userServices.getCart(session?.data?.accessToken);
+        const { data } = await userServices.getCart();
         setCart(data.data);
       }
     };
@@ -64,7 +62,6 @@ const FavoritePage = () => {
       <FavoriteView
         favorites={favorites}
         products={products}
-        session={session}
         setFavorites={setFavorites}
         cart={cart}
         setCart={setCart}

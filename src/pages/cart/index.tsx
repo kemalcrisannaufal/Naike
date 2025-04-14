@@ -18,35 +18,32 @@ const CartPage = () => {
   useEffect(() => {
     const getCart = async () => {
       setIsLoading(true);
-      if (session.data?.accessToken) {
-        const { data } = await userServices.getCart(session.data?.accessToken);
-        setCart(data.data);
 
-        if (data.data && data.data.length > 0) {
-          const uniqueProductIds = new Set();
-          const products = await Promise.all(
-            data.data
-              .filter((item: Cart) => {
-                if (uniqueProductIds.has(item.productId)) return false;
-                uniqueProductIds.add(item.productId);
-                return true;
-              })
-              .map(async (item: Cart) => {
-                const { data } = await productServices.getProduct(
-                  item.productId
-                );
-                if (!data.data) return null;
-                data.data.id = item.productId;
-                return data.data;
-              })
-          );
-          setProducts(products);
-        }
-        setIsLoading(false);
+      const { data } = await userServices.getCart();
+      setCart(data.data);
+
+      if (data.data && data.data.length > 0) {
+        const uniqueProductIds = new Set();
+        const products = await Promise.all(
+          data.data
+            .filter((item: Cart) => {
+              if (uniqueProductIds.has(item.productId)) return false;
+              uniqueProductIds.add(item.productId);
+              return true;
+            })
+            .map(async (item: Cart) => {
+              const { data } = await productServices.getProduct(item.productId);
+              if (!data.data) return null;
+              data.data.id = item.productId;
+              return data.data;
+            })
+        );
+        setProducts(products);
       }
+      setIsLoading(false);
     };
     getCart();
-  }, [session]);
+  }, []);
 
   const getSubtotal = () => {
     const subtotal = cart.reduce((acc, item) => {
@@ -65,10 +62,7 @@ const CartPage = () => {
       cart: newCart,
       updated_at: new Date(),
     };
-    const response = await userServices.updateCart(
-      session.data?.accessToken,
-      data
-    );
+    const response = await userServices.updateCart(data);
 
     if (response.status === 200) {
       setCart(newCart);
@@ -87,7 +81,7 @@ const CartPage = () => {
       return item;
     });
 
-    const response = await userServices.updateCart(session.data?.accessToken, {
+    const response = await userServices.updateCart({
       cart: newCart,
       updated_at: new Date(),
     });
@@ -127,7 +121,7 @@ const CartPage = () => {
       return item;
     });
 
-    const response = await userServices.updateCart(session.data?.accessToken, {
+    const response = await userServices.updateCart({
       cart: newCart,
       updated_at: new Date(),
     });

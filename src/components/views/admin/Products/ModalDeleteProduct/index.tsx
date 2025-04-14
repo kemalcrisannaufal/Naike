@@ -1,31 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Modal from "@/components/ui/Modal";
 import Button from "@/components/ui/Button";
-import { useSession } from "next-auth/react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import Title from "@/components/ui/Text/Title";
 import { Product } from "@/types/product.type";
 import productServices from "@/services/products";
 import { deleteFile } from "@/lib/firebase/service";
+import { ToasterContext } from "@/contexts/ToasterContext";
 
 type Proptypes = {
   deletedProduct: Product | any;
   setDeletedProduct: Dispatch<SetStateAction<Product | object>>;
   setProductsData: Dispatch<SetStateAction<Product[]>>;
-  setToaster: Dispatch<SetStateAction<object>>;
 };
 
 const ModalDeleteProduct = (props: Proptypes) => {
-  const { deletedProduct, setDeletedProduct, setProductsData, setToaster } =
-    props;
-  const session: any = useSession();
+  const { deletedProduct, setDeletedProduct, setProductsData } = props;
+  const { setToaster } = useContext(ToasterContext);
 
   const handleDelete = async () => {
     try {
-      const result = await productServices.deleteProduct(
-        session.data.accessToken,
-        deletedProduct.id
-      );
+      const result = await productServices.deleteProduct(deletedProduct.id);
 
       if (result.status === 200) {
         const deleteImagesPromises = deletedProduct.images.map(
@@ -69,7 +64,7 @@ const ModalDeleteProduct = (props: Proptypes) => {
 
   return (
     <Modal onClose={() => setDeletedProduct({})}>
-      <Title variant="small">Delete User</Title>
+      <Title variant="small">Delete Product</Title>
       <p className="my-2 text-neutral-700">
         Are you sure want to delete this product?
       </p>

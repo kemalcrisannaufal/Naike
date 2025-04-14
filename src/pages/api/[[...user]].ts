@@ -8,15 +8,31 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
-    const users = await retrieveData("users");
-    const data = users.map((user: any) => {
-      delete user.password;
-      return user;
-    });
+    const token = req.headers.authorization?.split(" ")[1] || "";
+    jwt.verify(
+      token,
+      process.env.NEXTAUTH_SECRET || "",
+      async (err: any, decoded: any) => {
+        if (decoded) {
+          const users = await retrieveData("users");
+          const data = users.map((user: any) => {
+            delete user.password;
+            return user;
+          });
 
-    return res
-      .status(200)
-      .json({ status: true, statusCode: 200, message: "success", data: data });
+          return res.status(200).json({
+            status: true,
+            statusCode: 200,
+            message: "success",
+            data: data,
+          });
+        } else {
+          return res
+            .status(403)
+            .json({ status: false, statusCode: 403, message: "unauthorized" });
+        }
+      }
+    );
   } else if (req.method === "PUT") {
     const { data }: any = req.body;
     const { user }: any = req.query;
