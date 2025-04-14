@@ -16,7 +16,6 @@ type Proptypes = {
   setToaster: Dispatch<SetStateAction<object>>;
   cart: Cart[];
   productId: string;
-
   favorites: any[];
 };
 

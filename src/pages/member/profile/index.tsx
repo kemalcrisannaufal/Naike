@@ -1,17 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ProfileMemberView from "@/components/views/member/Profile";
-import ProfileMemberViewSkeleton from "@/components/views/member/Profile/Skeleton";
+import ProfileMemberViewSkeleton from "@/components/views/member/Profile/skeleton";
 import { userServices } from "@/services/user";
 import { User } from "@/types/user.type";
 import { useSession } from "next-auth/react";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-type Proptypes = {
-  setToaster: Dispatch<SetStateAction<object>>;
-};
-
-const ProfileMemberPage = (props: Proptypes) => {
-  const { setToaster } = props;
+const ProfileMemberPage = () => {
   const [profile, setProfile] = useState<User | any>({});
   const [isLoading, setIsLoading] = useState(false);
   const session: any = useSession();
@@ -34,11 +29,7 @@ const ProfileMemberPage = (props: Proptypes) => {
       {isLoading ? (
         <ProfileMemberViewSkeleton />
       ) : (
-        <ProfileMemberView
-          profile={profile}
-          setProfile={setProfile}
-          setToaster={setToaster}
-        />
+        <ProfileMemberView profile={profile} setProfile={setProfile} />
       )}
     </>
   );
