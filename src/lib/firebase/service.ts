@@ -29,7 +29,8 @@ const firestore = getFirestore(app);
 const storage = getStorage(app);
 
 export async function retrieveData(collectionName: string) {
-  const snapshot = await getDocs(collection(firestore, collectionName));
+  const q = query(collection(firestore, collectionName), orderBy("created_at"));
+  const snapshot = await getDocs(q);
   const data = snapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
@@ -41,7 +42,7 @@ export async function retrieveData(collectionName: string) {
 export async function retrieveDataByLimit(collectionName: string, n: number) {
   const q = query(
     collection(firestore, collectionName),
-    orderBy("created_at", "desc"),
+    orderBy("updated_at", "asc"),
     limit(n)
   );
 

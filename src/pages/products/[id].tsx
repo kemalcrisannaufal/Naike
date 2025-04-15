@@ -1,24 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useRouter } from "next/router";
 import ProductDetailView from "@/components/views/productDetail";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Product } from "@/types/product.type";
 import productServices from "@/services/products";
 import ProductDetailSkeleton from "@/components/views/productDetail/ProductDetailSekeleton";
 import { userServices } from "@/services/user";
+import { Favorite } from "@/types/favorite.type";
+import { Cart } from "@/types/cart.type";
 import { useSession } from "next-auth/react";
 
-type Proptypes = {
-  setToaster: Dispatch<SetStateAction<object>>;
-};
-
-const ProductDetailPage = (props: Proptypes) => {
-  const { setToaster } = props;
+const ProductDetailPage = () => {
   const { id } = useRouter().query;
   const [product, setProduct] = useState<Product>({} as Product);
   const [isLoading, setIsLoading] = useState(false);
-  const [cart, setCart] = useState([]);
-  const [favorites, setFavorites] = useState([]);
+  const [cart, setCart] = useState<Cart[]>([]);
+  const [favorites, setFavorites] = useState<Favorite[]>([]);
   const session: any = useSession();
 
   useEffect(() => {
@@ -34,7 +31,7 @@ const ProductDetailPage = (props: Proptypes) => {
   useEffect(() => {
     const getCart = async () => {
       if (session.data?.accessToken) {
-        const { data } = await userServices.getCart(session.data?.accessToken);
+        const { data } = await userServices.getCart();
         setCart(data.data);
       }
     };
@@ -43,14 +40,13 @@ const ProductDetailPage = (props: Proptypes) => {
 
   useEffect(() => {
     const getFavorite = async () => {
-      if (!session.data?.accessToken) return;
-      const { data } = await userServices.getFavorite(
-        session.data?.accessToken
-      );
-      setFavorites(data.data);
+      if (session.data?.accessToken) {
+        const { data } = await userServices.getFavorite();
+        setFavorites(data.data);
+      }
     };
     getFavorite();
-  }, [session.data?.accessToken]);
+  }, [session]);
 
   return (
     <>
@@ -59,10 +55,11 @@ const ProductDetailPage = (props: Proptypes) => {
       ) : (
         <ProductDetailView
           product={product}
-          setToaster={setToaster}
           productId={id as string}
           cart={cart}
+          setCart={setCart}
           favorites={favorites}
+          setFavorites={setFavorites}
         />
       )}
     </>

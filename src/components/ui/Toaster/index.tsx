@@ -4,6 +4,12 @@ import { ToasterType } from "@/types/toaster.type";
 import { useContext, useEffect, useRef, useState } from "react";
 
 const toasterVariant = {
+  custom: {
+    title: "Custom",
+    icon: "bx-check-circle",
+    color: "text-green-600",
+    barColor: "bg-slate-800",
+  },
   success: {
     title: "Success",
     icon: "bx-check-circle",
@@ -12,9 +18,9 @@ const toasterVariant = {
   },
   error: {
     title: "Error",
-    icon: "bx-error",
+    icon: "bx-error-circle",
     color: "text-red-600",
-    barColor: "bg-red-800",
+    barColor: "bg-red-600",
   },
   warning: {
     title: "Warning",
@@ -32,7 +38,7 @@ const Toaster = () => {
 
   const timerStart = () => {
     timeRef.current = setInterval(() => {
-      setLengthBar((prevLength) => prevLength - 0.17);
+      setLengthBar((prevLength) => prevLength - 0.1);
     });
   };
 
@@ -49,27 +55,43 @@ const Toaster = () => {
 
   return (
     <div
-      className={`fixed z-50 left-1/2 -translate-x-1/2 bottom-4 flex bg-white px-4 py-2 shadow-xl rounded overflow-hidden border border-neutral-200 `}
+      className={`fixed z-50 left-1/2 -translate-x-1/2 bottom-4 md:left-auto md:translate-x-0 md:right-4 md:top-24 md:h-auto flex bg-white px-4 py-2 shadow-xl rounded-lg overflow-hidden border border-neutral-200 max-w-xs md:max-w-sm md:max-h-fit`}
     >
-      <div className="flex items-center gap-3 p-2">
-        <i
-          className={`text-2xl bx ${variantStyle.icon} ${variantStyle.color}`}
-        />
+      {toaster.variant === "custom" ? (
         <div>
-          <p className="font-bold text-neutral-700">{variantStyle.title}</p>
-          <p className="font-medium text-neutral-700 text-sm">
-            {toaster.message || "No message provided"}
-          </p>
+          <div className="flex items-center gap-2 mb-2">
+            <i
+              className={`text-xl bx ${variantStyle.icon} ${variantStyle.color}`}
+            />
+            <p className="font-medium text-sm tracking-tight">
+              {toaster.message}
+            </p>
+          </div>
+          {toaster.children}
         </div>
+      ) : (
+        <div>
+          <div className="flex items-center gap-3 p-2">
+            <i
+              className={`text-3xl bx ${variantStyle.icon} ${variantStyle.color}`}
+            />
+            <div>
+              <p className="font-bold text-neutral-700">{variantStyle.title}</p>
+              <p className="font-medium text-neutral-700 text-sm">
+                {toaster.message || "No message provided"}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
-        <button
-          className="top-4 right-2 absolute text-neutral-500 hover:text-neutral-700 cursor-pointer"
-          onClick={() => setToaster({})}
-        >
-          <i className="text-lg bx bx-x"></i>
-        </button>
-      </div>
-
+      {/* Close */}
+      <button
+        className="top-2 right-2 absolute flex bg-neutral-200 rounded-full cursor-pointer"
+        onClick={() => setToaster({})}
+      >
+        <i className="text-lg bx bx-x" />
+      </button>
       <div className="bottom-0 left-0 absolute w-full h-1">
         <div
           className={`h-full ${variantStyle.barColor}`}

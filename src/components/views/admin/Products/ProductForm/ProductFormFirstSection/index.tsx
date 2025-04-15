@@ -178,7 +178,7 @@ const ProductFormFirstSection = (props: Proptypes) => {
           <p className="mb-1 font-semibold text-md text-neutral-700">
             Other Images
           </p>
-          {type === "create" && images!.length > 0 ? (
+          {type === "create" && productInfo.images && images!.length > 0 ? (
             <div className="gap-2 grid grid-cols-5">
               {images!.map((item: any, index: number) => {
                 return (
@@ -203,7 +203,9 @@ const ProductFormFirstSection = (props: Proptypes) => {
                 );
               })}
             </div>
-          ) : type === "update" && productInfo.images.length > 0 ? (
+          ) : type === "update" &&
+            productInfo.images &&
+            productInfo.images.length > 0 ? (
             <div className="gap-2 grid grid-cols-5">
               {productInfo.images.map((item: any, index: number) => {
                 return (
@@ -253,36 +255,37 @@ const ProductFormFirstSection = (props: Proptypes) => {
       <InputGroup title="Product Stock">
         <p className="font-semibold text-md text-neutral-700">Product Stock</p>
         <div className="bg-neutral-200 mt-1 mb-3 w-full h-[1px]" />
-        {productInfo.stock.map(
-          (item: { size: string; qty: number }, index: number) => (
-            <div key={index} className="gap-3 grid grid-cols-2">
-              <Input
-                label="Size"
-                name="size"
-                placeholder="Input size"
-                type="text"
-                onChange={(e: any) => {
-                  const newStock = [...productInfo.stock];
-                  newStock[index].size = e.target.value;
-                  setProductInfo({ ...productInfo, stock: newStock });
-                }}
-                defaultValue={item.size}
-              />
-              <Input
-                label="Quantity"
-                name="qty"
-                placeholder="Input quantity"
-                type="number"
-                onChange={(e: any) => {
-                  const newStock = [...productInfo.stock];
-                  newStock[index].qty = e.target.value;
-                  setProductInfo({ ...productInfo, stock: newStock });
-                }}
-                defaultValue={item.qty}
-              />
-            </div>
-          )
-        )}
+        {productInfo.stock &&
+          productInfo.stock.map(
+            (item: { size: string; qty: number }, index: number) => (
+              <div key={index} className="gap-3 grid grid-cols-2">
+                <Input
+                  label="Size"
+                  name="size"
+                  placeholder="Input size"
+                  type="text"
+                  onChange={(e: any) => {
+                    const newStock = [...productInfo.stock];
+                    newStock[index].size = e.target.value;
+                    setProductInfo({ ...productInfo, stock: newStock });
+                  }}
+                  defaultValue={item.size}
+                />
+                <Input
+                  label="Quantity"
+                  name="qty"
+                  placeholder="Input quantity"
+                  type="number"
+                  onChange={(e: any) => {
+                    const newStock = [...productInfo.stock];
+                    newStock[index].qty = e.target.value;
+                    setProductInfo({ ...productInfo, stock: newStock });
+                  }}
+                  defaultValue={item.qty}
+                />
+              </div>
+            )
+          )}
         <div className="flex justify-end">
           <Button
             type="button"

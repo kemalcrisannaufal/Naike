@@ -11,8 +11,8 @@ export async function signUp(
     phone: string;
     image?: string;
     role?: string;
-    created_at?: Date;
-    updated_at?: Date;
+    created_at?: any;
+    updated_at?: any;
   },
   callback: Function
 ) {
@@ -51,8 +51,8 @@ export async function loginWithGoogle(
     email: string;
     role?: string;
     image?: string;
-    created_at?: Date;
-    updated_at?: Date;
+    created_at?: any;
+    updated_at?: any;
   },
   callback: Function
 ) {

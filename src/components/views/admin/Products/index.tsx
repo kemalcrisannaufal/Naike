@@ -35,7 +35,6 @@ const ProductAdminViews = (props: Proptypes) => {
             <span>Add Product</span>
           </Button>
         </div>
-        <ProductTableSkeleton />
         {products.length === 0 ? (
           <ProductTableSkeleton />
         ) : (

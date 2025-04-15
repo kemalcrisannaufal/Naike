@@ -11,8 +11,8 @@ import productServices from "@/services/products";
 import { uploadFile } from "@/lib/firebase/service";
 import { Product } from "@/types/product.type";
 import { ToasterContext } from "@/contexts/ToasterContext";
-import ProductFormFirstSection from "../ProductFormModal/ProductFormFirstSection";
-import ProductFormSecondSection from "../ProductFormModal/ProductFormSecondSection";
+import ProductFormFirstSection from "../ProductForm/ProductFormFirstSection";
+import ProductFormSecondSection from "../ProductForm/ProductFormSecondSection";
 
 type Proptypes = {
   setProducts: Dispatch<SetStateAction<Product[]>>;
@@ -121,6 +121,8 @@ const ModalAddProduct = (props: Proptypes) => {
 
     const data = {
       ...productInfo,
+      created_at: new Date(),
+      updated_at: new Date(),
       mainImage: "",
       images: [],
     };

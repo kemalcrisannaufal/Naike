@@ -3,8 +3,11 @@ import { Product } from "@/types/product.type";
 import FavoriteCard from "./FavoriteCard";
 import Title from "@/components/ui/Text/Title";
 import { userServices } from "@/services/user";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { Cart } from "@/types/cart.type";
+import { ToasterContext } from "@/contexts/ToasterContext";
+import ProductToaster from "@/components/ui/Toaster/ProductToaster";
+import { useRouter } from "next/router";
 
 type Proptypes = {
   favorites: Favorite[];
@@ -15,6 +18,8 @@ type Proptypes = {
 };
 const FavoriteView = (props: Proptypes) => {
   const { favorites, products, setFavorites, cart, setCart } = props;
+  const { setToaster } = useContext(ToasterContext);
+  const router = useRouter();
 
   const handleDeleteFavorite = async (productId: string) => {
     const newFavorites: Favorite[] = favorites.filter(
@@ -42,6 +47,21 @@ const FavoriteView = (props: Proptypes) => {
 
     if (result.status === 200) {
       setCart(newCart);
+      const product = products.find((item) => item.id === productId);
+      if (product) {
+        setToaster({
+          variant: "custom",
+          message: "Added to cart successfully!",
+          children: (
+            <ProductToaster
+              image={product.mainImage}
+              {...product}
+              actionLabel="View Cart"
+              actionOnClick={() => router.push("/cart")}
+            />
+          ),
+        });
+      }
     }
   };
 

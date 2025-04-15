@@ -18,8 +18,10 @@ const AppShell = (props: Proptypes) => {
 
   return (
     <>
-      {!disabledNavbar.includes(pathname.split("/")[1]) && <Navbar />}
-      {children}
+      <div className="flex flex-col min-h-screen">
+        {!disabledNavbar.includes(pathname.split("/")[1]) && <Navbar />}
+        <div className="flex-grow">{children}</div>
+      </div>
       {Object.keys(toaster).length > 0 && <Toaster />}
       {!disabledNavbar.includes(pathname.split("/")[1]) && <Footer />}
     </>

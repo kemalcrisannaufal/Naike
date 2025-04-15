@@ -5,12 +5,25 @@ import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
 import Image from "next/image";
 import Link from "next/link";
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import ActionButton from "./ActionButton";
+import { Favorite } from "@/types/favorite.type";
+import { userServices } from "@/services/user";
+import { ToasterContext } from "@/contexts/ToasterContext";
+import ProductToaster from "@/components/ui/Toaster/ProductToaster";
+import { useRouter } from "next/router";
 
 type Proptypes = {
   cartItem: Cart;
   product: Product | any;
+  favorites: Favorite[];
+  setFavorites: Dispatch<SetStateAction<Favorite[]>>;
   handleDelete: (id: string, size: string) => void;
   handleOnChangeSize: (selectedSize: string, productId: string) => void;
   handleOnClickQty: (
@@ -26,12 +39,86 @@ const CartCard = (props: Proptypes) => {
   const {
     product,
     cartItem,
+    favorites,
+    setFavorites,
     handleDelete,
     handleOnChangeSize,
     handleOnClickQty,
   } = props;
-
+  const { setToaster } = useContext(ToasterContext);
   const [cartItemQty, setCartItemQty] = useState(cartItem.qty);
+  const checkIsFavorite = (productId: string) => {
+    return favorites.some((favorite) => favorite.productId === productId);
+  };
+  const [isFavorite, setIsFavorite] = useState(checkIsFavorite(product.id));
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsFavorite(
+      favorites.some((favorite) => favorite.productId === cartItem.productId)
+    );
+  }, [favorites, cartItem.productId]);
+
+  const handleOnClickFavorite = async () => {
+    if (!isFavorite) {
+      let data: { favorites: Favorite[] } | any = {};
+      if (favorites && favorites.length > 0) {
+        data = {
+          favorites: [
+            ...favorites,
+            { productId: product.id, size: cartItem.size || "" },
+          ],
+        };
+      } else {
+        data = {
+          favorites: [{ productId: product.id, size: cartItem.size || "" }],
+        };
+      }
+
+      const result = await userServices.addToFavorite(data);
+      if (result.status === 200) {
+        setIsFavorite(true);
+        setFavorites(data.favorites);
+        setToaster({
+          variant: "custom",
+          message: "Added to favourite successfully!",
+          children: (
+            <ProductToaster
+              image={product.mainImage}
+              {...product}
+              size={cartItem.size || ""}
+              actionLabel="View Favourite"
+              actionOnClick={() => router.push("/favorite")}
+            />
+          ),
+        });
+      } else {
+        setToaster({
+          variant: "error",
+          message: "Failed to add to favourite. Please try again",
+        });
+      }
+    } else {
+      const newFavorites: Favorite[] = favorites.filter(
+        (item) => item.productId !== product.id
+      );
+
+      const data = {
+        favorites: newFavorites,
+      };
+
+      const result = await userServices.deleteFavorite(data);
+
+      if (result.status === 200) {
+        setIsFavorite(false);
+        setFavorites(newFavorites);
+        setToaster({
+          variant: "success",
+          message: "Removed from favourite successfully!",
+        });
+      }
+    }
+  };
 
   return (
     <div className="flex gap-2 mb-2 w-full h-32 lg:h-36">
@@ -122,11 +209,12 @@ const CartCard = (props: Proptypes) => {
               <ActionButton
                 icon="bx-plus"
                 disabled={
+                  product &&
                   cartItemQty ===
-                  product.stock.find(
-                    (item: { size: string; qty: number }) =>
-                      item.size === cartItem.size
-                  )!.qty
+                    product.stock.find(
+                      (item: { size: string; qty: number }) =>
+                        item.size === cartItem.size
+                    )!.qty
                 }
                 onClick={() =>
                   handleOnClickQty(
@@ -144,7 +232,10 @@ const CartCard = (props: Proptypes) => {
 
         {/* Actions */}
         <div className="flex gap-2 mt-1">
-          <ActionButton icon="bx-heart" />
+          <ActionButton
+            icon={`${isFavorite ? "bxs-heart text-black" : "bx-heart"}`}
+            onClick={handleOnClickFavorite}
+          />
           <ActionButton
             icon="bx-trash"
             onClick={() => handleDelete(cartItem.productId, cartItem.size)}

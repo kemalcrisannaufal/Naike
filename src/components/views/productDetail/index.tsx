@@ -1,36 +1,50 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
 import ProductDetailDescription from "./ProductDetailDescription";
 import Button from "@/components/ui/Button";
 import Image from "next/image";
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { userServices } from "@/services/user";
 import { Cart } from "@/types/cart.type";
 import { Favorite } from "@/types/favorite.type";
+import { ToasterContext } from "@/contexts/ToasterContext";
+import ProductToaster from "@/components/ui/Toaster/ProductToaster";
 
 type Proptypes = {
   product: Product;
-  setToaster: Dispatch<SetStateAction<object>>;
   cart: Cart[];
   productId: string;
-  favorites: any[];
+  favorites: Favorite[];
+  setCart: Dispatch<SetStateAction<Cart[]>>;
+  setFavorites: Dispatch<SetStateAction<Favorite[]>>;
 };
 
 const ProductDetailView = (props: Proptypes) => {
-  const { product, setToaster, cart, productId, favorites } = props;
+  const { product, cart, productId, favorites, setCart, setFavorites } = props;
+  const { setToaster } = useContext(ToasterContext);
   const [imageShow, setImageShow] = useState(product.mainImage);
   const [productDetail, setProductDetail] = useState(false);
   const [deliveryDetailShow, setDeliveryDetailShow] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const { status } = useSession();
-  const [isFavorite, setIsFavorite] = useState(
-    favorites && favorites.some((item) => item.productId === productId)
-  );
-
+  const [isFavorite, setIsFavorite] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setIsFavorite(
+      status === "unauthenticated"
+        ? false
+        : favorites && favorites.some((item) => item.productId === productId)
+    );
+  }, [status, favorites, productId]);
 
   const handleAddToCart = async () => {
     if (selectedSize != "") {
@@ -62,9 +76,19 @@ const ProductDetailView = (props: Proptypes) => {
         const result = await userServices.addToCart(data);
         if (result.status === 200) {
           setSelectedSize("");
+          setCart(newCart);
           setToaster({
-            variant: "success",
+            variant: "custom",
             message: "Added to cart successfully!",
+            children: (
+              <ProductToaster
+                image={product.mainImage}
+                {...product}
+                size={selectedSize}
+                actionLabel="View Cart"
+                actionOnClick={() => router.push("/cart")}
+              />
+            ),
           });
         } else {
           setToaster({
@@ -88,7 +112,7 @@ const ProductDetailView = (props: Proptypes) => {
   };
 
   const handleAddToFavourite = async () => {
-    let data: { favorites: Favorite[] } | any = {};
+    let data: { favorites: Favorite[] } = { favorites: [] };
     if (favorites && favorites.length > 0) {
       data = {
         favorites: [...favorites, { productId, size: selectedSize || "" }],
@@ -102,11 +126,21 @@ const ProductDetailView = (props: Proptypes) => {
     const result = await userServices.addToFavorite(data);
 
     if (result.status === 200) {
-      setToaster({
-        variant: "success",
-        message: "Added to favourite successfully!",
-      });
+      setFavorites(data.favorites);
       setIsFavorite(true);
+      setToaster({
+        variant: "custom",
+        message: "Added to favourite successfully!",
+        children: (
+          <ProductToaster
+            image={product.mainImage}
+            {...product}
+            size={selectedSize || ""}
+            actionLabel="View Favourite"
+            actionOnClick={() => router.push("/favorite")}
+          />
+        ),
+      });
     } else {
       setToaster({
         variant: "error",

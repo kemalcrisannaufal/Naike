@@ -12,8 +12,9 @@ import { Product } from "@/types/product.type";
 import productServices from "@/services/products";
 import { deleteFile, uploadFile } from "@/lib/firebase/service";
 import { ToasterContext } from "@/contexts/ToasterContext";
-import ProductFormSecondSection from "../ProductFormModal/ProductFormSecondSection";
-import ProductFormFirstSection from "../ProductFormModal/ProductFormFirstSection";
+import ProductFormSecondSection from "../ProductForm/ProductFormSecondSection";
+import ProductFormFirstSection from "../ProductForm/ProductFormFirstSection";
+import { Timestamp } from "firebase/firestore";
 
 type Proptypes = {
   updatedProduct: Product | any;
@@ -74,6 +75,7 @@ const ModalUpdateProduct = (props: Proptypes) => {
   ) => {
     const data: Product = {
       ...productInfo,
+      updated_at: Timestamp.fromDate(new Date()),
       mainImage: imageUrl ? imageUrl : updatedProduct.mainImage,
       images: updatedImages ? updatedImages : updatedProduct.images,
     };

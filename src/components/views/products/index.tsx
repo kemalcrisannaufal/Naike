@@ -1,7 +1,7 @@
 import { Product } from "@/types/product.type";
 import CardProduct from "./Card";
 import Link from "next/link";
-import CardSkeleton from "./Card/Skeleton";
+import CardSkeleton from "./Card/skeleton";
 
 type Proptypes = {
   products: Product[];
