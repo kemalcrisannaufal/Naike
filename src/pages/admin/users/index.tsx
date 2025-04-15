@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import UsersAdminViews from "@/components/views/admin/Users";
 import { userServices } from "@/services/user";
 import { useEffect, useState } from "react";
 
-const UsersAdminPage = ({ setToaster }: { setToaster: any }) => {
+const UsersAdminPage = () => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const getAllUsers = async () => {
@@ -15,7 +14,7 @@ const UsersAdminPage = ({ setToaster }: { setToaster: any }) => {
 
   return (
     <>
-      <UsersAdminViews users={users} setToaster={setToaster} />
+      <UsersAdminViews users={users} />
     </>
   );
 };
