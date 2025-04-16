@@ -15,7 +15,6 @@ export default async function handler(
       async (err: any, decoded: any) => {
         if (decoded) {
           const user = await retrieveDataById("users", decoded.id);
-          console.log(user!.favorite);
 
           if (user) {
             res.status(200).json({

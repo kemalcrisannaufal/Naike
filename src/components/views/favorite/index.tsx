@@ -8,6 +8,7 @@ import { Cart } from "@/types/cart.type";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import ProductToaster from "@/components/ui/Toaster/ProductToaster";
 import { useRouter } from "next/router";
+import FavoriteCardSkeleton from "./FavoriteCard/skeleton";
 
 type Proptypes = {
   favorites: Favorite[];
@@ -15,9 +16,10 @@ type Proptypes = {
   setCart: Dispatch<SetStateAction<Cart[]>>;
   products: Product[];
   cart: Cart[];
+  isLoading: boolean;
 };
 const FavoriteView = (props: Proptypes) => {
-  const { favorites, products, setFavorites, cart, setCart } = props;
+  const { favorites, products, setFavorites, cart, setCart, isLoading } = props;
   const { setToaster } = useContext(ToasterContext);
   const router = useRouter();
 
@@ -66,8 +68,8 @@ const FavoriteView = (props: Proptypes) => {
   };
 
   return (
-    <div className="p-5 md:px-20 lg:px-10 lg:pt-12 lg:pb-10">
-      {favorites && favorites.length > 0 ? (
+    <div className="md:px-20 lg:px-10 py-5 lg:pt-12 lg:pb-10">
+      {!isLoading && favorites && favorites.length > 0 ? (
         <div>
           <Title variant="small">Favourites</Title>
           <div className="gap-3 gap-y-10 lg:gap-5 grid grid-cols-2 lg:grid-cols-3 mt-3 lg:mt-5">
@@ -88,6 +90,17 @@ const FavoriteView = (props: Proptypes) => {
                 />
               );
             })}
+          </div>
+        </div>
+      ) : isLoading ? (
+        <div>
+          <Title variant="small">Favourites</Title>
+          <div className="gap-3 gap-y-10 lg:gap-5 grid grid-cols-2 lg:grid-cols-3 mt-3 lg:mt-5">
+            {Array(6)
+              .fill(0)
+              .map((_, index: number) => {
+                return <FavoriteCardSkeleton key={index} />;
+              })}
           </div>
         </div>
       ) : (

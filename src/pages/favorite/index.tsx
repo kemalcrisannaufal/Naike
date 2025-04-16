@@ -1,61 +1,25 @@
+import { useCart } from "@/components/hooks/useCart";
+import { useFavorite } from "@/components/hooks/useFavorite";
 import FavoriteView from "@/components/views/favorite";
-import productServices from "@/services/products";
-import { userServices } from "@/services/user";
-import { Cart } from "@/types/cart.type";
-import { Favorite } from "@/types/favorite.type";
-import { Product } from "@/types/product.type";
-import { useEffect, useState } from "react";
+import Head from "next/head";
 
 const FavoritePage = () => {
-  const [favorites, setFavorites] = useState<Favorite[]>([]);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [cart, setCart] = useState<Cart[]>([]);
-
-  useEffect(() => {
-    const getFavourite = async () => {
-      const { data } = await userServices.getFavorite();
-
-      if (data.data && data.data.length > 0) {
-        const uniqueProductIds = new Set();
-        const products = await Promise.all(
-          data.data
-            .filter((item: Favorite) => {
-              if (uniqueProductIds.has(item.productId)) return false;
-              uniqueProductIds.add(item.productId);
-              return true;
-            })
-            .map(async (item: Favorite) => {
-              const { data } = await productServices.getProduct(item.productId);
-              if (!data.data) return null;
-              data.data.id = item.productId;
-              return data.data;
-            })
-        );
-        setProducts(products);
-      }
-      setFavorites(data.data);
-    };
-
-    getFavourite();
-  }, []);
-
-  useEffect(() => {
-    const getCart = async () => {
-      const { data } = await userServices.getCart();
-      setCart(data.data);
-    };
-
-    getCart();
-  }, []);
+  const { favorites, productsFavorite, setFavorites, isLoading } =
+    useFavorite();
+  const { cart, setCart } = useCart();
 
   return (
     <>
+      <Head>
+        <title>Favorite</title>
+      </Head>
       <FavoriteView
         favorites={favorites}
-        products={products}
+        products={productsFavorite}
         setFavorites={setFavorites}
         cart={cart}
         setCart={setCart}
+        isLoading={isLoading}
       />
     </>
   );

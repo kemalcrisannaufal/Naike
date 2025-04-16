@@ -18,6 +18,9 @@ const productServices = {
     id: string,
     data: Product | { mainImage: string; images: string[] }
   ) => instance.put(`${endpoint}/${id}`, { data }),
+
+  getProductByCategory: (category: string) =>
+    instance.get(`${endpoint}/category/${encodeURIComponent(category)}`),
 };
 
 export default productServices;

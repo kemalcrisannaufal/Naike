@@ -9,7 +9,7 @@ type Proptypes = {
 const CardProduct = (props: Proptypes) => {
   const { product } = props;
   return (
-    <div className="shadow-lg pb-5 border border-neutral-100 w-full max-w-sm h-80 md:h-100">
+    <div className="pb-3 w-full h-72 md:h-100">
       <div className="w-full h-3/5 md:h-3/4 overflow-hidden">
         <Image
           src={product.mainImage}
@@ -24,7 +24,7 @@ const CardProduct = (props: Proptypes) => {
         <p className="font-semibold text-lg line-clamp-1 lg:line-clamp-2">
           {product.name}
         </p>
-        <p className="mb-2 font-medium text-md text-neutral-600 line-clamp-1">
+        <p className="mb-1 md:mb-2 font-medium text-md text-neutral-600 line-clamp-1">
           {product.category}
         </p>
         <p className="font-semibold text-lg line-clamp-1">

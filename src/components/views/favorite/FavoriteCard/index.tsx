@@ -33,7 +33,7 @@ const FavoriteCard = (props: Proptypes) => {
         <div className="relative">
           <Link
             href={`/products/${product.id}`}
-            className="block z-10 mb-2 w-full h-[200px] lg:h-[450px] overflow-hidden"
+            className="block z-10 mb-2 w-full h-[200px] lg:h-[450px] overflow-hidden l"
           >
             <Image
               src={product.mainImage}
@@ -53,7 +53,7 @@ const FavoriteCard = (props: Proptypes) => {
         </div>
 
         {/* Product Details */}
-        <div className="mt-3">
+        <div className="px-3 py-2">
           <div className="flex lg:flex-row flex-col lg:justify-between lg:items-center">
             <p className="lg:max-w-2/3 font-semibold md:text-md text-sm lg:text-lg line-clamp-1 lg:line-clamp-2">
               {product.name}

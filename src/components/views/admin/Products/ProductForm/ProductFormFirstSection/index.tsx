@@ -103,9 +103,6 @@ const ProductFormFirstSection = (props: Proptypes) => {
           options={[
             { label: "Men's shoes", value: "Men's shoes" },
             { label: "Women's shoes", value: "Women's shoes" },
-            { label: "Kids shoes", value: "Kids shoes" },
-            { label: "Accessories", value: "Accessories" },
-            { label: "Others", value: "Others" },
           ]}
           onChange={(e: any) =>
             setProductInfo({ ...productInfo, category: e.target.value })

@@ -55,7 +55,13 @@ const Toaster = () => {
 
   return (
     <div
-      className={`fixed z-50 left-1/2 -translate-x-1/2 bottom-4 md:left-auto md:translate-x-0 md:right-4 md:top-24 md:h-auto flex bg-white px-4 py-2 shadow-xl rounded-lg overflow-hidden border border-neutral-200 max-w-xs md:max-w-sm md:max-h-fit`}
+      className={`fixed z-50 ${
+        toaster.variant === "custom"
+          ? "left-0 bottom-0 w-full rounded-t-xl"
+          : "left-1/2 -translate-x-1/2 bottom-4 rounded-lg"
+      }  md:left-auto md:translate-x-0 md:right-4 md:top-24 
+      md:h-auto flex bg-white px-4 py-2 shadow-xl  overflow-hidden border border-neutral-200 
+      md:max-w-sm md:max-h-fit`}
     >
       {toaster.variant === "custom" ? (
         <div>

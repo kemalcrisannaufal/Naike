@@ -31,13 +31,13 @@ const Navbar = () => {
     },
     {
       label: "Men",
-      url: "/products",
-      disabled: true,
+      url: "/products/men",
+      disabled: false,
     },
     {
       label: "Women",
-      url: "/products",
-      disabled: true,
+      url: "/products/women",
+      disabled: false,
     },
   ];
 

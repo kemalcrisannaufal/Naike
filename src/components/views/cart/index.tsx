@@ -7,18 +7,28 @@ import CartSummary from "./CartSummary";
 import { userServices } from "@/services/user";
 import { Favorite } from "@/types/favorite.type";
 import { ToasterContext } from "@/contexts/ToasterContext";
+import CartViewSkeleton from "./Skeleton";
 
 type Proptypes = {
   cart: Cart[];
   setCart: Dispatch<SetStateAction<Cart[]>>;
-  products: Product[];
+  productsCart: Product[];
   subtotal: number;
   favorites: Favorite[];
   setFavorites: Dispatch<SetStateAction<Favorite[]>>;
+  isLoading: boolean;
 };
 
 const CartView = (props: Proptypes) => {
-  const { cart, products, subtotal, setCart, favorites, setFavorites } = props;
+  const {
+    cart,
+    productsCart,
+    subtotal,
+    setCart,
+    favorites,
+    setFavorites,
+    isLoading,
+  } = props;
   const { setToaster } = useContext(ToasterContext);
 
   const handleOnChangeSize = async (
@@ -51,7 +61,7 @@ const CartView = (props: Proptypes) => {
     productId: string,
     setCartItemQty: Dispatch<SetStateAction<number>>
   ) => {
-    const product = products.find(({ id }) => id === productId);
+    const product = productsCart.find(({ id }) => id === productId);
     const maxQty =
       product!.stock.find(
         (item: { size: string; qty: number }) => item.size === size
@@ -109,14 +119,16 @@ const CartView = (props: Proptypes) => {
     }
   };
 
-  return (
+  return isLoading ? (
+    <CartViewSkeleton />
+  ) : (
     <div className="p-5 md:px-20 lg:px-48 lg:pt-5 lg:pb-10">
       <Title>Cart</Title>
       {cart && cart.length > 0 ? (
         <div className="flex lg:flex-row flex-col-reverse lg:gap-5 mt-3 lg:mt-5">
           <div className="w-full lg:w-2/3">
             {cart.map((cartItem, index) => {
-              const product = products.find(
+              const product = productsCart.find(
                 ({ id }) => id === cartItem.productId
               );
               return (
@@ -138,12 +150,13 @@ const CartView = (props: Proptypes) => {
       ) : (
         <div>
           <div className="bg-neutral-200 mt-3 lg:mt-5 p-3 w-full">
-            <p>Your cart is empty. Start adding your favorite products! 😊🛒</p>
+            <p>
+              Your cart is empty. Start adding your favorite productsCart! 😊🛒
+            </p>
           </div>
         </div>
       )}
     </div>
   );
 };
-
 export default CartView;

@@ -151,6 +151,7 @@ const ProductDetailView = (props: Proptypes) => {
 
   return (
     <>
+      (
       <div className="flex lg:flex-row flex-col md:px-20 lg:px-48 lg:pt-5 lg:pb-10">
         {/* Product Description for Mobile */}
         <div className="lg:hidden block p-5">
@@ -359,7 +360,7 @@ const ProductDetailView = (props: Proptypes) => {
           </div>
         </div>
       </div>
-
+      )
       {productDetail && (
         <ProductDetailDescription
           setProductDetail={setProductDetail}
