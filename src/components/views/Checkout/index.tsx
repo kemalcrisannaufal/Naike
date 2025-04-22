@@ -13,10 +13,10 @@ import {
 import { Address } from "@/types/address.type";
 import ModalAddress from "./ModalAddress";
 import AddressCard from "./AddressCard";
-import CartSummary from "../Cart/CartSummary";
 import { userServices } from "@/services/user";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import CheckoutViewSkeleton from "./skeleton";
+import CartSummary from "../Cart/CartSummary/index";
 
 type Proptypes = {
   cart: Cart[];
