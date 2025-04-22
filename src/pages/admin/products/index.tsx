@@ -1,4 +1,4 @@
-import ProductsAdminView from "@/components/views/Admin/Products";
+import ProductsAdminView from "@/components/views/admin/Products";
 import { useProduct } from "@/components/hooks/useProduct";
 
 const AdminProductsPage = () => {

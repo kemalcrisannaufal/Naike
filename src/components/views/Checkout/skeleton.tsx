@@ -1,5 +1,5 @@
 import Title from "@/components/ui/Text/Title";
-import CartSummarySkeleton from "../Cart/CartSummary/skeleton";
+import CartSummarySkeleton from "../cart/CartSummary/skeleton";
 
 const CheckoutViewSkeleton = () => {
   return (

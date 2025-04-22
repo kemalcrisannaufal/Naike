@@ -1,6 +1,5 @@
 import { Favorite } from "@/types/favorite.type";
 import { Product } from "@/types/product.type";
-import FavoriteCard from "./FavoriteCard";
 import Title from "@/components/ui/Text/Title";
 import { userServices } from "@/services/user";
 import { Dispatch, SetStateAction, useContext } from "react";
@@ -8,6 +7,7 @@ import { Cart } from "@/types/cart.type";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import ProductToaster from "@/components/ui/Toaster/ProductToaster";
 import { useRouter } from "next/router";
+import FavoriteCard from "./FavoriteCard";
 import FavoriteCardSkeleton from "./FavoriteCard/skeleton";
 
 type Proptypes = {

@@ -1,4 +1,4 @@
-import DashboardView from "@/components/views/Dashboard";
+import DashboardView from "@/components/views/dashboard";
 import productServices from "@/services/products";
 import { Product } from "@/types/product.type";
 import { useEffect, useState } from "react";

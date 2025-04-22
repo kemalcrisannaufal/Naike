@@ -1,6 +1,6 @@
 import { useCart } from "@/components/hooks/useCart";
 import { useFavorite } from "@/components/hooks/useFavorite";
-import FavoriteView from "@/components/views/Favorite";
+import FavoriteView from "@/components/views/favorites";
 import Head from "next/head";
 
 const FavoritePage = () => {

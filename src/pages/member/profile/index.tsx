@@ -1,6 +1,6 @@
 import { useProfile } from "@/components/hooks/useProfile";
-import ProfileMemberView from "@/components/views/Member/Profile";
-import ProfileMemberViewSkeleton from "@/components/views/Member/Profile/skeleton";
+import ProfileMemberView from "@/components/views/member/Profile";
+import ProfileMemberViewSkeleton from "@/components/views/member/Profile/skeleton";
 import Head from "next/head";
 
 const ProfileMemberPage = () => {
