@@ -16,7 +16,7 @@ import AddressCard from "./AddressCard";
 import { userServices } from "@/services/user";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import CheckoutViewSkeleton from "./skeleton";
-import CartSummary from "../Cart/CartSummary/index";
+import CartSummary from "../Cart/CartSummary";
 
 type Proptypes = {
   cart: Cart[];
