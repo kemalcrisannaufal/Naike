@@ -1,11 +1,9 @@
-import CartView from "@/components/views/cart";
+import CartView from "@/components/views/Cart";
 import Head from "next/head";
 import { useCart } from "@/components/hooks/useCart";
-import { useFavorite } from "@/components/hooks/useFavorite";
 
 const CartPage = () => {
   const { cart, productsCart, isLoading, setCart } = useCart();
-  const { favorites, setFavorites } = useFavorite();
 
   const getSubtotal = () => {
     const subtotal = cart.reduce((acc, item) => {
@@ -25,8 +23,6 @@ const CartPage = () => {
         cart={cart}
         isLoading={isLoading}
         setCart={setCart}
-        favorites={favorites}
-        setFavorites={setFavorites}
         productsCart={productsCart}
         subtotal={getSubtotal()}
       />

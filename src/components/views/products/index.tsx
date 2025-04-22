@@ -1,6 +1,5 @@
 import { Product } from "@/types/product.type";
 import CardProduct from "./Card";
-import Link from "next/link";
 import CardSkeleton from "./Card/skeleton";
 
 type Proptypes = {
@@ -20,9 +19,7 @@ const ProductView = (props: Proptypes) => {
                 return <CardSkeleton key={index} />;
               })
           : products.map((product) => (
-              <Link href={`/products/${product.id}`} key={product.id}>
-                <CardProduct product={product} key={product.id} />
-              </Link>
+              <CardProduct product={product} key={product.id} />
             ))}
       </div>
     </div>

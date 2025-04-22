@@ -1,5 +1,5 @@
 import { useProduct } from "@/components/hooks/useProduct";
-import ProductsByCategoryView from "@/components/views/products/category";
+import ProductsByCategoryView from "@/components/views/Products/category";
 import Head from "next/head";
 
 const WomenProductsPage = () => {

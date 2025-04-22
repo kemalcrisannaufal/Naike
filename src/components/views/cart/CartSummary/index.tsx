@@ -1,5 +1,6 @@
 import Button from "@/components/ui/Button";
 import { convertIDR } from "@/utils/currency";
+import { useRouter } from "next/router";
 
 type Proptypes = {
   subTotal: number;
@@ -7,8 +8,10 @@ type Proptypes = {
 
 const CartSummary = (props: Proptypes) => {
   const { subTotal } = props;
+  const tax = subTotal * 0.1;
+  const { push } = useRouter();
   return (
-    <div className="mb-5 lg:w-1/3">
+    <div className="mb-5 w-full">
       <table className="table w-full table-auto">
         <thead>
           <tr>
@@ -41,10 +44,14 @@ const CartSummary = (props: Proptypes) => {
           <tr>
             <td className="py-1">
               <p className="mt-1 font-medium md:text-md text-sm">
-                Estimated Duties & Taxes
+                Estimated Duties & Taxes (10%)
               </p>
             </td>
-            <td className="py-1"> -</td>
+            <td>
+              <p className="mt-1 font-medium md:text-md text-sm">
+                {convertIDR(tax)}
+              </p>
+            </td>
           </tr>
           <tr>
             <td className="py-1 border-neutral-200 border-t border-b">
@@ -52,7 +59,7 @@ const CartSummary = (props: Proptypes) => {
             </td>
             <td className="py-1 border-neutral-200 border-t border-b">
               <p className="mt-1 font-medium md:text-md text-sm">
-                {convertIDR(subTotal)}
+                {convertIDR(tax + subTotal)}
               </p>
             </td>
           </tr>
@@ -62,6 +69,7 @@ const CartSummary = (props: Proptypes) => {
         type="button"
         variant="primary"
         classname="w-full rounded-l-full rounded-r-full md:py-4 mt-3 md:mt-5"
+        onClick={() => push("/checkout")}
       >
         Member Checkout
       </Button>

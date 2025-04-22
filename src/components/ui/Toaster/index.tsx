@@ -64,7 +64,7 @@ const Toaster = () => {
       md:max-w-sm md:max-h-fit`}
     >
       {toaster.variant === "custom" ? (
-        <div>
+        <div className="w-full">
           <div className="flex items-center gap-2 mb-2">
             <i
               className={`text-xl bx ${variantStyle.icon} ${variantStyle.color}`}
@@ -83,7 +83,7 @@ const Toaster = () => {
             />
             <div>
               <p className="font-bold text-neutral-700">{variantStyle.title}</p>
-              <p className="font-medium text-neutral-700 text-sm">
+              <p className="font-medium text-neutral-700 text-xs md:text-sm">
                 {toaster.message || "No message provided"}
               </p>
             </div>

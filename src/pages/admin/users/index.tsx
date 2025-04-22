@@ -1,5 +1,5 @@
 import { useUser } from "@/components/hooks/useUser";
-import UsersAdminViews from "@/components/views/admin/Users";
+import UsersAdminViews from "@/components/views/Admin/Users";
 
 const UsersAdminPage = () => {
   const { users } = useUser();

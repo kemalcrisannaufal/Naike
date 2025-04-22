@@ -5,31 +5,22 @@ import { Dispatch, SetStateAction, useContext } from "react";
 import CartCard from "./Card";
 import CartSummary from "./CartSummary";
 import { userServices } from "@/services/user";
-import { Favorite } from "@/types/favorite.type";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import CartViewSkeleton from "./Skeleton";
+import { useFavorite } from "@/components/hooks/useFavorite";
 
 type Proptypes = {
   cart: Cart[];
   setCart: Dispatch<SetStateAction<Cart[]>>;
   productsCart: Product[];
   subtotal: number;
-  favorites: Favorite[];
-  setFavorites: Dispatch<SetStateAction<Favorite[]>>;
   isLoading: boolean;
 };
 
 const CartView = (props: Proptypes) => {
-  const {
-    cart,
-    productsCart,
-    subtotal,
-    setCart,
-    favorites,
-    setFavorites,
-    isLoading,
-  } = props;
+  const { cart, productsCart, subtotal, setCart, isLoading } = props;
   const { setToaster } = useContext(ToasterContext);
+  const { favorites, setFavorites } = useFavorite();
 
   const handleOnChangeSize = async (
     selectedSize: string,
@@ -145,7 +136,9 @@ const CartView = (props: Proptypes) => {
               );
             })}
           </div>
-          <CartSummary subTotal={subtotal} />
+          <div className="w-full lg:w-1/3">
+            <CartSummary subTotal={subtotal} />
+          </div>
         </div>
       ) : (
         <div>
@@ -159,4 +152,5 @@ const CartView = (props: Proptypes) => {
     </div>
   );
 };
+
 export default CartView;

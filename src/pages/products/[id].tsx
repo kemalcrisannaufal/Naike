@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import ProductDetailView from "@/components/views/productDetail";
-import ProductDetailSkeleton from "@/components/views/productDetail/ProductDetailSekeleton";
+import ProductDetailView from "@/components/views/ProductDetail";
+import ProductDetailSkeleton from "@/components/views/ProductDetail/ProductDetailSekeleton";
 import PageNotFound from "../404";
 import { useProduct } from "@/components/hooks/useProduct";
 import { useCart } from "@/components/hooks/useCart";

@@ -1,6 +1,7 @@
 import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
 import Image from "next/image";
+import Link from "next/link";
 
 type Proptypes = {
   product: Product;
@@ -9,7 +10,10 @@ type Proptypes = {
 const CardProduct = (props: Proptypes) => {
   const { product } = props;
   return (
-    <div className="pb-3 w-full h-72 md:h-100">
+    <Link
+      href={`/products/${product.id}`}
+      className="pb-3 w-full h-72 md:h-100"
+    >
       <div className="w-full h-3/5 md:h-3/4 overflow-hidden">
         <Image
           src={product.mainImage}
@@ -31,7 +35,7 @@ const CardProduct = (props: Proptypes) => {
           {convertIDR(product.price)}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 

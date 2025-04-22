@@ -1,5 +1,5 @@
 import { useProduct } from "@/components/hooks/useProduct";
-import ProductView from "@/components/views/products";
+import ProductView from "@/components/views/Products";
 import Head from "next/head";
 
 const ProductPage = () => {

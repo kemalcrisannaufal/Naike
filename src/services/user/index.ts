@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import instance from "@/lib/axios/instance";
 import { Cart } from "@/types/cart.type";
 import { Favorite } from "@/types/favorite.type";
@@ -11,12 +12,7 @@ export const userServices = {
   deleteUser: (id: string) => instance.delete(`/api/user/${id}`),
 
   getProfile: () => instance.get(`${endpoint}/profile`),
-  updateProfile: (
-    data:
-      | { fullname: string; phone: string; updated_at: Date }
-      | { image: string; updated_at: Date }
-      | { password: string; oldPassword: string; encryptedPassword: string }
-  ) => instance.put(`${endpoint}/profile`, { data }),
+  updateProfile: (data: any) => instance.put(`${endpoint}/profile`, { data }),
 
   getFavorite: () => instance.get(`${endpoint}/favorite`),
   addToFavorite: (data: { favorites: Favorite[] }) =>

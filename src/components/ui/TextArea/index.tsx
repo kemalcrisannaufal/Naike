@@ -4,10 +4,11 @@ type Proptypes = {
   name: string;
   defaultValue?: string;
   onChange?: (e: any) => void;
+  placeholder?: string;
 };
 
 const TextArea = (props: Proptypes) => {
-  const { label, name, onChange, defaultValue } = props;
+  const { label, name, onChange, defaultValue, placeholder } = props;
   return (
     <div>
       <label
@@ -19,6 +20,7 @@ const TextArea = (props: Proptypes) => {
       <textarea
         name={name}
         id={name}
+        placeholder={placeholder}
         cols={30}
         rows={3}
         defaultValue={defaultValue}
