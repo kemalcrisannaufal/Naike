@@ -71,7 +71,9 @@ const FavoriteView = (props: Proptypes) => {
     <div className="md:px-20 lg:px-10 py-5 lg:pt-12 lg:pb-10">
       {!isLoading && favorites && favorites.length > 0 ? (
         <div>
-          <Title variant="small">Favourites</Title>
+          <div className="px-5 md:px-0">
+            <Title variant="small">Favourites</Title>
+          </div>
           <div className="gap-3 gap-y-10 lg:gap-5 grid grid-cols-2 lg:grid-cols-3 mt-3 lg:mt-5">
             {favorites.map((itemFavorite: Favorite, index: number) => {
               const product = products.find(

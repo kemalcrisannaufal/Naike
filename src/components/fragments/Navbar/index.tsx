@@ -155,7 +155,7 @@ const Navbar = () => {
               {/* Mobile menu */}
               <NavButton
                 iconClass="bx-menu"
-                classname="lg:hidden"
+                classname="md:hidden"
                 onClick={toggleDrawer}
               />
             </div>

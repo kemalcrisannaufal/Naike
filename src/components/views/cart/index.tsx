@@ -144,7 +144,8 @@ const CartView = (props: Proptypes) => {
         <div>
           <div className="bg-neutral-200 mt-3 lg:mt-5 p-3 w-full">
             <p>
-              Your cart is empty. Start adding your favorite productsCart! 😊🛒
+              Your cart is empty. Start adding your favorite products to your
+              cart! 😊🛒
             </p>
           </div>
         </div>

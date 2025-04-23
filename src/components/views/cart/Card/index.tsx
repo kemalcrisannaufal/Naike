@@ -48,15 +48,18 @@ const CartCard = (props: Proptypes) => {
   const { setToaster } = useContext(ToasterContext);
   const [cartItemQty, setCartItemQty] = useState(cartItem.qty);
   const checkIsFavorite = (productId: string) => {
+    if (!favorites) return false;
     return favorites.some((favorite) => favorite.productId === productId);
   };
   const [isFavorite, setIsFavorite] = useState(checkIsFavorite(product.id));
   const router = useRouter();
 
   useEffect(() => {
-    setIsFavorite(
-      favorites.some((favorite) => favorite.productId === cartItem.productId)
-    );
+    if (favorites) {
+      setIsFavorite(
+        favorites.some((favorite) => favorite.productId === cartItem.productId)
+      );
+    }
   }, [favorites, cartItem.productId]);
 
   const handleOnClickFavorite = async () => {

@@ -11,12 +11,13 @@ import {
   useState,
 } from "react";
 import { Address } from "@/types/address.type";
-import ModalAddress from "./ModalAddress";
-import AddressCard from "./AddressCard";
+
+import AddressCard from "../../fragments/Address/AddressCard";
 import { userServices } from "@/services/user";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import CheckoutViewSkeleton from "./skeleton";
 import CartSummary from "../cart/CartSummary";
+import ModalAddress from "@/components/fragments/Address/ModalAddress";
 
 type Proptypes = {
   cart: Cart[];
@@ -77,8 +78,10 @@ const CheckoutView = (props: Proptypes) => {
               {profile.address && profile.address?.length > 0 ? (
                 <AddressCard
                   address={address}
+                  addressList={profile.address}
                   selectedAddress={address}
                   onClick={() => setModalAddress(true)}
+                  setProfile={setProfile}
                 />
               ) : (
                 <div
@@ -120,6 +123,7 @@ const CheckoutView = (props: Proptypes) => {
 
       {modalAddress && (
         <ModalAddress
+          modalAddress={modalAddress}
           onClose={() => setModalAddress(false)}
           addressList={profile.address || []}
           selectedAddress={address}

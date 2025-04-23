@@ -31,7 +31,12 @@ const AddNewAddress = (props: Proptypes) => {
       phone: form.phone.value,
       addressLine: form.addressLine.value,
       note: form.note.value,
-      isMain: false,
+      isMain:
+        type === "add" && addressList.length === 0
+          ? true
+          : type === "add" && addressList.length > 0
+          ? false
+          : address!.isMain,
     };
 
     if (type === "update") {

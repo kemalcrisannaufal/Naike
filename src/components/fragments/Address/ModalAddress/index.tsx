@@ -2,7 +2,7 @@ import Modal from "@/components/ui/Modal";
 import Title from "@/components/ui/Text/Title";
 import { Address } from "@/types/address.type";
 import { Dispatch, SetStateAction, useState } from "react";
-import AddressCard from "../AddressCard";
+import AddressCard from "../../../fragments/Address/AddressCard";
 import Button from "@/components/ui/Button";
 import AddNewAddress from "./AddNewAddress";
 import { User } from "@/types/user.type";
@@ -14,6 +14,7 @@ type Proptypes = {
   setSelectedAddress: Dispatch<SetStateAction<Address | undefined>>;
   onAddAddress: (data: Address[]) => Promise<void>;
   setProfile: Dispatch<SetStateAction<User>>;
+  modalAddress: boolean;
 };
 const ModalAddress = (props: Proptypes) => {
   const {
@@ -23,6 +24,7 @@ const ModalAddress = (props: Proptypes) => {
     setSelectedAddress,
     onAddAddress,
     setProfile,
+    modalAddress,
   } = props;
   const [addNewAddress, setAddNewAddress] = useState(false);
   const [updatedAddress, setUpdatedAddress] = useState<Address | object>({});
@@ -49,6 +51,7 @@ const ModalAddress = (props: Proptypes) => {
                     onClick={() => setSelectedAddress(item)}
                     setProfile={setProfile}
                     setUpdatedAddress={setUpdatedAddress}
+                    modalAddress={modalAddress}
                   />
                 );
               })}

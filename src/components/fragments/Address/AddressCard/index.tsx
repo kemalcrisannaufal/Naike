@@ -1,3 +1,4 @@
+import IconButton from "@/components/ui/IconButton";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import { userServices } from "@/services/user";
 import { Address } from "@/types/address.type";
@@ -12,6 +13,7 @@ type Proptypes = {
   setProfile?: Dispatch<SetStateAction<User>>;
   selectedAddress: Address | undefined;
   setUpdatedAddress?: Dispatch<SetStateAction<Address | object>>;
+  modalAddress?: boolean;
 };
 
 const AddressCard = (props: Proptypes) => {
@@ -23,6 +25,7 @@ const AddressCard = (props: Proptypes) => {
     setProfile,
     selectedAddress,
     setUpdatedAddress,
+    modalAddress = false,
   } = props;
   const { setToaster } = useContext(ToasterContext);
 
@@ -87,41 +90,40 @@ const AddressCard = (props: Proptypes) => {
           Note : {address?.note}
         </p>
       </button>
-      <div
-        className={`${
-          address?.isMain
-            ? "top-2 right-2 absolute bg-primary p-2 rounded flex gap-2 items-center"
-            : "hidden"
-        }`}
-      >
-        <i className="text-white text-xs md:text-base bx bxs-star" />
-        <p className="font-semibold text-white text-xs">Primary</p>
-      </div>
+
       <div className="top-2 right-2 absolute flex items-center gap-2">
-        <button
-          className={`bg-primary   rounded cursor-pointer hover:bg-neutral-700 ${
-            !address?.isMain ? "" : "hidden"
+        <div
+          className={`${
+            address?.isMain
+              ? "bg-primary p-2 rounded flex gap-2 items-center"
+              : "hidden"
           }`}
+        >
+          <i className="text-white text-xs md:text-base bx bxs-star" />
+          <p className="font-semibold text-white text-xs">Primary</p>
+        </div>
+
+        <IconButton
           onClick={() => setUpdatedAddress!(address || {})}
-        >
-          <i className="p-2 text-white text-xs md:text-base bx bx-pencil" />
-        </button>
-        <button
-          className={`bg-primary   rounded cursor-pointer hover:bg-neutral-700 ${
-            !address?.isMain ? "" : "hidden"
+          icon="bx-pencil"
+          classname={`${
+            address === selectedAddress && !modalAddress ? "hidden" : ""
           }`}
+        />
+
+        <IconButton
           onClick={handleUpdateIsMain}
-        >
-          <i className="p-2 text-white text-xs md:text-base bx bx-star" />
-        </button>
-        <button
-          className={`bg-primary  rounded cursor-pointer hover:bg-neutral-700 ${
+          icon="bx-star"
+          classname={`${!address?.isMain ? "" : "hidden"}`}
+        />
+
+        <IconButton
+          onClick={handleDelete}
+          icon="bx-trash"
+          classname={`${
             !address?.isMain && selectedAddress !== address ? "" : "hidden"
           }`}
-          onClick={handleDelete}
-        >
-          <i className="p-2 text-white text-xs md:text-base bx bx-trash" />
-        </button>
+        />
       </div>
     </div>
   );

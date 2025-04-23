@@ -11,7 +11,11 @@ const WomenProductsPage = () => {
       <Head>
         <title>Women&#39;s Products</title>
       </Head>
-      <ProductsByCategoryView products={products} isLoading={isLoading} />
+      <ProductsByCategoryView
+        products={products}
+        isLoading={isLoading}
+        category="Women's Products"
+      />
     </>
   );
 };
