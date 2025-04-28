@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import instance from "@/lib/axios/instance";
 import { Product } from "@/types/product.type";
 
@@ -16,7 +17,7 @@ const productServices = {
   deleteProduct: (id: string) => instance.delete(`${endpoint}/${id}`),
   updateProduct: (
     id: string,
-    data: Product | { mainImage: string; images: string[] }
+    data: Product | { mainImage: string; images: string[] } | any
   ) => instance.put(`${endpoint}/${id}`, { data }),
 
   getProductByCategory: (category: string) =>

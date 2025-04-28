@@ -35,7 +35,7 @@ const Input = (props: Proptypes) => {
       </label>
       {skeleton ? (
         <div
-          className={`bg-neutral-200 w-full border border-neutral-300 rounded h-8 md:h-10 animate-blink`}
+          className={`bg-neutral-200 w-full border border-neutral-300 rounded h-8 md:h-10 animate-pulse`}
         />
       ) : (
         <input

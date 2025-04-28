@@ -11,14 +11,14 @@ const FavoriteCardSkeleton = () => {
         {/* Product Details */}
         <div className="px-1 py-2">
           <div className="flex lg:flex-row flex-col lg:justify-between lg:items-center">
-            <div className="bg-neutral-200 w-full h-6 animate-blink" />
+            <div className="bg-neutral-200 w-full h-6 animate-pulse" />
             <div className="lg:hidden flex justify-between items-center gap-3 mt-2 w-full">
-              <div className="bg-neutral-200 w-5/6 h-6 animate-blink" />
-              <div className="bg-neutral-200 w-1/6 h-6 animate-blink" />
+              <div className="bg-neutral-200 w-5/6 h-6 animate-pulse" />
+              <div className="bg-neutral-200 w-1/6 h-6 animate-pulse" />
             </div>
           </div>
 
-          <div className="bg-neutral-200 mt-2 w-full h-6 animate-blink" />
+          <div className="bg-neutral-200 mt-2 w-full h-6 animate-pulse" />
         </div>
 
         <Button

@@ -8,7 +8,7 @@ const ProfileMemberViewSkeleton = () => {
         <div className="flex flex-col justify-center items-start p-5 w-full">
           <div className="flex md:flex-row flex-col items-center md:gap-10 w-full">
             <div className="flex flex-col items-center">
-              <div className="bg-neutral-200 mb-2 rounded-full w-20 md:w-32 h-20 md:h-32 overflow-hidden hover:scale-105 transition-all animate-blink duration-100 ease-in-out"></div>
+              <div className="bg-neutral-200 mb-2 rounded-full w-20 md:w-32 h-20 md:h-32 overflow-hidden hover:scale-105 transition-all animate-pulse duration-100 ease-in-out"></div>
               <form className="flex md:flex-col items-center gap-3 mt-2">
                 <div>
                   <label className="bg-neutral-200 hover:bg-neutral-400 px-4 py-2 border border-neutral-600 border-dashed rounded text-neutral-700 text-xs cursor-pointer">
@@ -27,8 +27,8 @@ const ProfileMemberViewSkeleton = () => {
             </div>
 
             <div className="flex flex-col justify-between items-center md:items-start mt-2 w-full">
-              <div className="bg-neutral-200 mb-2 w-2/3 h-10 md:h-12 animate-blink" />
-              <div className="bg-neutral-200 mb-2 w-1/3 h-6 animate-blink" />
+              <div className="bg-neutral-200 mb-2 w-2/3 h-10 md:h-12 animate-pulse" />
+              <div className="bg-neutral-200 mb-2 w-1/3 h-6 animate-pulse" />
               <div className="flex justify-center items-center bg-primary mb-2 px-4 py-1 rounded-xl w-20 h-8 font-medium text-white text-xs">
                 <p>Loading..</p>
               </div>

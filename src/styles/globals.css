@@ -32,7 +32,7 @@ body {
   scrollbar-width: none;
 }
 
-.animate-blink {
+.animate-pulse {
   animation: blinking 5s linear infinite;
 }
 

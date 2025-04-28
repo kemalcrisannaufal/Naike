@@ -9,7 +9,7 @@ const CheckoutViewSkeleton = () => {
       <div className="lg:flex gap-5 w-full">
         <div className="mt-3 lg:mt-5 p-2 w-full lg:w-2/3">
           <div
-            className={`block bg-neutral-200 h-32  border border-neutral-200 rounded-lg animate-blink`}
+            className={`block bg-neutral-200 h-32  border border-neutral-200 rounded-lg animate-pulse`}
           ></div>
 
           <p className="mt-3 lg:mt-5 font-semibold text-lg">ITEMS</p>
@@ -19,7 +19,7 @@ const CheckoutViewSkeleton = () => {
               return (
                 <div
                   key={index}
-                  className="bg-neutral-200 mb-2 rounded w-full h-28 animate-blink"
+                  className="bg-neutral-200 mb-2 rounded w-full h-28 animate-pulse"
                 />
               );
             })}

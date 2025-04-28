@@ -19,6 +19,7 @@ import CheckoutViewSkeleton from "./skeleton";
 import CartSummary from "../cart/CartSummary";
 import ModalAddress from "@/components/fragments/Address/ModalAddress";
 import orderServices from "@/services/orders";
+import productServices from "@/services/products";
 
 type Proptypes = {
   cart: Cart[];
@@ -68,12 +69,46 @@ const CheckoutView = (props: Proptypes) => {
     }
   };
 
+  const handleStock = async () => {
+    const groupedCart = cart.reduce((acc, item) => {
+      if (!acc[item.productId]) acc[item.productId] = [];
+      acc[item.productId].push(item);
+      return acc;
+    }, {} as Record<string, typeof cart>);
+
+    const stockPromises = Object.entries(groupedCart).map(
+      async ([productId, items]) => {
+        const product = productsCart.find(({ id }) => id === productId);
+        if (!product) return;
+
+        let newStock = [...product.stock];
+
+        for (const item of items) {
+          newStock = newStock.map((stock) =>
+            stock.size === item.size
+              ? { ...stock, qty: stock.qty - item.qty }
+              : stock
+          );
+        }
+
+        return productServices.updateProduct(productId, {
+          stock: newStock,
+        });
+      }
+    );
+
+    const stockResult = await Promise.all(stockPromises);
+
+    return stockResult.every((result) => result && result.status === 200);
+  };
+
   const handleCheckout = async () => {
     const data = {
       items: cart,
       address,
       status: "pending",
-      total: getSubtotal(),
+      subtotal: getSubtotal(),
+      taxes: 0.1 * getSubtotal(),
       created_at: new Date(),
       updated_at: new Date(),
     };
@@ -81,10 +116,30 @@ const CheckoutView = (props: Proptypes) => {
     const result = await orderServices.createOrder(data);
 
     if (result.status === 200) {
-      setToaster({
-        variant: "success",
-        message: "Order successfully created!",
+      const result = await userServices.updateCart({
+        cart: [],
+        updated_at: new Date(),
       });
+
+      if (result.status === 200) {
+        const responseStock = await handleStock();
+        if (responseStock) {
+          setToaster({
+            variant: "success",
+            message: "Order successfully created!",
+          });
+        } else {
+          setToaster({
+            variant: "error",
+            message: "Failed to update stock. Please try again later!",
+          });
+        }
+      } else {
+        setToaster({
+          variant: "error",
+          message: "Failed to create order. Please try again later!",
+        });
+      }
     } else {
       setToaster({
         variant: "error",

@@ -16,7 +16,7 @@ const CartSummarySkeleton = () => {
             <p className="mt-1 font-medium md:text-md text-sm">Subtotal</p>
           </td>
           <td className="py-1">
-            <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+            <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-pulse" />
           </td>
         </tr>
         <tr>
@@ -26,7 +26,7 @@ const CartSummarySkeleton = () => {
             </p>
           </td>
           <td>
-            <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+            <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-pulse" />
           </td>
         </tr>
         <tr>
@@ -36,7 +36,7 @@ const CartSummarySkeleton = () => {
             </p>
           </td>
           <td>
-            <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+            <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-pulse" />
           </td>
         </tr>
         <tr>
@@ -44,7 +44,7 @@ const CartSummarySkeleton = () => {
             <p className="mt-1 font-medium md:text-md text-sm">Total</p>
           </td>
           <td className="py-1 border-neutral-200 border-t border-b">
-            <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-blink" />
+            <p className="bg-neutral-200 mb-2 w-32 h-4 font-semibold md:text-md text-sm lg:text-lg animate-pulse" />
           </td>
         </tr>
       </tbody>

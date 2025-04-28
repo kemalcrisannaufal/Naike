@@ -5,9 +5,9 @@ const ProductDetailSkeleton = () => {
     <>
       <div className="flex lg:flex-row flex-col lg:px-48 lg:pt-5 lg:pb-10">
         <div className="lg:hidden block p-5">
-          <div className="bg-neutral-200 mb-2 h-10 animate-blink animate-blink" />
-          <div className="bg-neutral-200 mb-2 h-6 animate-blink" />
-          <div className="bg-neutral-200 h-6 animate-blink" />
+          <div className="bg-neutral-200 mb-2 h-10 animate-pulse animate-pulse" />
+          <div className="bg-neutral-200 mb-2 h-6 animate-pulse" />
+          <div className="bg-neutral-200 h-6 animate-pulse" />
         </div>
 
         {/* Product Images */}
@@ -20,21 +20,21 @@ const ProductDetailSkeleton = () => {
                 return (
                   <div
                     key={index}
-                    className="bg-neutral-200 mb-2 rounded-lg w-20 h-20 overflow-hidden animate-blink"
+                    className="bg-neutral-200 mb-2 rounded-lg w-20 h-20 overflow-hidden animate-pulse"
                   />
                 );
               })}
           </div>
           {/* Main Image */}
-          <div className="bg-neutral-200 w-full lg:w-3/4 h-[80vh] overflow-hidden animate-blink" />
+          <div className="bg-neutral-200 w-full lg:w-3/4 h-[80vh] overflow-hidden animate-pulse" />
         </div>
 
         {/* Product Description */}
         <div className="p-5 lg:w-1/3">
           <div className="hidden lg:block">
-            <h1 className="bg-neutral-200 mb-2 h-10 animate-blink" />
-            <p className="bg-neutral-200 mb-2 h-6 animate-blink -600" />
-            <p className="bg-neutral-200 animate-blink" />
+            <h1 className="bg-neutral-200 mb-2 h-10 animate-pulse" />
+            <p className="bg-neutral-200 mb-2 h-6 animate-pulse -600" />
+            <p className="bg-neutral-200 animate-pulse" />
           </div>
 
           {/* Select Size */}
@@ -46,7 +46,7 @@ const ProductDetailSkeleton = () => {
                 .map((stock, index: number) => (
                   <div
                     key={index}
-                    className="flex justify-center items-center bg-neutral-200 rounded w-full h-10 lg:h-12 animate-blink"
+                    className="flex justify-center items-center bg-neutral-200 rounded w-full h-10 lg:h-12 animate-pulse"
                   />
                 ))}
             </div>
@@ -70,7 +70,7 @@ const ProductDetailSkeleton = () => {
             </div>
 
             {/* Product Description */}
-            <div className="bg-neutral-200 mt-6 rounded h-40 animate-blink" />
+            <div className="bg-neutral-200 mt-6 rounded h-40 animate-pulse" />
           </div>
         </div>
       </div>

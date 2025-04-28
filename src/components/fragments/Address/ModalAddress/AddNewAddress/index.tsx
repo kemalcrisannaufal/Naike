@@ -21,7 +21,7 @@ const AddNewAddress = (props: Proptypes) => {
     addressList,
     type = "add",
   } = props;
-  console.log(address);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
