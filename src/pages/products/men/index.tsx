@@ -9,7 +9,11 @@ const MenProductsPage = () => {
       <Head>
         <title>Men&#39;s Products</title>
       </Head>
-      <ProductsByCategoryView products={products} isLoading={isLoading} category="Men's Products"/>
+      <ProductsByCategoryView
+        products={products}
+        isLoading={isLoading}
+        category="Men's Products"
+      />
     </>
   );
 };

@@ -37,24 +37,32 @@ const Filter = (props: Proptypes) => {
       </div>
       <div className="bg-neutral-200 mb-1 w-full h-[1px]" />
 
-      {filterOpen &&
-        filterList.map((filter: any) => {
-          return (
-            <div key={filter.id}>
-              <label htmlFor={`filter-${filter.id}`}>
-                <input
-                  id={`filter-${filter.id}`}
-                  name={`price-filter`}
-                  type="checkbox"
-                  className="peer-checked mr-2"
-                  value={filterList.indexOf(filter)}
-                  onChange={(e: any) => handleChangeFilter(e)}
-                />
-                <span className="text-xs lg:text-sm">{filter.name}</span>
-              </label>
-            </div>
-          );
-        })}
+      {filterOpen && (
+        <div className="flex flex-wrap gap-2">
+          {filterList.map((filter: any) => {
+            return (
+              <div key={filter.id}>
+                <label
+                  htmlFor={`filter-${filter.id}`}
+                  className="flex items-center"
+                >
+                  <input
+                    id={`filter-${filter.id}`}
+                    name={`price-filter`}
+                    type="checkbox"
+                    className="peer hidden mr-2"
+                    value={filterList.indexOf(filter)}
+                    onChange={(e: any) => handleChangeFilter(e)}
+                  />
+                  <span className="peer-checked:bg-neutral-200 px-2 py-1 border border-neutral-200 rounded-full text-xs lg:text-sm">
+                    {filter.name}
+                  </span>
+                </label>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

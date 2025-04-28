@@ -8,6 +8,7 @@ import { userServices } from "@/services/user";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import CartViewSkeleton from "./Skeleton";
 import { useFavorite } from "@/components/hooks/useFavorite";
+import { useRouter } from "next/router";
 
 type Proptypes = {
   cart: Cart[];
@@ -21,6 +22,7 @@ const CartView = (props: Proptypes) => {
   const { cart, productsCart, subtotal, setCart, isLoading } = props;
   const { setToaster } = useContext(ToasterContext);
   const { favorites, setFavorites } = useFavorite();
+  const { push } = useRouter();
 
   const handleOnChangeSize = async (
     selectedSize: string,
@@ -113,7 +115,7 @@ const CartView = (props: Proptypes) => {
   return isLoading ? (
     <CartViewSkeleton />
   ) : (
-    <div className="p-5 md:px-20 lg:px-48 lg:pt-5 lg:pb-10">
+    <div className="p-5 md:px-20 lg:px-48 lg:pt-12 lg:pb-10">
       <Title>Cart</Title>
       {cart && cart.length > 0 ? (
         <div className="flex lg:flex-row flex-col-reverse lg:gap-5 mt-3 lg:mt-5">
@@ -137,12 +139,12 @@ const CartView = (props: Proptypes) => {
             })}
           </div>
           <div className="w-full lg:w-1/3">
-            <CartSummary subTotal={subtotal} />
+            <CartSummary subTotal={subtotal} onClick={() => push("checkout")} />
           </div>
         </div>
       ) : (
         <div>
-          <div className="bg-neutral-200 mt-3 lg:mt-5 p-3 w-full">
+          <div className="bg-neutral-200 mt-3 p-3 lg:pt-5 w-full">
             <p>
               Your cart is empty. Start adding your favorite products to your
               cart! 😊🛒

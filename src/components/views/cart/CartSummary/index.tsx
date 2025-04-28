@@ -1,15 +1,15 @@
 import Button from "@/components/ui/Button";
 import { convertIDR } from "@/utils/currency";
-import { useRouter } from "next/router";
 
 type Proptypes = {
   subTotal: number;
+  onClick: () => void;
 };
 
 const CartSummary = (props: Proptypes) => {
-  const { subTotal } = props;
+  const { subTotal, onClick } = props;
   const tax = subTotal * 0.1;
-  const { push } = useRouter();
+
   return (
     <div className="mb-5 w-full">
       <table className="table w-full table-auto">
@@ -69,7 +69,7 @@ const CartSummary = (props: Proptypes) => {
         type="button"
         variant="primary"
         classname="w-full rounded-l-full rounded-r-full md:py-4 mt-3 md:mt-5"
-        onClick={() => push("/checkout")}
+        onClick={onClick}
       >
         Member Checkout
       </Button>

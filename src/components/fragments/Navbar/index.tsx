@@ -138,6 +138,10 @@ const Navbar = () => {
                 iconClass="bx-shopping-bag"
                 onClick={() => handleNavigationAuth("/cart")}
               />
+              <NavButton
+                iconClass="bx-receipt"
+                onClick={() => handleNavigationAuth("/orders")}
+              />
               <button
                 className={`flex items-center gap-2 hover:bg-neutral-200 px-2 py-1 rounded-full transition-all duration-100 ease-in-out cursor-pointer ${
                   session.data && "border border-neutral-200"

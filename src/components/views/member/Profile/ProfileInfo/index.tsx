@@ -45,10 +45,19 @@ const ProfileInfo = (props: Proptypes) => {
               <div>
                 <label
                   htmlFor="upload-image"
-                  className="bg-neutral-200 hover:bg-neutral-400 px-4 py-2 border border-neutral-600 border-dashed rounded text-neutral-700 text-xs cursor-pointer"
+                  className="group relative bg-neutral-200 hover:bg-neutral-400 px-4 py-2 border border-neutral-600 border-dashed rounded text-neutral-700 text-xs cursor-pointer"
                 >
-                  {avatar.name ? avatar.name : "Select Image"}
+                  {avatar.name
+                    ? avatar.name.slice(0, 10) + "..."
+                    : "Select Image"}
+
+                  {avatar.name && (
+                    <div className="hidden group-hover:block -top-12 left-0 group-hover:absolute bg-neutral-800 px-2 py-1 rounded text-white text-xs">
+                      {avatar.name}
+                    </div>
+                  )}
                 </label>
+
                 <input
                   type="file"
                   name="image"
@@ -60,6 +69,7 @@ const ProfileInfo = (props: Proptypes) => {
                   hidden
                 />
               </div>
+
               <Button
                 type="submit"
                 variant="secondary"

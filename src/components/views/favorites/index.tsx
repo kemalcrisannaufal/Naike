@@ -68,6 +68,7 @@ const FavoriteView = (props: Proptypes) => {
   };
 
   return (
+    // <div className="p-5 md:px-20 lg:px-48 lg:pt-5 lg:pb-10">
     <div className="md:px-20 lg:px-10 py-5 lg:pt-12 lg:pb-10">
       {!isLoading && favorites && favorites.length > 0 ? (
         <div>
@@ -106,7 +107,10 @@ const FavoriteView = (props: Proptypes) => {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="px-5 md:px-0">
+          <div className="px-5 md:px-0">
+            <Title variant="small">Favourites</Title>
+          </div>
           <div className="bg-neutral-200 mt-3 lg:mt-5 p-3 w-full">
             <p>
               Your Favorite is empty. Start adding your favorite products! 😊🛒

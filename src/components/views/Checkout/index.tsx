@@ -18,6 +18,7 @@ import { ToasterContext } from "@/contexts/ToasterContext";
 import CheckoutViewSkeleton from "./skeleton";
 import CartSummary from "../cart/CartSummary";
 import ModalAddress from "@/components/fragments/Address/ModalAddress";
+import orderServices from "@/services/orders";
 
 type Proptypes = {
   cart: Cart[];
@@ -41,6 +42,12 @@ const CheckoutView = (props: Proptypes) => {
     return subtotal;
   };
 
+  useEffect(() => {
+    if (profile.address) {
+      setAddress(profile.address.find((item) => item.isMain));
+    }
+  }, [profile.address]);
+
   const onAddAddress = async (data: Address[]) => {
     const result = await userServices.updateProfile({
       address: data,
@@ -61,16 +68,35 @@ const CheckoutView = (props: Proptypes) => {
     }
   };
 
-  useEffect(() => {
-    if (profile.address) {
-      setAddress(profile.address.find((item) => item.isMain));
+  const handleCheckout = async () => {
+    const data = {
+      items: cart,
+      address,
+      status: "pending",
+      total: getSubtotal(),
+      created_at: new Date(),
+      updated_at: new Date(),
+    };
+
+    const result = await orderServices.createOrder(data);
+
+    if (result.status === 200) {
+      setToaster({
+        variant: "success",
+        message: "Order successfully created!",
+      });
+    } else {
+      setToaster({
+        variant: "error",
+        message: "Failed to create order. Please try again later!",
+      });
     }
-  }, [profile.address]);
+  };
 
   return (
     <>
       {!isLoading ? (
-        <div className="p-5 md:px-20 lg:px-48 lg:pt-5 lg:pb-10">
+        <div className="p-5 md:px-20 lg:px-48 lg:pt-12 lg:pb-10">
           <Title>Checkout</Title>
 
           <div className="lg:flex gap-5 w-full">
@@ -113,7 +139,7 @@ const CheckoutView = (props: Proptypes) => {
             </div>
 
             <div className="lg:w-1/3">
-              <CartSummary subTotal={getSubtotal()} />
+              <CartSummary subTotal={getSubtotal()} onClick={handleCheckout} />
             </div>
           </div>
         </div>

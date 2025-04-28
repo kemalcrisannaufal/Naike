@@ -26,7 +26,7 @@ const ProductDetailPage = () => {
           setFavorites={setFavorites}
         />
       ) : (
-        <PageNotFound />
+        !isLoading && <PageNotFound />
       )}
     </>
   );
