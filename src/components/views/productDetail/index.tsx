@@ -226,35 +226,37 @@ const ProductDetailView = (props: Proptypes) => {
             <p className="font-semibold text-md lg:text-lg">Select Size</p>
             <div className="gap-2 grid grid-cols-4">
               {product.stock &&
-                product.stock.map((stock, index: number) => (
-                  <label
-                    key={index}
-                    htmlFor={`size-${index}`}
-                    className={`flex justify-center items-center  border border-neutral-200 rounded w-full h-10 lg:h-12 cursor-pointer ${
-                      stock.qty > 0 && "hover:bg-neutral-100 cursor-default"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      id={`size-${index}`}
-                      name="size"
-                      value={stock.size}
-                      className="peer hidden"
-                      disabled={stock.qty === 0}
-                      onChange={() => setSelectedSize(stock.size)}
-                      checked={selectedSize === stock.size}
-                    />
-                    <span
-                      className={`flex justify-center items-center rounded w-full h-full text-md lg:text-lg ${
-                        stock.qty > 0
-                          ? "peer-checked:border-2 peer-checked:border-primary "
-                          : "text-neutral-400"
+                product.stock
+                  .sort((a, b) => a.size.localeCompare(b.size))
+                  .map((stock, index: number) => (
+                    <label
+                      key={index}
+                      htmlFor={`size-${index}`}
+                      className={`flex justify-center items-center  border border-neutral-200 rounded w-full h-10 lg:h-12 cursor-pointer ${
+                        stock.qty > 0 && "hover:bg-neutral-100 cursor-default"
                       }`}
                     >
-                      {stock.size}
-                    </span>
-                  </label>
-                ))}
+                      <input
+                        type="radio"
+                        id={`size-${index}`}
+                        name="size"
+                        value={stock.size}
+                        className="peer hidden"
+                        disabled={stock.qty === 0}
+                        onChange={() => setSelectedSize(stock.size)}
+                        checked={selectedSize === stock.size}
+                      />
+                      <span
+                        className={`flex justify-center items-center rounded w-full h-full text-md lg:text-lg ${
+                          stock.qty > 0
+                            ? "peer-checked:border-2 peer-checked:border-primary "
+                            : "text-neutral-400"
+                        }`}
+                      >
+                        {stock.size}
+                      </span>
+                    </label>
+                  ))}
             </div>
 
             {/* Button Cart and Favourite */}

@@ -6,6 +6,7 @@ import OrderDetails from "./OrderDetails";
 import OrderCard from "./Card";
 import PaymentDetails from "./PaymentDetails";
 import Button from "@/components/ui/Button";
+import Select from "@/components/ui/Select";
 
 type Proptypes = {
   orders: Order[];
@@ -60,6 +61,32 @@ const OrdersView = (props: Proptypes) => {
       ) : (
         orders && (
           <div className="mt-5">
+            <div className="mb-2">
+              <Select
+                name="category"
+                options={[
+                  { label: "All Categories", value: "all" },
+                  { label: "Men's shoes", value: "Men's shoes" },
+                  { label: "Women's shoes", value: "Women's shoes" },
+                ]}
+                label="Category"
+                defaultValue="all"
+                onChange={(e) => {
+                  const selectedCategory = e.target.value;
+                  const filteredOrders = showedOrders.filter((order) =>
+                    order.items.some(
+                      (item) =>
+                        products.find(
+                          (product) => product.id === item.productId
+                        )?.category === selectedCategory
+                    )
+                  );
+                  setShowedOrders(
+                    selectedCategory === "all" ? orders : filteredOrders
+                  );
+                }}
+              />
+            </div>
             <div className="flex items-center gap-3 mb-5">
               <p className="font-semibold text-md">Status</p>
               {orderStatus.map((status) => {
