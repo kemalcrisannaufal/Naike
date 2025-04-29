@@ -1,6 +1,4 @@
 import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
-
 const ProfileMemberViewSkeleton = () => {
   return (
     <div className="p-5 md:px-32 md:py-10">
@@ -43,8 +41,8 @@ const ProfileMemberViewSkeleton = () => {
             Profile Information
           </h1>
           <div>
-            <Input label="Fullname" name="fullname" type="text" skeleton />
-            <Input label="Phone" name="phone" type="number" skeleton />
+            <div className="bg-neutral-200 mb-3 w-full h-10 animate-pulse" />
+            <div className="bg-neutral-200 mb-3 w-full h-10 animate-pulse" />
             <div className="flex justify-end w-full">
               <Button type="button" classname="md:px-5" disabled>
                 <span>Update Profile</span>
@@ -57,18 +55,8 @@ const ProfileMemberViewSkeleton = () => {
           <h1 className="mb-3 font-semibold text-neutral-800 text-xl">
             Reset Password
           </h1>
-          <Input
-            label="Current Password"
-            name="old-password"
-            type="password"
-            skeleton
-          />
-          <Input
-            label="New Password"
-            name="new-password"
-            type="password"
-            skeleton
-          />
+          <div className="bg-neutral-200 mb-3 w-full h-10 animate-pulse" />
+          <div className="bg-neutral-200 mb-3 w-full h-10 animate-pulse" />
           <div className="flex justify-end w-full">
             <Button disabled>Save Changes</Button>
           </div>

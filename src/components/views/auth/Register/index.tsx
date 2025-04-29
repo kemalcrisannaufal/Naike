@@ -15,40 +15,49 @@ const RegisterView = () => {
     event.preventDefault();
     setIsLoading(true);
     const form = event.target as HTMLFormElement;
-    const data = {
-      email: form.email.value,
-      fullname: form.fullname.value,
-      password: form.password.value,
-      phone: form.phone.value,
-    };
 
-    if (data.email && data.fullname && data.password && data.phone) {
-      try {
-        const result = await authServices.registerAccount(data);
-        if (result.status == 200) {
-          setIsLoading(false);
-          form.reset();
-          push("/auth/login");
-        } else {
+    if (form.password.value === form.password_confirmation.value) {
+      const data = {
+        email: form.email.value,
+        fullname: form.fullname.value,
+        password: form.password.value,
+        phone: form.phone.value,
+      };
+
+      if (data.email && data.fullname && data.password && data.phone) {
+        try {
+          const result = await authServices.registerAccount(data);
+          if (result.status == 200) {
+            setIsLoading(false);
+            form.reset();
+            push("/auth/login");
+          } else {
+            setIsLoading(false);
+            setToaster({
+              variant: "error",
+              message: "Email already exist. Please try again",
+            });
+          }
+        } catch (error) {
           setIsLoading(false);
           setToaster({
             variant: "error",
             message: "Email already exist. Please try again",
           });
+          console.log(error);
         }
-      } catch (error) {
+      } else {
         setIsLoading(false);
         setToaster({
           variant: "error",
-          message: "Email already exist. Please try again",
+          message: "Please fill all the fields",
         });
-        console.log(error);
       }
     } else {
       setIsLoading(false);
       setToaster({
         variant: "error",
-        message: "Please fill all the fields",
+        message: "Password and password confirmation do not match",
       });
     }
   };
@@ -80,6 +89,14 @@ const RegisterView = () => {
             name="password"
             type="password"
             placeholder="password"
+            forPassword={true}
+          />
+          <Input
+            label="Password Confirmation"
+            name="password_confirmation"
+            type="password"
+            placeholder="password"
+            forPassword={true}
           />
 
           <Button type="submit" classname="w-full">

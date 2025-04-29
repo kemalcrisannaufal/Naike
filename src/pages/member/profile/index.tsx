@@ -11,6 +11,7 @@ const ProfileMemberPage = () => {
       <Head>
         <title>Profile</title>
       </Head>
+
       {isLoading ? (
         <ProfileMemberViewSkeleton />
       ) : (

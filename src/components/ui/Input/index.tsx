@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Proptypes = {
   label?: string;
@@ -9,7 +11,7 @@ type Proptypes = {
   onChange?: any;
   value?: any;
   multiple?: boolean;
-  skeleton?: boolean;
+  forPassword?: boolean;
 };
 
 const Input = (props: Proptypes) => {
@@ -23,8 +25,19 @@ const Input = (props: Proptypes) => {
     disabled,
     value,
     multiple = false,
-    skeleton = false,
+    forPassword = false,
   } = props;
+
+  const [typeInput, setTypeInput] = useState(type);
+
+  const handleClick = () => {
+    if (typeInput === "password") {
+      setTypeInput("text");
+    } else {
+      setTypeInput("password");
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2 mb-3 w-full">
       <label
@@ -33,13 +46,9 @@ const Input = (props: Proptypes) => {
       >
         {label}
       </label>
-      {skeleton ? (
-        <div
-          className={`bg-neutral-200 w-full border border-neutral-300 rounded h-8 md:h-10 animate-pulse`}
-        />
-      ) : (
+      <div className="relative w-full">
         <input
-          type={type}
+          type={typeInput}
           value={value}
           placeholder={placeholder}
           className={`w-full border border-neutral-300 rounded p-2 text-neutral-600 focus:outline-none focus:border-neutral-600 ${
@@ -52,7 +61,19 @@ const Input = (props: Proptypes) => {
           disabled={disabled}
           multiple={multiple}
         />
-      )}
+        {forPassword && (
+          <div
+            className="top-2 right-2 absolute cursor-pointer"
+            onClick={handleClick}
+          >
+            <i
+              className={`text-2xl bx ${
+                typeInput === "password" ? "bx-hide" : "bx-show"
+              }`}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

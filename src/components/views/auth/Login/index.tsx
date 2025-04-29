@@ -73,6 +73,7 @@ const LoginView = () => {
             label="Password"
             type="password"
             placeholder="password"
+            forPassword={true}
           />
           <div>
             <Button type="submit" classname="w-full">
