@@ -9,5 +9,5 @@ export type Order = {
   subtotal: number;
   taxes: number;
   created_at: Date;
-  updated_at: Date;
+  updated_at?: Date;
 };

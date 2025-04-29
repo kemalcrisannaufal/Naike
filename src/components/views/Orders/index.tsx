@@ -1,21 +1,41 @@
-import Button from "@/components/ui/Button";
 import Title from "@/components/ui/Text/Title";
 import { Order } from "@/types/orders.type";
 import { Product } from "@/types/product.type";
-import { convertIDR } from "@/utils/currency";
-import { ConvertDateToString } from "@/utils/date";
-import Image from "next/image";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import OrderDetails from "./OrderDetails";
+import OrderCard from "./Card";
+import PaymentDetails from "./PaymentDetails";
+import Button from "@/components/ui/Button";
 
 type Proptypes = {
   orders: Order[];
+  setOrders: Dispatch<SetStateAction<Order[]>>;
   products: Product[];
   isLoading: boolean;
 };
+
+const orderStatus = [
+  { id: 0, name: "All Orders" },
+  { id: 1, name: "Pending" },
+  { id: 2, name: "Paid" },
+];
+
 const OrdersView = (props: Proptypes) => {
-  const { orders, products, isLoading } = props;
+  const { orders, products, isLoading, setOrders } = props;
   const [orderDetails, setOrderDetails] = useState<Order | null>(null);
+  const [paymentDetails, setPaymentDetails] = useState<Order | null>(null);
+  const [orderState, setOrderState] = useState<number>(0);
+  const [showedOrders, setShowedOrders] = useState<Order[]>(orders);
+
+  useEffect(() => {
+    const filteredOrders = orders.filter(
+      (order) =>
+        order.status.toLowerCase() ===
+        orderStatus[orderState].name.toLowerCase()
+    );
+    setShowedOrders(orderState === 0 ? orders : filteredOrders);
+  }, [orderState, orders]);
+
   return (
     <div className="p-5 md:px-20 lg:px-48 lg:pt-12 lg:pb-10">
       <Title>Orders</Title>
@@ -26,7 +46,7 @@ const OrdersView = (props: Proptypes) => {
               <div
                 key={index}
                 className="bg-neutral-200 mb-3 rounded w-full h-52 animate-pulse"
-              ></div>
+              />
             );
           })}
         </div>
@@ -38,104 +58,40 @@ const OrdersView = (props: Proptypes) => {
           </p>
         </div>
       ) : (
-        <div className="mt-5">
-          {orders.map((order) => {
-            const product = products.find(
-              (product) => product.id === order.items[0].productId
-            );
-            return (
-              <div
-                key={order.id}
-                className="shadow-xs mb-3 p-2 border border-neutral-200 rounded-lg w-full"
-              >
-                <div className="flex md:flex-row flex-col-reverse md:items-center gap-2 mb-3">
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="flex items-center gap-1 px-2 py-1">
-                      <i className="text-xl bx bx-shopping-bag" />
-                      <p className="font-semibold text-neutral-600 text-xs">
-                        Shopping
-                      </p>
-                    </div>
-
-                    <p className="font-semibold text-neutral-700 text-xs md:text-sm">
-                      {ConvertDateToString(order.created_at)}
-                    </p>
-                    <div className="bg-primary px-2 py-1 rounded">
-                      <p className="font-semibold text-white text-xs md:text-sm">
-                        {order.status.toUpperCase()}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="font-bold text-neutral-700 text-sm">
-                    #{order.id.toUpperCase()}
-                  </p>
-                </div>
-
-                <div className="pr-[5%] w-full">
-                  <div className="flex gap-3">
-                    {product && product.mainImage && (
-                      <div className="w-28 h-28">
-                        <Image
-                          src={product?.mainImage}
-                          alt={product?.name}
-                          width={100}
-                          height={100}
-                          priority
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-
-                    {product && (
-                      <div className="flex justify-between gap-2 w-full">
-                        <div>
-                          <p className="font-semibold text-md md:text-lg">
-                            {product?.name}
-                          </p>
-                          <p className="text-neutral-500 text-xs md:text-sm">
-                            {order.items[0].qty} x {convertIDR(product!.price)}
-                          </p>
-                          {order.items.length > 1 && (
-                            <button
-                              className="mt-2 cursor-pointer"
-                              onClick={() => setOrderDetails(order)}
-                            >
-                              <p className="font-medium text-neutral-600 text-xs md:text-sm">
-                                +{order.items.length - 1} more product
-                              </p>
-                            </button>
-                          )}
-                        </div>
-
-                        <div>
-                          <p className="text-neutral-700 text-xs md:text-sm">
-                            Order Total
-                          </p>
-                          <p className="font-semibold text-md md:text-lg">
-                            {convertIDR(order.subtotal + order.taxes)}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="flex justify-end gap-5">
-                    <Button
-                      variant="secondary"
-                      classname="bg-white"
-                      onClick={() => setOrderDetails(order)}
-                    >
-                      <p className="md:text-md text-sm">See Details</p>
-                    </Button>
-                    <Button>
-                      <p className="md:text-md text-sm">Proceed to Payment</p>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        orders && (
+          <div className="mt-5">
+            <div className="flex items-center gap-3 mb-5">
+              <p className="font-semibold text-md">Status</p>
+              {orderStatus.map((status) => {
+                return (
+                  <Button
+                    key={status.id}
+                    variant={`${
+                      orderState === status.id ? "primary" : "secondary"
+                    }`}
+                    onClick={() => setOrderState(status.id)}
+                  >
+                    <p className="">{status.name}</p>
+                  </Button>
+                );
+              })}
+            </div>
+            {showedOrders.map((order) => {
+              const product = products.find(
+                (product) => product.id === order.items[0].productId
+              );
+              return (
+                <OrderCard
+                  key={order.id}
+                  order={order}
+                  product={product!}
+                  setOrderDetails={setOrderDetails}
+                  setPaymentDetails={setPaymentDetails}
+                />
+              );
+            })}
+          </div>
+        )
       )}
 
       {Object.keys(orderDetails || {}).length > 0 && orderDetails && (
@@ -143,6 +99,15 @@ const OrdersView = (props: Proptypes) => {
           onClose={() => setOrderDetails(null)}
           order={orderDetails}
           products={products}
+        />
+      )}
+
+      {Object.keys(paymentDetails || {}).length > 0 && paymentDetails && (
+        <PaymentDetails
+          order={paymentDetails}
+          products={products}
+          setOrders={setOrders}
+          onClose={() => setPaymentDetails(null)}
         />
       )}
     </div>

@@ -20,6 +20,8 @@ import CartSummary from "../cart/CartSummary";
 import ModalAddress from "@/components/fragments/Address/ModalAddress";
 import orderServices from "@/services/orders";
 import productServices from "@/services/products";
+import { useRouter } from "next/router";
+import Button from "@/components/ui/Button";
 
 type Proptypes = {
   cart: Cart[];
@@ -34,6 +36,7 @@ const CheckoutView = (props: Proptypes) => {
   const [address, setAddress] = useState<Address>();
   const [modalAddress, setModalAddress] = useState(false);
   const { setToaster } = useContext(ToasterContext);
+  const { push } = useRouter();
 
   const getSubtotal = () => {
     const subtotal = cart.reduce((acc, item) => {
@@ -103,35 +106,52 @@ const CheckoutView = (props: Proptypes) => {
   };
 
   const handleCheckout = async () => {
-    const data = {
-      items: cart,
-      address,
-      status: "pending",
-      subtotal: getSubtotal(),
-      taxes: 0.1 * getSubtotal(),
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
-
-    const result = await orderServices.createOrder(data);
-
-    if (result.status === 200) {
-      const result = await userServices.updateCart({
-        cart: [],
+    if (address) {
+      const data = {
+        items: cart,
+        address,
+        status: "pending",
+        subtotal: getSubtotal(),
+        taxes: 0.1 * getSubtotal(),
+        created_at: new Date(),
         updated_at: new Date(),
-      });
+      };
+
+      const result = await orderServices.createOrder(data);
 
       if (result.status === 200) {
-        const responseStock = await handleStock();
-        if (responseStock) {
-          setToaster({
-            variant: "success",
-            message: "Order successfully created!",
-          });
+        const result = await userServices.updateCart({
+          cart: [],
+          updated_at: new Date(),
+        });
+
+        if (result.status === 200) {
+          const responseStock = await handleStock();
+          if (responseStock) {
+            setToaster({
+              variant: "custom",
+              message: "Success!",
+              children: (
+                <div>
+                  <p className="mb-3">
+                    Your order has been successfully created
+                  </p>
+                  <Button onClick={() => push("/orders")} classname="w-full">
+                    View Order
+                  </Button>
+                </div>
+              ),
+            });
+          } else {
+            setToaster({
+              variant: "error",
+              message: "Failed to update stock. Please try again later!",
+            });
+          }
         } else {
           setToaster({
             variant: "error",
-            message: "Failed to update stock. Please try again later!",
+            message: "Failed to create order. Please try again later!",
           });
         }
       } else {
@@ -143,14 +163,16 @@ const CheckoutView = (props: Proptypes) => {
     } else {
       setToaster({
         variant: "error",
-        message: "Failed to create order. Please try again later!",
+        message: "Please add an address before checkout!",
       });
     }
   };
 
   return (
     <>
-      {!isLoading ? (
+      {isLoading ? (
+        <CheckoutViewSkeleton />
+      ) : cart.length > 0 ? (
         <div className="p-5 md:px-20 lg:px-48 lg:pt-12 lg:pb-10">
           <Title>Checkout</Title>
 
@@ -199,7 +221,16 @@ const CheckoutView = (props: Proptypes) => {
           </div>
         </div>
       ) : (
-        <CheckoutViewSkeleton />
+        cart.length === 0 && (
+          <div className="p-5 md:px-20 lg:px-48 lg:pt-12 lg:pb-10">
+            <Title>Checkout</Title>
+            <div className="bg-neutral-200 mt-3 lg:mt-5 p-2 w-full">
+              <p>
+                Your cart is empty. Please add some items to your cart! 😊🛒
+              </p>
+            </div>
+          </div>
+        )
       )}
 
       {modalAddress && (

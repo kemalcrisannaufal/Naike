@@ -1,9 +1,10 @@
+import Title from "@/components/ui/Text/Title";
 import CartSummarySkeleton from "../CartSummary/skeleton";
 
 const CartViewSkeleton = () => {
   return (
     <div className="p-5 md:px-20 lg:px-48 lg:pt-12 lg:pb-10">
-      <h1 className="font-bold text-3xl">Cart</h1>
+      <Title>Cart</Title>
       <div className="flex lg:flex-row flex-col-reverse lg:gap-5 mt-3 lg:mt-5">
         <div className="w-full lg:w-2/3">
           {Array.from({ length: 4 }).map((_, index) => (

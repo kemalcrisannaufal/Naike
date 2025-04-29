@@ -68,7 +68,6 @@ const FavoriteView = (props: Proptypes) => {
   };
 
   return (
-    // <div className="p-5 md:px-20 lg:px-48 lg:pt-5 lg:pb-10">
     <div className="md:px-20 lg:px-10 py-5 lg:pt-12 lg:pb-10">
       {!isLoading && favorites && favorites.length > 0 ? (
         <div>
@@ -97,7 +96,9 @@ const FavoriteView = (props: Proptypes) => {
         </div>
       ) : isLoading ? (
         <div>
-          <Title variant="small">Favourites</Title>
+          <div className="px-5 md:px-0">
+            <Title variant="small">Favourites</Title>
+          </div>
           <div className="gap-3 gap-y-10 lg:gap-5 grid grid-cols-2 lg:grid-cols-3 mt-3 lg:mt-5">
             {Array(6)
               .fill(0)
@@ -107,7 +108,7 @@ const FavoriteView = (props: Proptypes) => {
           </div>
         </div>
       ) : (
-        <div className="px-5 md:px-0">
+        <div>
           <div className="px-5 md:px-0">
             <Title variant="small">Favourites</Title>
           </div>

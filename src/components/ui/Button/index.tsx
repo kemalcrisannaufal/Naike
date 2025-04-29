@@ -23,11 +23,11 @@ const Button = (props: Proptypes) => {
     <button
       type={type}
       onClick={onClick}
-      className={`p-2 px-3 text-sm lg:text-md font-semibold rounded cursor-pointer flex gap-2 justify-center items-center focus:outline-none  
+      className={`p-2 px-3 text-sm lg:text-md font-semibold rounded-lg cursor-pointer flex gap-2 justify-center items-center focus:outline-none  
         ${
           variant === "primary"
             ? "bg-primary text-white"
-            : "bg-neutral-200 text-black"
+            : " text-black border border-neutral-200"
         }
   ${
     variant === "primary" &&

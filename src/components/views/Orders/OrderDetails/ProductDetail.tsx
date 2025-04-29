@@ -45,6 +45,9 @@ const ProductDetail = (props: Proptypes) => {
               <p className="text-neutral-500 text-xs md:text-sm">
                 {item.qty} x {convertIDR(product!.price)}
               </p>
+              <p className="text-neutral-500 text-xs md:text-sm">
+                Size : {item.size}
+              </p>
             </Link>
           </div>
         );
