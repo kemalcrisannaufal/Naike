@@ -24,7 +24,7 @@ const ProductAdminViews = (props: Proptypes) => {
     <>
       <AdminLayout>
         <div className="flex md:flex-row flex-col md:justify-between md:items-center w-full">
-          <Title>Product Management</Title>
+          <Title>Products</Title>
           <Button
             type="button"
             variant="primary"

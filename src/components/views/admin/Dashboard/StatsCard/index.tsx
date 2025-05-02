@@ -8,7 +8,7 @@ type Proptypes = {
 const StatsCard = (props: Proptypes) => {
   const { title, value, icon, description, loading } = props;
   return (
-    <div className="relative p-5 border-2 border-neutral-200 rounded">
+    <div className="relative p-5 border-2 border-neutral-200 rounded w-full min-w-xs">
       <div className="top-3 right-2 absolute">
         <i className={`bg-neutral-200 rounded-full text-3xl p-1 bx ${icon}`} />
       </div>

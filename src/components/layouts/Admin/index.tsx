@@ -16,6 +16,11 @@ const listItem = [
     icon: "bx bxs-shopping-bag",
   },
   {
+    name: "Payments",
+    url: "/admin/payments",
+    icon: "bx bx-money",
+  },
+  {
     name: "Products",
     url: "/admin/products",
     icon: "bx bxs-box",

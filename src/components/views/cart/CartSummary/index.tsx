@@ -4,10 +4,11 @@ import { convertIDR } from "@/utils/currency";
 type Proptypes = {
   subTotal: number;
   onClick: () => void;
+  isLoading?: boolean;
 };
 
 const CartSummary = (props: Proptypes) => {
-  const { subTotal, onClick } = props;
+  const { subTotal, onClick, isLoading } = props;
   const tax = subTotal * 0.1;
 
   return (
@@ -70,8 +71,9 @@ const CartSummary = (props: Proptypes) => {
         variant="primary"
         classname="w-full rounded-l-full rounded-r-full md:py-4 mt-3 md:mt-5"
         onClick={onClick}
+        disabled={isLoading}
       >
-        Member Checkout
+        <p>{isLoading ? "Loading..." : "Member Checkout"}</p>
       </Button>
     </div>
   );

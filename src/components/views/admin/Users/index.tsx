@@ -26,7 +26,7 @@ const UsersAdminViews = (props: Proptypes) => {
   return (
     <>
       <AdminLayout>
-        <Title>User Management</Title>
+        <Title>Users</Title>
         {usersData.length === 0 ? (
           <UserTableSkeleton />
         ) : (

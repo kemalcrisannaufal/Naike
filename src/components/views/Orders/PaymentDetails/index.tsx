@@ -14,7 +14,6 @@ import { ToasterContext } from "@/contexts/ToasterContext";
 type Proptypes = {
   order: Order;
   onClose: () => void;
-  // handlePayment: (order: Order) => void;
   products: Product[];
   setOrders: Dispatch<SetStateAction<Order[]>>;
 };
@@ -23,7 +22,9 @@ const PaymentDetails = (props: Proptypes) => {
   const { order, onClose, products, setOrders } = props;
   const { setToaster } = useContext(ToasterContext);
   const [showPaymentReceipt, setShowPaymentReceipt] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handlePayment = async () => {
+    setIsLoading(true);
     const paymentData: Payment = {
       orderId: order.id,
       amount: order.subtotal + order.taxes,
@@ -47,12 +48,7 @@ const PaymentDetails = (props: Proptypes) => {
       if (result.status === 200) {
         const { data } = await orderServices.getOrders();
         setOrders(data.data);
-        // setToaster({
-        //   variant: "success",
-        //   message: "Payment successfully updated!",
-        // });
         setShowPaymentReceipt(true);
-        // onClose();
       } else {
         setToaster({
           variant: "error",
@@ -65,6 +61,8 @@ const PaymentDetails = (props: Proptypes) => {
         message: "Failed to process payment. Please try again later!",
       });
     }
+
+    setIsLoading(false);
   };
   return (
     <>
@@ -74,7 +72,9 @@ const PaymentDetails = (props: Proptypes) => {
           <TransactionInformation order={order} products={products} />
 
           <div className="flex justify-end mt-5">
-            <Button onClick={handlePayment}> Make Payment</Button>
+            <Button onClick={handlePayment} disabled={isLoading}>
+              {isLoading ? "Processing..." : "Make Payment"}
+            </Button>
           </div>
         </Modal>
       ) : (

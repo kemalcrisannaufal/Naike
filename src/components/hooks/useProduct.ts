@@ -18,6 +18,12 @@ export const useProduct = (id?: string, category?: string) => {
         setProducts(data.data);
       } else {
         const { data } = await productServices.getAllProducts();
+        data.data.sort(
+          (a: Product, b: Product) =>
+            new Date(b.created_at ?? 0).getTime() -
+            new Date(a.created_at ?? 0).getTime()
+        );
+
         setProducts(data.data);
       }
 

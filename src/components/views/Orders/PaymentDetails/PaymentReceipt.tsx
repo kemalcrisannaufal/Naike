@@ -20,8 +20,10 @@ const PaymentReceipt = (props: Proptypes) => {
 
   useEffect(() => {
     const getPaymentInfo = async () => {
-      const { data } = await paymentServices.getPaymentInfo(order.id);
-      setPaymentInfo(data.data[0]);
+      if (order.id) {
+        const { data } = await paymentServices.getPaymentInfo(order.id);
+        setPaymentInfo(data.data[0]);
+      }
     };
     getPaymentInfo();
   }, [order]);

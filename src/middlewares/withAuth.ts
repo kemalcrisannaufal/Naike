@@ -7,6 +7,7 @@ import {
 } from "next/server";
 
 const onlyAdmin = ["admin"];
+const onlyMember = ["checkout", "orders", "favorite", "cart", "member"];
 const authPage = ["auth"];
 
 export default function withAuth(
@@ -31,6 +32,10 @@ export default function withAuth(
       if (token) {
         if (authPage.includes(pathname)) {
           return NextResponse.redirect(new URL("/", req.url));
+        }
+
+        if (token.role === "admin" && onlyMember.includes(pathname)) {
+          return NextResponse.redirect(new URL("/admin", req.url));
         }
 
         if (token.role !== "admin" && onlyAdmin.includes(pathname)) {

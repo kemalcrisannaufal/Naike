@@ -25,26 +25,33 @@ const RegisterView = () => {
       };
 
       if (data.email && data.fullname && data.password && data.phone) {
-        try {
-          const result = await authServices.registerAccount(data);
-          if (result.status == 200) {
-            setIsLoading(false);
-            form.reset();
-            push("/auth/login");
-          } else {
+        if (data.password.length < 8) {
+          setToaster({
+            variant: "error",
+            message: "Password must be at least 8 characters",
+          });
+        } else {
+          try {
+            const result = await authServices.registerAccount(data);
+            if (result.status == 200) {
+              setIsLoading(false);
+              form.reset();
+              push("/auth/login");
+            } else {
+              setIsLoading(false);
+              setToaster({
+                variant: "error",
+                message: "Email already exist. Please try again",
+              });
+            }
+          } catch (error) {
             setIsLoading(false);
             setToaster({
               variant: "error",
               message: "Email already exist. Please try again",
             });
+            console.log(error);
           }
-        } catch (error) {
-          setIsLoading(false);
-          setToaster({
-            variant: "error",
-            message: "Email already exist. Please try again",
-          });
-          console.log(error);
         }
       } else {
         setIsLoading(false);

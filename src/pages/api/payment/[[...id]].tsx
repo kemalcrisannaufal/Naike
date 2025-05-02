@@ -20,7 +20,7 @@ export default async function handler(
         token,
         process.env.NEXTAUTH_SECRET || "",
         async (err: any, decoded: any) => {
-          if (decoded && decoded.role === "admin") {
+          if (decoded) {
             const data = await retreiveDataByField(
               "payments",
               "orderId",
@@ -54,7 +54,7 @@ export default async function handler(
         token,
         process.env.NEXTAUTH_SECRET || "",
         async (err: any, decoded: any) => {
-          if (decoded) {
+          if (decoded && decoded.role === "admin") {
             const data = await retrieveData("payments");
             if (data) {
               res.status(200).json({

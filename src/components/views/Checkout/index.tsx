@@ -37,6 +37,7 @@ const CheckoutView = (props: Proptypes) => {
   const [modalAddress, setModalAddress] = useState(false);
   const { setToaster } = useContext(ToasterContext);
   const { push } = useRouter();
+  const [isLoadingCheckout, setIsLoadingCheckout] = useState(false);
 
   const getSubtotal = () => {
     const subtotal = cart.reduce((acc, item) => {
@@ -106,6 +107,7 @@ const CheckoutView = (props: Proptypes) => {
   };
 
   const handleCheckout = async () => {
+    setIsLoadingCheckout(true);
     if (address) {
       const data = {
         items: cart,
@@ -166,6 +168,7 @@ const CheckoutView = (props: Proptypes) => {
         message: "Please add an address before checkout!",
       });
     }
+    setIsLoadingCheckout(false);
   };
 
   return (
@@ -216,7 +219,11 @@ const CheckoutView = (props: Proptypes) => {
             </div>
 
             <div className="lg:w-1/3">
-              <CartSummary subTotal={getSubtotal()} onClick={handleCheckout} />
+              <CartSummary
+                subTotal={getSubtotal()}
+                onClick={handleCheckout}
+                isLoading={isLoadingCheckout}
+              />
             </div>
           </div>
         </div>

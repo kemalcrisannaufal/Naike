@@ -1,9 +1,11 @@
 import paymentServices from "@/services/payment";
 import { Payment } from "@/types/payment.type";
 import { useEffect, useState } from "react";
+import { useOrder } from "./useOrder";
 
 export const usePayment = () => {
-  const [payments, setPayments] = useState<Payment>();
+  const [payments, setPayments] = useState<Payment[]>();
+  const { orders } = useOrder();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -16,7 +18,7 @@ export const usePayment = () => {
       setIsLoading(false);
     };
     getPayment();
-  }, []);
+  }, [orders]);
 
   return { payments, setPayments, isLoading };
 };
