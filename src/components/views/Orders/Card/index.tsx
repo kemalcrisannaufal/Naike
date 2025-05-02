@@ -1,10 +1,12 @@
 import Button from "@/components/ui/Button";
+import { ToasterContext } from "@/contexts/ToasterContext";
+import orderServices from "@/services/orders";
 import { Order } from "@/types/orders.type";
 import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
 import { ConvertDateToString } from "@/utils/date";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 type Proptypes = {
   order: Order;
   product: Product;
@@ -14,6 +16,25 @@ type Proptypes = {
 
 const OrderCard = (props: Proptypes) => {
   const { order, product, setOrderDetails, setPaymentDetails } = props;
+  const { setToaster } = useContext(ToasterContext);
+
+  const handleFinishOrder = async () => {
+    const result = await orderServices.updateOrder(order.id, {
+      status: "done",
+    });
+    if (result.status === 200) {
+      order.status = "done";
+      setToaster({
+        type: "success",
+        message: "Order finished successfully",
+      });
+    } else {
+      setToaster({
+        type: "error",
+        message: "Failed to finish order",
+      });
+    }
+  };
   return (
     <div
       key={order.id}
@@ -31,10 +52,16 @@ const OrderCard = (props: Proptypes) => {
           </p>
           <div
             className={`${
-              order.status === "paid" ? "bg-green-600" : "bg-yellow-600"
+              order.status === "pending"
+                ? "bg-yellow-200 text-yellow-800"
+                : order.status === "paid"
+                ? "bg-blue-200 text-blue-800"
+                : order.status === "shipped"
+                ? "bg-purple-200 text-purple-800"
+                : "bg-green-200 text-green-800"
             } px-2 py-1 rounded`}
           >
-            <p className="font-semibold text-white text-xs md:text-sm">
+            <p className="font-semibold text-xs md:text-sm">
               {order.status && order.status.toUpperCase()}
             </p>
           </div>
@@ -95,7 +122,7 @@ const OrderCard = (props: Proptypes) => {
           )}
         </div>
 
-        <div className="flex justify-end gap-5">
+        <div className="flex justify-end gap-2">
           <Button
             variant="secondary"
             classname="bg-white"
@@ -110,6 +137,11 @@ const OrderCard = (props: Proptypes) => {
                 : "Payment Receipt"}
             </p>
           </Button>
+          {order.status === "shipped" && (
+            <Button onClick={handleFinishOrder}>
+              <p className="md:text-md text-sm">Finish Order</p>
+            </Button>
+          )}
         </div>
       </div>
     </div>

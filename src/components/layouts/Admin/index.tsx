@@ -11,6 +11,11 @@ const listItem = [
     icon: "bx bxs-dashboard",
   },
   {
+    name: "Orders",
+    url: "/admin/orders",
+    icon: "bx bxs-shopping-bag",
+  },
+  {
     name: "Products",
     url: "/admin/products",
     icon: "bx bxs-box",

@@ -39,7 +39,9 @@ const Button = (props: Proptypes) => {
     !disabled &&
     " hover:bg-neutral-300 transition-all ease-in-out duration-100"
   }
-  ${disabled ? "opacity-50 cursor-not-allowed" : ""} ${classname}`}
+  ${
+    disabled ? "opacity-50 cursor-not-allowed hover:cursor-not-allowed" : ""
+  } ${classname}`}
       disabled={disabled}
     >
       {children}

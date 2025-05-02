@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
-import { addData, retreiveDataByField } from "@/lib/firebase/service";
+import {
+  addData,
+  retreiveDataByField,
+  retrieveData,
+} from "@/lib/firebase/service";
 
 export default async function handler(
   req: NextApiRequest,
@@ -16,7 +20,7 @@ export default async function handler(
         token,
         process.env.NEXTAUTH_SECRET || "",
         async (err: any, decoded: any) => {
-          if (decoded) {
+          if (decoded && decoded.role === "admin") {
             const data = await retreiveDataByField(
               "payments",
               "orderId",
@@ -46,11 +50,29 @@ export default async function handler(
         }
       );
     } else {
-      res.status(400).json({
-        status: false,
-        statusCode: 400,
-        message: "Bad Request",
-      });
+      jwt.verify(
+        token,
+        process.env.NEXTAUTH_SECRET || "",
+        async (err: any, decoded: any) => {
+          if (decoded) {
+            const data = await retrieveData("payments");
+            if (data) {
+              res.status(200).json({
+                status: true,
+                statusCode: 200,
+                message: "success",
+                data: data,
+              });
+            } else {
+              res.status(404).json({
+                status: false,
+                statusCode: 404,
+                message: "Data not found",
+              });
+            }
+          }
+        }
+      );
     }
   } else if (req.method === "POST") {
     const { data } = req.body;

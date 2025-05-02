@@ -3,6 +3,7 @@ import { Cart } from "./cart.type";
 
 export type Order = {
   id: string;
+  userId: string;
   items: Cart[];
   address: Address;
   status: string;

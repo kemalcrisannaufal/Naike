@@ -2,6 +2,7 @@
 import {
   addData,
   retreiveDataByField,
+  retrieveData,
   updateData,
 } from "@/lib/firebase/service";
 import jwt from "jsonwebtoken";
@@ -17,13 +18,22 @@ export default async function handler(
       token,
       process.env.NEXTAUTH_SECRET || "",
       async (err: any, decoded: any) => {
-        if (decoded) {
+        if (decoded && decoded.role === "member") {
           const data: any = await retreiveDataByField(
             "orders",
             "userId",
             decoded.id
           );
 
+          if (data) {
+            res.status(200).json({ status: true, statusCode: 200, data: data });
+          } else {
+            res
+              .status(404)
+              .json({ status: false, statusCode: 404, message: "not found" });
+          }
+        } else if (decoded && decoded.role === "admin") {
+          const data = await retrieveData("orders");
           if (data) {
             res.status(200).json({ status: true, statusCode: 200, data: data });
           } else {
