@@ -7,6 +7,7 @@ import Title from "@/components/ui/Text/Title";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import UserTable from "./UserTable";
 import UserTableSkeleton from "./UserTable/skeleton";
+import Pagination from "@/components/ui/Pagination";
 
 type Proptypes = {
   users: User[];
@@ -19,6 +20,18 @@ const UsersAdminViews = (props: Proptypes) => {
   const [deletedUser, setDeletedUser] = useState<User | object>({});
   const [usersData, setUsersData] = useState<User[]>([]);
 
+  const dataPerPage = 10;
+  const [idxPage, setIdxPage] = useState<number>(0);
+  const [showedUsers, setShowedUsers] = useState<User[]>(
+    users.slice(0, dataPerPage)
+  );
+
+  useEffect(() => {
+    setShowedUsers(
+      users.slice(idxPage * dataPerPage, idxPage * dataPerPage + dataPerPage)
+    );
+  }, [idxPage, users]);
+
   useEffect(() => {
     setUsersData(users);
   }, [users]);
@@ -30,12 +43,22 @@ const UsersAdminViews = (props: Proptypes) => {
         {usersData.length === 0 ? (
           <UserTableSkeleton />
         ) : (
-          <UserTable
-            usersData={usersData}
-            setUpdatedUser={setUpdatedUser}
-            setDeletedUser={setDeletedUser}
-          />
+          <div>
+            <UserTable
+              usersData={showedUsers}
+              setUpdatedUser={setUpdatedUser}
+              setDeletedUser={setDeletedUser}
+              idxPage={idxPage}
+              dataPerPage={dataPerPage}
+            />
+          </div>
         )}
+        <Pagination
+          idxPage={idxPage}
+          setIdxPage={setIdxPage}
+          dataLength={users.length}
+          dataPerPage={dataPerPage}
+        />
       </AdminLayout>
 
       {Object.keys(updatedUser).length > 0 && (

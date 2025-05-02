@@ -8,10 +8,18 @@ type Proptypes = {
   orders: Order[];
   setShowDetail: Dispatch<SetStateAction<Order>>;
   setProcessOrder: Dispatch<SetStateAction<Order>>;
+  dataPerPage?: number;
+  idxPage?: number;
 };
 
 const OrdersTable = (props: Proptypes) => {
-  const { orders, setShowDetail, setProcessOrder } = props;
+  const {
+    orders,
+    setShowDetail,
+    setProcessOrder,
+    dataPerPage = 0,
+    idxPage = 0,
+  } = props;
   const tableHeaderClass =
     "bg-neutral-100 px-4 py-4 border-neutral-300 border-b text-neutral-700 ";
   const tableCellClass = "px-4 py-2";
@@ -33,7 +41,9 @@ const OrdersTable = (props: Proptypes) => {
           {orders.map((order: Order, index: number) => {
             return (
               <tr key={order.id}>
-                <td className={tableCellClass}>{index + 1}</td>
+                <td className={tableCellClass}>
+                  {idxPage * dataPerPage + index + 1}
+                </td>
                 <td className={tableCellClass}>
                   <p className="bg-green-200 p-2 border rounded-full w-max font-semibold text-green-800 text-xs">
                     #{order.id.toUpperCase()}

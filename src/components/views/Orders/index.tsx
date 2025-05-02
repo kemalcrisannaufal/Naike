@@ -18,7 +18,6 @@ const OrdersView = (props: Proptypes) => {
   const { orders, products, isLoading, setOrders } = props;
   const [orderDetails, setOrderDetails] = useState<Order | null>(null);
   const [paymentDetails, setPaymentDetails] = useState<Order | null>(null);
-  const [orderState, setOrderState] = useState<number>(0);
   const [showedOrders, setShowedOrders] = useState<Order[]>(orders);
 
   return (
@@ -48,8 +47,6 @@ const OrdersView = (props: Proptypes) => {
             <OrderStatusFilter
               orders={orders}
               setFilteredOrders={setShowedOrders}
-              orderState={orderState}
-              setOrderState={setOrderState}
             />
 
             {showedOrders.map((order) => {

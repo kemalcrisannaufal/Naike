@@ -6,10 +6,18 @@ type Proptypes = {
   usersData: User[];
   setUpdatedUser: Dispatch<SetStateAction<User>>;
   setDeletedUser: Dispatch<SetStateAction<User>>;
+  idxPage?: number;
+  dataPerPage?: number;
 };
 
 const UserTable = (props: Proptypes) => {
-  const { usersData, setUpdatedUser, setDeletedUser } = props;
+  const {
+    usersData,
+    setUpdatedUser,
+    setDeletedUser,
+    idxPage = 0,
+    dataPerPage = 0,
+  } = props;
   const tableHeaderClass =
     "bg-neutral-100 px-4 py-4 border-neutral-300 border-b text-neutral-700 text-center";
   const tableCellClass = "px-4 py-2 text-center";
@@ -35,7 +43,9 @@ const UserTable = (props: Proptypes) => {
               key={index}
               className="hover:bg-neutral-100 border-neutral-200 border-b last:border-b-0 text-neutral-700"
             >
-              <td className={tableCellClass}>{index + 1}</td>
+              <td className={tableCellClass}>
+                {idxPage * dataPerPage + index + 1}
+              </td>
               <td className={tableCellClass}>{user.fullname}</td>
               <td className={tableCellClass}>{user.email}</td>
               <td className={tableCellClass}>{user.phone}</td>

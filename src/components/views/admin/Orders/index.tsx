@@ -1,12 +1,13 @@
 import AdminLayout from "@/components/layouts/Admin";
 import Title from "@/components/ui/Text/Title";
 import { Order } from "@/types/orders.type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrderDetails from "../../Orders/OrderDetails";
 import { Product } from "@/types/product.type";
 import ProcessOrder from "./ProcessOrder";
 import OrderStatusFilter from "@/components/ui/Filter/OrderStatusFilter";
 import OrdersTable from "./OrdersTable";
+import Pagination from "@/components/ui/Pagination";
 
 type Proptypes = {
   orders: Order[];
@@ -17,8 +18,24 @@ const AdminOrdersView = (props: Proptypes) => {
   const { orders, productOrders } = props;
   const [showDetail, setShowDetail] = useState<Order>({} as Order);
   const [processOrder, setProcessOrder] = useState<Order>({} as Order);
-  const [orderState, setOrderState] = useState<number>(0);
-  const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
+
+  const dataPerPage = 10;
+  const [idxPage, setIdxPage] = useState<number>(0);
+  const [showedOrders, setShowedOrders] = useState<Order[]>(
+    orders.slice(0, dataPerPage)
+  );
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>(
+    orders.slice(0, dataPerPage)
+  );
+
+  useEffect(() => {
+    setShowedOrders(
+      filteredOrders.slice(
+        idxPage * dataPerPage,
+        idxPage * dataPerPage + dataPerPage
+      )
+    );
+  }, [idxPage, filteredOrders]);
 
   return (
     <>
@@ -28,16 +45,16 @@ const AdminOrdersView = (props: Proptypes) => {
           <OrderStatusFilter
             orders={orders}
             setFilteredOrders={setFilteredOrders}
-            setOrderState={setOrderState}
-            orderState={orderState}
           />
           <div>
             <OrdersTable
-              orders={filteredOrders}
+              orders={showedOrders}
               setShowDetail={setShowDetail}
               setProcessOrder={setProcessOrder}
+              dataPerPage={dataPerPage}
+              idxPage={idxPage}
             />
-            {filteredOrders.length === 0 && (
+            {showedOrders.length === 0 && (
               <div className="flex justify-center items-center w-full h-20">
                 <p className="font-semibold text-neutral-600">
                   No orders found
@@ -46,6 +63,12 @@ const AdminOrdersView = (props: Proptypes) => {
             )}
           </div>
         </div>
+        <Pagination
+          dataPerPage={dataPerPage}
+          dataLength={orders.length}
+          setIdxPage={setIdxPage}
+          idxPage={idxPage}
+        />
       </AdminLayout>
 
       {showDetail && Object.keys(showDetail).length > 0 && (

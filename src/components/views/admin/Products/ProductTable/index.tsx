@@ -8,10 +8,18 @@ type Proptypes = {
   products: Product[];
   setUpdatedProduct: Dispatch<SetStateAction<Product | object>>;
   setDeletedProduct: Dispatch<SetStateAction<Product | object>>;
+  idxPage?: number;
+  dataPerPage?: number;
 };
 
 const ProductTable = (props: Proptypes) => {
-  const { products, setUpdatedProduct, setDeletedProduct } = props;
+  const {
+    products,
+    setUpdatedProduct,
+    setDeletedProduct,
+    idxPage = 0,
+    dataPerPage = 0,
+  } = props;
   const tableHeaderClass =
     "bg-neutral-100 px-4 py-2 border-neutral-300 border-b text-neutral-700 text-center";
   const tableCellClass = "px-4 py-2 text-center";
@@ -66,7 +74,7 @@ const ProductTable = (props: Proptypes) => {
               <Fragment key={product.id}>
                 <tr className="border-neutral-300 border-t">
                   <td className={tableCellClass} rowSpan={productStockLength}>
-                    {index + 1}
+                    {idxPage * dataPerPage + index + 1}
                   </td>
                   <td className={tableCellClass} rowSpan={productStockLength}>
                     <div className="w-32 h-32 overflow-hidden">

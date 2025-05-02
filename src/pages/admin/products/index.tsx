@@ -4,6 +4,7 @@ import Head from "next/head";
 
 const AdminProductsPage = () => {
   const { products, setProducts } = useProduct();
+
   return (
     <>
       <Head>

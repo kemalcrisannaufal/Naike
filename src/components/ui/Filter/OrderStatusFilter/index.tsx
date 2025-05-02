@@ -1,17 +1,16 @@
 import { orderStatus } from "@/common/constant/orderStatus";
 import Button from "../../Button";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Order } from "@/types/orders.type";
 
 type Proptypes = {
-  orderState: number;
-  setOrderState: Dispatch<SetStateAction<number>>;
   orders: Order[];
   setFilteredOrders: Dispatch<SetStateAction<Order[]>>;
 };
 
 const OrderStatusFilter = (props: Proptypes) => {
-  const { orderState, setOrderState, orders, setFilteredOrders } = props;
+  const { orders, setFilteredOrders } = props;
+  const [orderState, setOrderState] = useState<number>(0);
 
   useEffect(() => {
     const filteredOrders = orders.filter(

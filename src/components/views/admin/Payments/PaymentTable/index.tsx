@@ -6,10 +6,12 @@ import { Dispatch, SetStateAction } from "react";
 type Proptypes = {
   payments: Payment[];
   setShowDetail: Dispatch<SetStateAction<Payment | null>>;
+  dataPerPage?: number;
+  idxPage?: number;
 };
 
 const PaymentsTable = (props: Proptypes) => {
-  const { payments, setShowDetail } = props;
+  const { payments, setShowDetail, dataPerPage = 0, idxPage = 0 } = props;
   const tableHeaderClass =
     "bg-neutral-100 px-4 py-4 border-neutral-300 border-b text-neutral-700 ";
   const tableCellClass = "px-4 py-2";
@@ -22,8 +24,8 @@ const PaymentsTable = (props: Proptypes) => {
             <th className={tableHeaderClass}>Payment Id</th>
             <th className={tableHeaderClass}>Order Id</th>
             <th className={tableHeaderClass}>Payment Date</th>
-            <th className={tableHeaderClass}>Total</th>
             <th className={tableHeaderClass}>Method</th>
+            <th className={tableHeaderClass}>Total</th>
             <th className={tableHeaderClass}>Status</th>
             <th className={`${tableHeaderClass} text-center`}>Action</th>
           </tr>
@@ -32,7 +34,9 @@ const PaymentsTable = (props: Proptypes) => {
           {payments.map((payment: Payment, index: number) => {
             return (
               <tr key={payment.id}>
-                <td className={tableCellClass}>{index + 1}</td>
+                <td className={tableCellClass}>
+                  {idxPage * dataPerPage + index + 1}
+                </td>
                 <td className={tableCellClass}>
                   <p className="bg-green-200 p-2 border rounded-full w-max font-semibold text-green-800 text-xs">
                     #{payment.id && payment.id.toUpperCase()}

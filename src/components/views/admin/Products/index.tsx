@@ -1,13 +1,20 @@
 import AdminLayout from "@/components/layouts/Admin";
 import Button from "@/components/ui/Button";
 import { Product } from "@/types/product.type";
-import React, { Dispatch, Fragment, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import Title from "@/components/ui/Text/Title";
 import ModalAddProduct from "./ModalAddProduct";
 import ModalDeleteProduct from "./ModalDeleteProduct";
 import ModalUpdateProduct from "./ModalUpdateProduct";
 import ProductTable from "./ProductTable";
 import ProductTableSkeleton from "./ProductTable/skeleton";
+import Pagination from "@/components/ui/Pagination";
 
 type Proptypes = {
   products: Product[];
@@ -19,6 +26,18 @@ const ProductAdminViews = (props: Proptypes) => {
   const [modalAddProduct, setModalAddProduct] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState<Product | object>({});
   const [deletedProduct, setDeletedProduct] = useState<Product | object>({});
+
+  const dataPerPage = 5;
+  const [idxPage, setIdxPage] = useState<number>(0);
+  const [showedProducts, setShowedProducts] = useState<Product[]>(
+    products.slice(0, dataPerPage)
+  );
+
+  useEffect(() => {
+    setShowedProducts(
+      products.slice(idxPage * dataPerPage, idxPage * dataPerPage + dataPerPage)
+    );
+  }, [idxPage, products, setProducts]);
 
   return (
     <>
@@ -39,12 +58,22 @@ const ProductAdminViews = (props: Proptypes) => {
           <ProductTableSkeleton />
         ) : (
           <ProductTable
-            products={products}
+            products={showedProducts}
             setUpdatedProduct={setUpdatedProduct}
             setDeletedProduct={setDeletedProduct}
+            idxPage={idxPage}
+            dataPerPage={dataPerPage}
           />
         )}
+
+        <Pagination
+          idxPage={idxPage}
+          setIdxPage={setIdxPage}
+          dataLength={products.length}
+          dataPerPage={dataPerPage}
+        />
       </AdminLayout>
+
       {modalAddProduct && (
         <ModalAddProduct
           setModalAddProduct={setModalAddProduct}
