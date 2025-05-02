@@ -35,7 +35,7 @@ const PaymentsTable = (props: Proptypes) => {
                 <td className={tableCellClass}>{index + 1}</td>
                 <td className={tableCellClass}>
                   <p className="bg-green-200 p-2 border rounded-full w-max font-semibold text-green-800 text-xs">
-                    #{payment.id.toUpperCase()}
+                    #{payment.id && payment.id.toUpperCase()}
                   </p>
                 </td>
                 <td className={tableCellClass}>
