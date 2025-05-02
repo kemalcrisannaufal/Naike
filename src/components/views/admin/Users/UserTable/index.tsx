@@ -1,5 +1,6 @@
 import Button from "@/components/ui/Button";
 import { User } from "@/types/user.type";
+import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 
 type Proptypes = {
@@ -28,6 +29,7 @@ const UserTable = (props: Proptypes) => {
         <thead>
           <tr className="border-gray-300 border-b font-semibold text-neutral-600 lg:text-md text-sm">
             <th className={tableHeaderClass}>No</th>
+            <th className={tableHeaderClass}>Avatar</th>
             <th className={tableHeaderClass}>Fullname</th>
             <th className={tableHeaderClass}>Email</th>
             <th className={tableHeaderClass}>Phone</th>
@@ -46,10 +48,37 @@ const UserTable = (props: Proptypes) => {
               <td className={tableCellClass}>
                 {idxPage * dataPerPage + index + 1}
               </td>
+              <td className={tableCellClass}>
+                <div className="flex justify-center items-center border-2 border-neutral-300 rounded-full w-20 h-20 overflow-hidden">
+                  {user.image !== "" ? (
+                    <Image
+                      src={user.image}
+                      width={50}
+                      height={50}
+                      alt={user.fullname}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <p className="font-semibold text-neutral-600 text-3xl">
+                      {user.fullname.charAt(0).toUpperCase()}
+                    </p>
+                  )}
+                </div>
+              </td>
               <td className={tableCellClass}>{user.fullname}</td>
               <td className={tableCellClass}>{user.email}</td>
               <td className={tableCellClass}>{user.phone}</td>
-              <td className={tableCellClass}>{user.role}</td>
+              <td className={tableCellClass}>
+                <p
+                  className={`${
+                    user.role === "admin"
+                      ? "bg-green-200 text-green-600"
+                      : "bg-blue-200 text-blue-600"
+                  } text-xs p-2 rounded-full border font-semibold`}
+                >
+                  {user.role.toUpperCase()}
+                </p>
+              </td>
               <td
                 className={`${tableCellClass} py-4 flex justify-center items-center gap-2`}
               >

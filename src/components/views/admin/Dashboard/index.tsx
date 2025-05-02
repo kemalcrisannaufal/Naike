@@ -68,7 +68,15 @@ const DashboardAdminView = () => {
               return (
                 <div
                   key={status.id}
-                  className="flex flex-col items-center p-3 border-2 border-neutral-200 rounded w-full min-w-[150px]"
+                  className={`flex flex-col items-center p-3  rounded w-full min-w-[150px] ${
+                    status.name.toLocaleLowerCase() === "pending"
+                      ? "bg-yellow-200 text-yellow-800"
+                      : status.name.toLocaleLowerCase() === "paid"
+                      ? "bg-blue-200 text-blue-800"
+                      : status.name.toLocaleLowerCase() === "shipped"
+                      ? "bg-purple-200 text-purple-800"
+                      : "bg-green-200 text-green-800"
+                  }`}
                 >
                   <p className="font-semibold">{status.name}</p>
                   <p>

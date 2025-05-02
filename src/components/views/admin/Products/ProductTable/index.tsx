@@ -93,10 +93,18 @@ const ProductTable = (props: Proptypes) => {
                     {product.name}
                   </td>
                   <td className={tableCellClass} rowSpan={productStockLength}>
-                    {product.category}
+                    <p
+                      className={` p-2 border rounded-full w-max font-semibold text-sm ${
+                        product.category === "Men's shoes"
+                          ? "bg-blue-200 text-blue-800"
+                          : "bg-purple-200 text-purple-800"
+                      }`}
+                    >
+                      {product.category}
+                    </p>
                   </td>
                   <td className={tableCellClass} rowSpan={productStockLength}>
-                    {convertIDR(product.price)}
+                    <p className="font-semibold">{convertIDR(product.price)}</p>
                   </td>
                   <td className="px-4 text-center">{product.stock[0].size}</td>
                   <td className="px-4 text-center">{product.stock[0].qty}</td>
