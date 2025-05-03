@@ -15,6 +15,7 @@ import ModalUpdateProduct from "./ModalUpdateProduct";
 import ProductTable from "./ProductTable";
 import ProductTableSkeleton from "./ProductTable/skeleton";
 import Pagination from "@/components/ui/Pagination";
+import TextFilter from "@/components/ui/Filter/TextFilter";
 
 type Proptypes = {
   products: Product[];
@@ -33,16 +34,30 @@ const ProductAdminViews = (props: Proptypes) => {
     products.slice(0, dataPerPage)
   );
 
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [searchProduct, setSearchProduct] = useState<string>("");
+
   useEffect(() => {
     setShowedProducts(
-      products.slice(idxPage * dataPerPage, idxPage * dataPerPage + dataPerPage)
+      filteredProducts.slice(
+        idxPage * dataPerPage,
+        idxPage * dataPerPage + dataPerPage
+      )
     );
-  }, [idxPage, products, setProducts]);
+  }, [idxPage, filteredProducts]);
+
+  useEffect(() => {
+    setFilteredProducts(
+      products.filter((product) =>
+        product.name.toLowerCase().includes(searchProduct.toLowerCase())
+      )
+    );
+  }, [searchProduct, products]);
 
   return (
     <>
       <AdminLayout>
-        <div className="flex md:flex-row flex-col md:justify-between md:items-center w-full">
+        <div className="flex justify-between items-center w-full">
           <Title>Products</Title>
           <Button
             type="button"
@@ -57,19 +72,24 @@ const ProductAdminViews = (props: Proptypes) => {
         {products.length === 0 ? (
           <ProductTableSkeleton />
         ) : (
-          <ProductTable
-            products={showedProducts}
-            setUpdatedProduct={setUpdatedProduct}
-            setDeletedProduct={setDeletedProduct}
-            idxPage={idxPage}
-            dataPerPage={dataPerPage}
-          />
+          <div>
+            <div className="mt-3 md:mt-5">
+              <TextFilter setSearchText={setSearchProduct} />
+            </div>
+            <ProductTable
+              products={showedProducts}
+              setUpdatedProduct={setUpdatedProduct}
+              setDeletedProduct={setDeletedProduct}
+              idxPage={idxPage}
+              dataPerPage={dataPerPage}
+            />
+          </div>
         )}
 
         <Pagination
           idxPage={idxPage}
           setIdxPage={setIdxPage}
-          dataLength={products.length}
+          dataLength={filteredProducts.length}
           dataPerPage={dataPerPage}
         />
       </AdminLayout>

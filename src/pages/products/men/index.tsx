@@ -4,6 +4,7 @@ import Head from "next/head";
 
 const MenProductsPage = () => {
   const { isLoading, products } = useProduct(undefined, "Men's shoes");
+
   return (
     <>
       <Head>

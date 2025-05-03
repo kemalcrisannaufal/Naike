@@ -7,6 +7,7 @@ import OrderDetails from "../../Orders/OrderDetails";
 import { Order } from "@/types/orders.type";
 import { Product } from "@/types/product.type";
 import Pagination from "@/components/ui/Pagination";
+import DateFilter from "@/components/ui/Filter/DateFilter";
 
 type Proptypes = {
   payments: Payment[];
@@ -23,18 +24,31 @@ const AdminPaymentsView = (props: Proptypes) => {
     payments.slice(0, dataPerPage)
   );
   const [idxPage, setIdxPage] = useState<number>(0);
+  const [searchDate, setSearchDate] = useState<string>("");
 
   useEffect(() => {
+    const filteredPayments = searchDate
+      ? payments.filter((payment) =>
+          new Date(payment.created_at).toISOString().startsWith(searchDate)
+        )
+      : payments;
+
     setShowedPayments(
-      payments.slice(idxPage * dataPerPage, idxPage * dataPerPage + dataPerPage)
+      filteredPayments.slice(
+        idxPage * dataPerPage,
+        idxPage * dataPerPage + dataPerPage
+      )
     );
-  }, [idxPage, payments]);
+  }, [idxPage, payments, searchDate]);
 
   return (
     <>
       <AdminLayout>
         <Title>Payments</Title>
         <div className="mt-5">
+          <div className="flex md:justify-end">
+            <DateFilter searchDate={searchDate} setSearchDate={setSearchDate} />
+          </div>
           <div>
             <PaymentsTable
               payments={showedPayments}
@@ -53,7 +67,15 @@ const AdminPaymentsView = (props: Proptypes) => {
         </div>
 
         <Pagination
-          dataLength={payments.length}
+          dataLength={
+            searchDate
+              ? payments.filter((payment) =>
+                  new Date(payment.created_at)
+                    .toISOString()
+                    .startsWith(searchDate)
+                ).length
+              : payments.length
+          }
           dataPerPage={10}
           setIdxPage={setIdxPage}
           idxPage={idxPage}

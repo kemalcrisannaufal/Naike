@@ -5,6 +5,7 @@ import PageNotFound from "../404";
 import { useProduct } from "@/components/hooks/useProduct";
 import { useCart } from "@/components/hooks/useCart";
 import { useFavorite } from "@/components/hooks/useFavorite";
+import Head from "next/head";
 
 const ProductDetailPage = () => {
   const { id } = useRouter().query;
@@ -14,6 +15,9 @@ const ProductDetailPage = () => {
 
   return (
     <>
+      <Head>
+        <title>{product?.name}</title>
+      </Head>
       {isLoading && !product ? (
         <ProductDetailSkeleton />
       ) : !isLoading && product ? (

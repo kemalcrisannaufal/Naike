@@ -36,7 +36,6 @@ const ProcessOrder = (props: Proptypes) => {
         type: "error",
         message: "Failed to process order",
       });
-      console.log("Failed to process order", result);
     }
   };
   return (

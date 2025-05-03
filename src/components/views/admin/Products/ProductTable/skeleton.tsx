@@ -15,6 +15,9 @@ const ProductTableSkeleton = () => {
               No
             </th>
             <th className={tableHeaderClass} rowSpan={2}>
+              Date
+            </th>
+            <th className={tableHeaderClass} rowSpan={2}>
               Image
             </th>
             <th className={tableHeaderClass} rowSpan={2}>
@@ -44,6 +47,9 @@ const ProductTableSkeleton = () => {
           {Array.from({ length: 6 }).map((_, index) => (
             <tr className="border-neutral-300" key={index}>
               <td className={tableCellClass}></td>
+              <td className={tableCellClass}>
+                <div className="bg-neutral-200 mx-auto rounded w-24 h-4 animate-pulse" />
+              </td>
               <td className={`${tableCellClass}`}>
                 <div className="bg-neutral-200 mx-auto rounded w-32 h-32 animate-pulse" />
               </td>

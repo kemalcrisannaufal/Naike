@@ -170,6 +170,16 @@ const Navbar = () => {
       {aboutUsModal && (
         <Modal onClose={() => setAboutUsModal(false)}>
           <Title variant="small">About Naike</Title>
+          <div className="flex justify-center items-center">
+            <Image
+              src="/assets/images/naike/logo.png"
+              alt="Naike"
+              className="w-40 h-auto"
+              width={200}
+              height={200}
+              priority
+            />
+          </div>
           <p className="mt-2">
             Naike is a learning project inspired by Nike, crafted to explore web
             development, design principles, and responsive user experiences.

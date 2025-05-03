@@ -4,7 +4,7 @@ import Head from "next/head";
 
 const UsersAdminPage = () => {
   const { users } = useUser();
-  console.log(users);
+
   return (
     <>
       <Head>

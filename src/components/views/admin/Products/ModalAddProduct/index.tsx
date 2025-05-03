@@ -13,6 +13,7 @@ import { Product } from "@/types/product.type";
 import { ToasterContext } from "@/contexts/ToasterContext";
 import ProductFormFirstSection from "../ProductForm/ProductFormFirstSection";
 import ProductFormSecondSection from "../ProductForm/ProductFormSecondSection";
+import { sortDataByDate } from "@/utils/sort";
 
 type Proptypes = {
   setProducts: Dispatch<SetStateAction<Product[]>>;
@@ -38,7 +39,16 @@ const ModalAddProduct = (props: Proptypes) => {
     colourShown: "",
     style: "",
     country: "",
-    stock: [{ size: "", qty: 0 }],
+    stock: [
+      { size: "37", qty: 10 },
+      { size: "38", qty: 10 },
+      { size: "39", qty: 10 },
+      { size: "40", qty: 10 },
+      { size: "41", qty: 10 },
+      { size: "42", qty: 10 },
+      { size: "43", qty: 10 },
+      { size: "44", qty: 10 },
+    ],
     mainImage: "",
     images: [],
   });
@@ -84,7 +94,8 @@ const ModalAddProduct = (props: Proptypes) => {
 
           if (result.status === 200) {
             const { data } = await productServices.getAllProducts();
-            setProducts(data.data);
+            const sortedData = sortDataByDate(data.data, "created_at");
+            setProducts(sortedData);
             setIsLoading(false);
             setModalAddProduct(false);
             setToaster({

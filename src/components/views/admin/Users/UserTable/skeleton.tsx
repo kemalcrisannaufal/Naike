@@ -11,6 +11,7 @@ const UserTableSkeleton = () => {
         <thead>
           <tr className="border-neutral-200 border-b font-semibold text-neutral-600 lg:text-md text-sm">
             <th className={tableHeaderClass}>No</th>
+            <th className={tableHeaderClass}>Avatar</th>
             <th className={tableHeaderClass}>Fullname</th>
             <th className={tableHeaderClass}>Email</th>
             <th className={tableHeaderClass}>Phone</th>
@@ -28,6 +29,9 @@ const UserTableSkeleton = () => {
             >
               <td className={tableCellClass}>
                 <div className="bg-neutral-200 rounded w-6 h-4" />
+              </td>
+              <td className={`${tableCellClass} flex justify-center`}>
+                <div className="bg-neutral-200 rounded-full w-24 h-24" />
               </td>
               <td className={tableCellClass}>
                 <div className="bg-neutral-200 rounded w-24 h-4" />

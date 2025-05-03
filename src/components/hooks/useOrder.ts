@@ -3,6 +3,7 @@ import orderServices from "@/services/orders";
 import productServices from "@/services/products";
 import { Order } from "@/types/orders.type";
 import { Product } from "@/types/product.type";
+import { sortDataByDate } from "@/utils/sort";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
@@ -17,10 +18,7 @@ export const useOrder = () => {
       setIsLoading(true);
       if (session.data?.accessToken) {
         const { data } = await orderServices.getOrders();
-        const sortedOrders = data.data.sort(
-          (a: Order, b: Order) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
+        const sortedOrders = sortDataByDate(data.data, "created_at");
         setOrders(sortedOrders);
 
         if (sortedOrders && sortedOrders.length > 0) {

@@ -7,6 +7,7 @@ import { Product } from "@/types/product.type";
 import productServices from "@/services/products";
 import { deleteFile } from "@/lib/firebase/service";
 import { ToasterContext } from "@/contexts/ToasterContext";
+import { sortDataByDate } from "@/utils/sort";
 
 type Proptypes = {
   deletedProduct: Product | any;
@@ -44,7 +45,8 @@ const ModalDeleteProduct = (props: Proptypes) => {
             if (status) {
               setDeletedProduct({});
               const { data } = await productServices.getAllProducts();
-              setProductsData(data.data);
+              const sortedData = sortDataByDate(data.data, "created_at");
+              setProductsData(sortedData);
               setToaster({
                 variant: "success",
                 message: "Data deleted successfully!",

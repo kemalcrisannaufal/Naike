@@ -28,6 +28,7 @@ const PaginationButton = ({
 
 const Pagination = (props: Proptypes) => {
   const { idxPage, setIdxPage, dataLength, dataPerPage } = props;
+
   return (
     <div className="flex justify-end mt-5 w-full">
       <PaginationButton onClick={() => idxPage > 0 && setIdxPage(idxPage - 1)}>

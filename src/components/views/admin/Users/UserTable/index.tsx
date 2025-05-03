@@ -49,7 +49,7 @@ const UserTable = (props: Proptypes) => {
                 {idxPage * dataPerPage + index + 1}
               </td>
               <td className={tableCellClass}>
-                <div className="flex justify-center items-center border-2 border-neutral-300 rounded-full w-20 h-20 overflow-hidden">
+                <div className="flex justify-center items-center bg-neutral-100 border-2 border-neutral-300 rounded-full w-20 h-20 overflow-hidden hover:scale-150 hover:transition">
                   {user.image !== "" ? (
                     <Image
                       src={user.image}

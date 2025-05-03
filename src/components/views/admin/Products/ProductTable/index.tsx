@@ -1,6 +1,7 @@
 import Button from "@/components/ui/Button";
 import { Product } from "@/types/product.type";
 import { convertIDR } from "@/utils/currency";
+import { ConvertDateToString } from "@/utils/date";
 import Image from "next/image";
 import { Dispatch, Fragment, SetStateAction } from "react";
 
@@ -32,6 +33,9 @@ const ProductTable = (props: Proptypes) => {
           <tr className="border-neutral-300 border-b font-semibold">
             <th className={tableHeaderClass} rowSpan={2}>
               No
+            </th>
+            <th className={tableHeaderClass} rowSpan={2}>
+              Date
             </th>
             <th className={tableHeaderClass} rowSpan={2}>
               Image
@@ -75,6 +79,9 @@ const ProductTable = (props: Proptypes) => {
                 <tr className="border-neutral-300 border-t">
                   <td className={tableCellClass} rowSpan={productStockLength}>
                     {idxPage * dataPerPage + index + 1}
+                  </td>
+                  <td className={tableCellClass} rowSpan={productStockLength}>
+                    {ConvertDateToString(product.created_at || new Date())}
                   </td>
                   <td className={tableCellClass} rowSpan={productStockLength}>
                     <div className="w-32 h-32 overflow-hidden">

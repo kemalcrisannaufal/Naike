@@ -2,11 +2,12 @@
 import { Product } from "@/types/product.type";
 import CardProduct from "../Card";
 import CardSkeleton from "../Card/skeleton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Title from "@/components/ui/Text/Title";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
 import Filter from "@/components/fragments/Filter";
+import Pagination from "@/components/ui/Pagination";
 
 type Proptypes = {
   products: Product[];
@@ -46,6 +47,23 @@ const ProductsByCategoryView = (props: Proptypes) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [filterActive, setFilterActive] = useState<number[]>([]);
   const [filterModal, setFilterModal] = useState(false);
+
+  const dataPerPage = 9;
+  const [idxPage, setIdxPage] = useState<number>(0);
+  const [showedProducts, setShowedProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    if (filterActive.length === 0) {
+      setFilteredProducts(products);
+    }
+    setShowedProducts(
+      filteredProducts.slice(
+        idxPage * dataPerPage,
+        idxPage * dataPerPage + dataPerPage
+      )
+    );
+  }, [idxPage, products, filterActive, filteredProducts]);
+
   const handleChangeFilter = (e: any) => {
     const filterId = e.target.value;
     let updatedFilters = [];
@@ -112,16 +130,21 @@ const ProductsByCategoryView = (props: Proptypes) => {
                   .map((_, index) => {
                     return <CardSkeleton key={index} />;
                   })
-              : filterActive.length === 0
-              ? products.map((product: Product) => {
-                  return <CardProduct key={product.id} product={product} />;
-                })
-              : filteredProducts.map((product: Product) => {
+              : showedProducts.map((product: Product) => {
                   return <CardProduct key={product.id} product={product} />;
                 })}
           </div>
         )}
       </div>
+
+      {filteredProducts.length > dataPerPage && (
+        <Pagination
+          dataPerPage={dataPerPage}
+          dataLength={filteredProducts.length}
+          idxPage={idxPage}
+          setIdxPage={setIdxPage}
+        />
+      )}
 
       {filterModal && (
         <Modal onClose={() => setFilterModal(false)}>

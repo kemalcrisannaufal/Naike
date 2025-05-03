@@ -1,4 +1,4 @@
-const ConvertDateToString = (date: Date): string => {
+const ConvertDateToString = (date: Date | string): string => {
   const result = new Date(date).toLocaleString("id-ID", {
     day: "2-digit",
     month: "long",

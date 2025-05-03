@@ -1,24 +1,18 @@
+import { useProduct } from "@/components/hooks/useProduct";
 import DashboardView from "@/components/views/dashboard";
-import productServices from "@/services/products";
-import { Product } from "@/types/product.type";
-import { useEffect, useState } from "react";
+import Head from "next/head";
 
 const DashboardPage = () => {
-  const [latestProducts, setLatestProducts] = useState<Product[]>([]);
-  useEffect(() => {
-    const getLatestProducts = async () => {
-      const { data } = await productServices.getAllProducts();
-      data.data.sort(
-        (a: Product, b: Product) =>
-          new Date(b.created_at || 0).getTime() -
-          new Date(a.created_at || 0).getTime()
-      );
-      data.data = data.data.slice(0, 3);
-      setLatestProducts(data.data);
-    };
-    getLatestProducts();
-  }, []);
-  return <DashboardView latestProducts={latestProducts} />;
+  const { products } = useProduct();
+
+  return (
+    <>
+      <Head>
+        <title>Naike</title>
+      </Head>
+      <DashboardView latestProducts={products.slice(0, 3)} />
+    </>
+  );
 };
 
 export default DashboardPage;

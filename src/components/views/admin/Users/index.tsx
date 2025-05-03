@@ -8,6 +8,7 @@ import { ToasterContext } from "@/contexts/ToasterContext";
 import UserTable from "./UserTable";
 import UserTableSkeleton from "./UserTable/skeleton";
 import Pagination from "@/components/ui/Pagination";
+import TextFilter from "@/components/ui/Filter/TextFilter";
 
 type Proptypes = {
   users: User[];
@@ -26,11 +27,25 @@ const UsersAdminViews = (props: Proptypes) => {
     users.slice(0, dataPerPage)
   );
 
+  const [searchText, setSearchText] = useState<string>("");
+
   useEffect(() => {
-    setShowedUsers(
-      users.slice(idxPage * dataPerPage, idxPage * dataPerPage + dataPerPage)
-    );
-  }, [idxPage, users]);
+    if (searchText) {
+      const filteredData = users.filter((user) =>
+        user.fullname.toLowerCase().includes(searchText.toLowerCase())
+      );
+      setShowedUsers(
+        filteredData.slice(
+          idxPage * dataPerPage,
+          idxPage * dataPerPage + dataPerPage
+        )
+      );
+    } else {
+      setShowedUsers(
+        users.slice(idxPage * dataPerPage, idxPage * dataPerPage + dataPerPage)
+      );
+    }
+  }, [idxPage, users, searchText]);
 
   useEffect(() => {
     setUsersData(users);
@@ -44,6 +59,9 @@ const UsersAdminViews = (props: Proptypes) => {
           <UserTableSkeleton />
         ) : (
           <div>
+            <div className="mt-4 md:mt-0">
+              <TextFilter setSearchText={setSearchText} />
+            </div>
             <UserTable
               usersData={showedUsers}
               setUpdatedUser={setUpdatedUser}

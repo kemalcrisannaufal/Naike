@@ -1,5 +1,6 @@
 import productServices from "@/services/products";
 import { Product } from "@/types/product.type";
+import { sortDataByDate } from "@/utils/sort";
 import { useEffect, useState } from "react";
 
 export const useProduct = (id?: string, category?: string) => {
@@ -18,13 +19,9 @@ export const useProduct = (id?: string, category?: string) => {
         setProducts(data.data);
       } else {
         const { data } = await productServices.getAllProducts();
-        data.data.sort(
-          (a: Product, b: Product) =>
-            new Date(b.created_at ?? 0).getTime() -
-            new Date(a.created_at ?? 0).getTime()
-        );
 
-        setProducts(data.data);
+        const sortedData = sortDataByDate(data.data, "created_at");
+        setProducts(sortedData);
       }
 
       setIsLoading(false);

@@ -1,11 +1,12 @@
 import Title from "@/components/ui/Text/Title";
 import { Order } from "@/types/orders.type";
 import { Product } from "@/types/product.type";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import OrderDetails from "./OrderDetails";
 import OrderCard from "./Card";
 import PaymentDetails from "./PaymentDetails";
 import OrderStatusFilter from "@/components/ui/Filter/OrderStatusFilter";
+import Pagination from "@/components/ui/Pagination";
 
 type Proptypes = {
   orders: Order[];
@@ -18,7 +19,27 @@ const OrdersView = (props: Proptypes) => {
   const { orders, products, isLoading, setOrders } = props;
   const [orderDetails, setOrderDetails] = useState<Order | null>(null);
   const [paymentDetails, setPaymentDetails] = useState<Order | null>(null);
-  const [showedOrders, setShowedOrders] = useState<Order[]>(orders);
+
+  const dataPerPage = 3;
+  const [idxPage, setIdxPage] = useState<number>(0);
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>(orders);
+  const [showedOrders, setShowedOrders] = useState<Order[]>(
+    orders.slice(0, dataPerPage)
+  );
+
+  useEffect(() => {
+    if (filteredOrders.length <= dataPerPage) {
+      setShowedOrders(filteredOrders);
+      setIdxPage(0);
+    } else {
+      setShowedOrders(
+        filteredOrders.slice(
+          idxPage * dataPerPage,
+          idxPage * dataPerPage + dataPerPage
+        )
+      );
+    }
+  }, [idxPage, filteredOrders]);
 
   return (
     <div className="p-5 md:px-20 lg:px-48 lg:pt-12 lg:pb-10">
@@ -46,7 +67,7 @@ const OrdersView = (props: Proptypes) => {
           <div className="mt-5">
             <OrderStatusFilter
               orders={orders}
-              setFilteredOrders={setShowedOrders}
+              setFilteredOrders={setFilteredOrders}
             />
 
             {showedOrders.map((order) => {
@@ -65,6 +86,15 @@ const OrdersView = (props: Proptypes) => {
             })}
           </div>
         )
+      )}
+
+      {filteredOrders.length > dataPerPage && (
+        <Pagination
+          idxPage={idxPage}
+          setIdxPage={setIdxPage}
+          dataLength={filteredOrders.length}
+          dataPerPage={dataPerPage}
+        />
       )}
 
       {Object.keys(orderDetails || {}).length > 0 && orderDetails && (

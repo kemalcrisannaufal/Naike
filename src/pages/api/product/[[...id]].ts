@@ -55,8 +55,6 @@ export default async function handler(
         async (error: any, decoded: any) => {
           if (decoded && decoded.role === "admin") {
             const { data } = req.body;
-            data.created_at = new Date();
-            data.updated_at = new Date();
             data.price = parseInt(data.price);
             data.stock.filter((stock: any) => {
               stock.qty = parseInt(stock.qty);

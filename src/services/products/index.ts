@@ -13,7 +13,7 @@ const productServices = {
       },
     }),
   getProduct: (id: string) => instance.get(`${endpoint}/${id}`),
-  addProduct: (data: Product) => instance.post(endpoint, { data }),
+  addProduct: (data: any) => instance.post(endpoint, { data }),
   deleteProduct: (id: string) => instance.delete(`${endpoint}/${id}`),
   updateProduct: (
     id: string,

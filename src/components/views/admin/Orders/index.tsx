@@ -8,6 +8,7 @@ import ProcessOrder from "./ProcessOrder";
 import OrderStatusFilter from "@/components/ui/Filter/OrderStatusFilter";
 import OrdersTable from "./OrdersTable";
 import Pagination from "@/components/ui/Pagination";
+import DateFilter from "@/components/ui/Filter/DateFilter";
 
 type Proptypes = {
   orders: Order[];
@@ -27,26 +28,48 @@ const AdminOrdersView = (props: Proptypes) => {
   const [filteredOrders, setFilteredOrders] = useState<Order[]>(
     orders.slice(0, dataPerPage)
   );
+  const [searchDate, setSearchDate] = useState<string>("");
 
   useEffect(() => {
-    setShowedOrders(
-      filteredOrders.slice(
-        idxPage * dataPerPage,
-        idxPage * dataPerPage + dataPerPage
-      )
-    );
+    if (filteredOrders.length <= dataPerPage) {
+      setShowedOrders(filteredOrders);
+      setIdxPage(0);
+    } else {
+      setShowedOrders(
+        filteredOrders.slice(
+          idxPage * dataPerPage,
+          idxPage * dataPerPage + dataPerPage
+        )
+      );
+    }
   }, [idxPage, filteredOrders]);
+
+  useEffect(() => {
+    const filteredOrders = searchDate
+      ? orders.filter((order) =>
+          new Date(order.created_at).toISOString().startsWith(searchDate)
+        )
+      : orders;
+    setFilteredOrders(filteredOrders);
+  }, [orders, searchDate]);
 
   return (
     <>
       <AdminLayout>
         <Title>Orders</Title>
         <div className="my-5">
-          <OrderStatusFilter
-            orders={orders}
-            setFilteredOrders={setFilteredOrders}
-          />
           <div>
+            <div className="lg:flex justify-between">
+              <OrderStatusFilter
+                orders={orders}
+                setFilteredOrders={setFilteredOrders}
+              />
+              <DateFilter
+                searchDate={searchDate}
+                setSearchDate={setSearchDate}
+              />
+            </div>
+
             <OrdersTable
               orders={showedOrders}
               setShowDetail={setShowDetail}

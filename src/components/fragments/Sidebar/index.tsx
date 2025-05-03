@@ -50,7 +50,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <div className="top-0 sticky flex lg:flex-col justify-between bg-white lg:bg-neutral-100 px-5 lg:px-5 py-2 lg:pt-8 border-neutral-200 border-r w-full lg:w-72 h-full lg:min-h-screen">
+      <div className="top-0 z-50 sticky flex lg:flex-col justify-between bg-white lg:bg-neutral-100 px-5 lg:px-5 py-2 lg:pt-8 border-neutral-200 border-r w-full lg:w-72 h-full lg:min-h-screen">
         {/* Sidebar Content */}
         <div className="w-full">
           {/* Logo & Menu */}
