@@ -20,10 +20,11 @@ import TextFilter from "@/components/ui/Filter/TextFilter";
 type Proptypes = {
   products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
+  isLoading: boolean;
 };
 
 const ProductAdminViews = (props: Proptypes) => {
-  const { products, setProducts } = props;
+  const { products, setProducts, isLoading } = props;
   const [modalAddProduct, setModalAddProduct] = useState(false);
   const [updatedProduct, setUpdatedProduct] = useState<Product | object>({});
   const [deletedProduct, setDeletedProduct] = useState<Product | object>({});
@@ -69,7 +70,7 @@ const ProductAdminViews = (props: Proptypes) => {
             <span>Add Product</span>
           </Button>
         </div>
-        {products.length === 0 ? (
+        {isLoading ? (
           <ProductTableSkeleton />
         ) : (
           <div>

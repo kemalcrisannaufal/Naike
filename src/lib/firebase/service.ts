@@ -131,7 +131,7 @@ export async function uploadFile(
   callback: Function
 ) {
   if (file) {
-    if (file.size < 1048576) {
+    if (file.size < 10000000) {
       const storageRef = ref(storage, `images/${collection}/${id}/${newName}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
       uploadTask.on(

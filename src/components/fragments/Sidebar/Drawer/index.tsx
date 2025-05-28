@@ -57,8 +57,8 @@ const AdminDrawer = (props: Proptypes) => {
       {/* Logout */}
       <div className="mt-20">
         <p className="font-semibold text-neutral-600 text-xl text-justify leading-relaxed tracking-tight">
-          Naike brings you closer to the products you love and the stories that
-          keep you inspired
+          Naike is a learning project inspired by Nike, crafted to explore web
+          development, design principles, and responsive user experiences.
         </p>
       </div>
       <Button

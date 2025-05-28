@@ -3,14 +3,18 @@ import { useProduct } from "@/components/hooks/useProduct";
 import Head from "next/head";
 
 const AdminProductsPage = () => {
-  const { products, setProducts } = useProduct();
+  const { products, setProducts, isLoading } = useProduct();
 
   return (
     <>
       <Head>
         <title>Products</title>
       </Head>
-      <ProductsAdminView products={products} setProducts={setProducts} />
+      <ProductsAdminView
+        products={products}
+        setProducts={setProducts}
+        isLoading={isLoading}
+      />
     </>
   );
 };
